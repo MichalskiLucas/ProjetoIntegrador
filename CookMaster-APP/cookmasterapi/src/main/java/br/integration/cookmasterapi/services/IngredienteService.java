@@ -18,7 +18,7 @@ public class IngredienteService {
 	
 	public Ingrediente insert(Ingrediente ingrediente) throws Exception {
 		
-		//validarInsercao(marca);
+		validarInsert(ingrediente);
 		ingredienteRepository.saveAndFlush(ingrediente);
 		return ingrediente;
 		
@@ -43,7 +43,20 @@ public class IngredienteService {
 			throw new Exception("Ingrediente com ID: " + id+" não identificado!");
 	}
 	
-	public List<Ingrediente> findByFilters(String nome) {
-		return ingredienteRepository.findByDescricaoContainingAllIgnoringCase(nome);
+	public List<Ingrediente> findByFilters(String descricao) {
+		return ingredienteRepository.findByDescricaoContainingAllIgnoringCase(descricao);
 	}
+	
+	public Ingrediente findByDescricao(String descricao) {
+		return ingredienteRepository.findIngredienteByDescricao(descricao);
+	}
+	
+	private void validarInsert(Ingrediente ingrediente) throws Exception{
+        if (ingrediente.getId() != null){
+            throw new Exception("Não deve informar o ID para inserir o ingrediente");
+        }
+        if(findByDescricao(ingrediente.getDescricao()) != null){
+        	throw new Exception("Ingrediente com a mesma descrição já inserido");
+        }
+    }
 }

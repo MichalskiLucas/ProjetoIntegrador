@@ -11,11 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import br.integration.cookmasterapi.enums.EnumUnitMeasure;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 
 @Entity
 @Table(name = "receitaingrediente")
+@ApiModel(description = "Modelo para representação de uma entidade ReceitaIngrediente")
+@Api
 public class ReceitaIngrediente {
 
 	@Id
@@ -34,11 +41,17 @@ public class ReceitaIngrediente {
 	@OneToOne
 	private Categoria categoria;
 	
+	@NotBlank
+	@NotEmpty
+	@NotNull
 	private Double qtdIngrediente;
 	
 	
 	//private Double qtdIngrediente;
 	
+	@NotBlank
+	@NotEmpty
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private EnumUnitMeasure unMedida;
 	

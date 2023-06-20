@@ -4,8 +4,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 
 @Entity
+@Table(name = "categoria")
+@ApiModel(description = "Modelo para representação de uma entidade de categoria")
+@Api
 public class Categoria {
 
 	@Id

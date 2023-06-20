@@ -9,11 +9,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 
 @Entity
 @Table(name = "ingrediente")
 @ApiModel(description = "Modelo para representação de um ingrediente")
+@Api
 public class Ingrediente {
 	
 	@Id
@@ -25,7 +27,7 @@ public class Ingrediente {
 	@NotNull
 	private String descricao;
 	
-	private boolean ativo;
+	private boolean ativo = false;
 	
 	public Long getId() {
 		return id;

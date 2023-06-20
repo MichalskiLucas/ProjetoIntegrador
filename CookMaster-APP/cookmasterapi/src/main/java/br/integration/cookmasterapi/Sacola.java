@@ -8,8 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 
 @Entity
+@Table(name = "sacola")
+@ApiModel(description = "Modelo para representação de uma entidade sacola")
+@Api
 public class Sacola {
 
 	@Id
