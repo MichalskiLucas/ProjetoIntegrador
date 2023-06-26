@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModel;
 
 @Entity
 @Table(name = "classificacao")
-@ApiModel(description = "Modelo para representação de uma entidade de calssificação")
+@ApiModel(description = "Modelo para representação de uma entidade de classificação")
 @Api
 public class Classificacao {
 
