@@ -84,7 +84,7 @@ Widget _listCookMasterLogin() {
           SizedBox(
             width: 235,
             height: 58,
-            child: ElevatedButton(
+            child: ElevatedButton.icon(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(
                     (Set<MaterialState> states) {
@@ -101,12 +101,13 @@ Widget _listCookMasterLogin() {
               onPressed: () {
                 print('Cliquei no elevatedButton');
               },
-              child: const Text(
-                'Entrar com o Google',
+              icon: Image.asset('assets/images/logoGoogle.png'),
+              label: const Text(
+                "Entrar com o Google",
                 style: TextStyle(
-                    color: Colors.white,
+                    fontSize: 15,
                     fontFamily: 'JacquesFrancois',
-                    fontSize: 15),
+                    color: Colors.white),
               ),
             ),
           )
