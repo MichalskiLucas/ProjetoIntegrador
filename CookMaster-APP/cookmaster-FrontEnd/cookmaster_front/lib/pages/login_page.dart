@@ -13,13 +13,13 @@ class _LoginPageState extends State<LoginPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(backgroundColor: Colors.orange.shade800),
-        body: _listCookMasterLogin(),
+        body: _listCookMasterLogin(context),
       ),
     );
   }
 }
 
-Widget _listCookMasterLogin() {
+Widget _listCookMasterLogin(BuildContext context) {
   return SizedBox(
     width: double.infinity,
     height: double.infinity,
@@ -54,7 +54,7 @@ Widget _listCookMasterLogin() {
                       side: const BorderSide(color: Colors.orange))),
             ),
             onPressed: () {
-              print('Cliquei no elevatedButton');
+              Navigator.of(context).pushReplacementNamed('/home');
             },
             child: const Text(
               'Entrar sem login',
@@ -84,7 +84,7 @@ Widget _listCookMasterLogin() {
                       side: const BorderSide(color: Colors.grey))),
             ),
             onPressed: () {
-              print('Cliquei no elevatedButton');
+              Navigator.of(context).pushReplacementNamed('/home');
             },
             icon: Image.asset('assets/images/logoGoogle.png'),
             label: const Text(

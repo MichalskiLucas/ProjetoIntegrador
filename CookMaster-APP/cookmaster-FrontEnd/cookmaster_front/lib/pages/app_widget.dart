@@ -15,7 +15,7 @@ class AppWidget extends StatelessWidget {
                 colorScheme: ColorScheme.fromSwatch().copyWith(
                     primary: Colors.orange.shade800,
                     secondary: Colors.grey.shade600)),
-            initialRoute: '/',
+            initialRoute: '/home',
             routes: {
               '/': (context) => const LoginPage(),
               '/home': (context) => const HomePage(),
