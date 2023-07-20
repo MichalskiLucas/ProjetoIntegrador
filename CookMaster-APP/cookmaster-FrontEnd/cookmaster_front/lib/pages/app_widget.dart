@@ -12,9 +12,8 @@ class AppWidget extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             theme: ThemeData(
-                colorScheme: ColorScheme.fromSwatch().copyWith(
-                    primary: Colors.orange.shade800,
-                    secondary: Colors.grey.shade600)),
+              primarySwatch: Colors.deepOrange,
+            ),
             initialRoute: '/home',
             routes: {
               '/': (context) => const LoginPage(),

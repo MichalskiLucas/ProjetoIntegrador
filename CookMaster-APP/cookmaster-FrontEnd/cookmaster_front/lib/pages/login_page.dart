@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'app_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.orange.shade800),
+        appBar: AppBar(backgroundColor: Colors.deepOrange),
         body: _listCookMasterLogin(context),
       ),
     );
@@ -43,15 +45,12 @@ Widget _listCookMasterLogin(BuildContext context) {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
                   (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) {
-                  return Colors.orange.shade900;
-                }
-                return Colors.orange.shade900;
+                return Colors.deepOrange;
               }),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0),
-                      side: const BorderSide(color: Colors.orange))),
+                      side: const BorderSide(color: Colors.deepOrange))),
             ),
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/home');

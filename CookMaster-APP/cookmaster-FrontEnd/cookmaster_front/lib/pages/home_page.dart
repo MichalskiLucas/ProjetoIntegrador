@@ -7,6 +7,45 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        drawer: Drawer(
+          child: Column(
+            children: [
+              const UserAccountsDrawerHeader(
+                decoration: BoxDecoration(color: Colors.deepOrange),
+                accountName: Text('Lucas Michalski'),
+                accountEmail: Text('Lucas@gmail.com'),
+              ),
+              ListTile(
+                leading: Image.asset('assets/images/iconSend.png'),
+                title: const Text('Enviar Receita'),
+                onTap: () {
+                  print('Enviar Receita');
+                },
+              ),
+              ListTile(
+                leading: Image.asset('assets/images/iconBag.png'),
+                title: const Text('Sacola'),
+                onTap: () {
+                  print('Sacola');
+                },
+              ),
+              ListTile(
+                leading: Image.asset('assets/images/iconChef.png'),
+                title: const Text('Chef Astro'),
+                onTap: () {
+                  print('Chef Astro');
+                },
+              ),
+              ListTile(
+                leading: Image.asset('assets/images/iconExit.png'),
+                title: const Text('Sair da Conta'),
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed('/');
+                },
+              )
+            ],
+          ),
+        ),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('CookMaster'),
@@ -14,12 +53,7 @@ class HomePage extends StatelessWidget {
             fontFamily: 'JacquesFrancois',
             fontSize: 15,
           ),
-          backgroundColor: Colors.orange[900],
-          leading: IconButton(
-            iconSize: 30,
-            onPressed: () {},
-            icon: const Icon(Icons.menu),
-          ),
+          backgroundColor: Colors.deepOrange,
           actions: [
             IconButton(
               iconSize: 30,
