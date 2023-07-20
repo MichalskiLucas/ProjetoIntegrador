@@ -66,6 +66,7 @@ flutter:
     - assets/images/iconSend.png
     - assets/images/iconBag.png
     - assets/images/iconExit.png
+    - assets/images/iconChefAstro.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

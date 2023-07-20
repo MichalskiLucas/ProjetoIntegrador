@@ -1,4 +1,5 @@
 import 'package:cookmaster_front/controller/app_controller.dart';
+import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/ingredient_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +17,13 @@ class AppWidget extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.deepOrange,
             ),
-            initialRoute: '/home',
+            initialRoute: '/chefAstroPage',
             routes: {
               '/': (context) => const LoginPage(),
               '/home': (context) => const HomePage(),
               '/revenuePage': (context) => const RevenuePage(),
               '/ingredientPage': (context) => const IngredientPage(),
+              '/chefAstroPage': (context) => const ChefAstroPage(),
             },
           );
         });

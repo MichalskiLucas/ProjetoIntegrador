@@ -14,11 +14,15 @@ class _IngredientPageState extends State<IngredientPage> {
       home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            leading: Icon(Icons.search),
             title: const TextField(
               decoration: InputDecoration(
                   labelText: 'Consultar Ingrediente',
-                  labelStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Icon(Icons.search),
+                  prefixIconColor: Colors.white,
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'JacquesFrancois',
+                  ),
                   border: UnderlineInputBorder()),
             ),
             titleTextStyle: const TextStyle(

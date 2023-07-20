@@ -18,6 +18,10 @@ class HomePage extends StatelessWidget {
               ListTile(
                 leading: Image.asset('assets/images/iconSend.png'),
                 title: const Text('Enviar Receita'),
+                titleTextStyle: const TextStyle(
+                  fontFamily: 'JacquesFrancois',
+                  color: Colors.black,
+                ),
                 onTap: () {
                   print('Enviar Receita');
                 },
@@ -25,6 +29,10 @@ class HomePage extends StatelessWidget {
               ListTile(
                 leading: Image.asset('assets/images/iconBag.png'),
                 title: const Text('Sacola'),
+                titleTextStyle: const TextStyle(
+                  fontFamily: 'JacquesFrancois',
+                  color: Colors.black,
+                ),
                 onTap: () {
                   print('Sacola');
                 },
@@ -32,13 +40,21 @@ class HomePage extends StatelessWidget {
               ListTile(
                 leading: Image.asset('assets/images/iconChef.png'),
                 title: const Text('Chef Astro'),
+                titleTextStyle: const TextStyle(
+                  fontFamily: 'JacquesFrancois',
+                  color: Colors.black,
+                ),
                 onTap: () {
-                  print('Chef Astro');
+                  Navigator.of(context).pushReplacementNamed('/chefAstroPage');
                 },
               ),
               ListTile(
                 leading: Image.asset('assets/images/iconExit.png'),
                 title: const Text('Sair da Conta'),
+                titleTextStyle: const TextStyle(
+                  fontFamily: 'JacquesFrancois',
+                  color: Colors.black,
+                ),
                 onTap: () {
                   Navigator.of(context).pushReplacementNamed('/');
                 },
@@ -60,8 +76,8 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context) => [
                 _buildPopUpMenuItem(
                     '  Buscar por Receitas', Icons.search, '/revenuePage'),
-                _buildPopUpMenuItem(
-                    '  Buscar por Ingredientes', Icons.fastfood_outlined, '/ingredientPage')
+                _buildPopUpMenuItem('  Buscar por Ingredientes',
+                    Icons.fastfood_outlined, '/ingredientPage')
               ],
               onSelected: (value) {
                 Navigator.of(context).pushNamed(value.toString());

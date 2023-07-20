@@ -18,7 +18,12 @@ class _RevenuePageState extends State<RevenuePage> {
             title: const TextField(
               decoration: InputDecoration(
                   labelText: 'Consultar Receita',
-                  labelStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Icon(Icons.search),
+                  prefixIconColor: Colors.white,
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'JacquesFrancois',
+                  ),
                   border: UnderlineInputBorder()),
             ),
             titleTextStyle: const TextStyle(
