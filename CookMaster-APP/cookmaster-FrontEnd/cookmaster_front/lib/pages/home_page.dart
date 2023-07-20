@@ -58,8 +58,10 @@ class HomePage extends StatelessWidget {
             PopupMenuButton(
               icon: const Icon(Icons.search),
               itemBuilder: (context) => [
-                _buildPopUpMenuItem('  Buscar por Receitas', Icons.search, '/'),
-                _buildPopUpMenuItem('  Buscar por Ingredientes', Icons.search, '/')
+                _buildPopUpMenuItem(
+                    '  Buscar por Receitas', Icons.search, '/revenuePage'),
+                _buildPopUpMenuItem(
+                    '  Buscar por Ingredientes', Icons.fastfood_outlined, '/ingredientPage')
               ],
               onSelected: (value) {
                 Navigator.of(context).pushNamed(value.toString());

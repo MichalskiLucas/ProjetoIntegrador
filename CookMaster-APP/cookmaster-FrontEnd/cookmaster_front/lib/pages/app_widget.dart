@@ -1,4 +1,6 @@
 import 'package:cookmaster_front/controller/app_controller.dart';
+import 'package:cookmaster_front/pages/ingredient_page.dart';
+import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -18,6 +20,8 @@ class AppWidget extends StatelessWidget {
             routes: {
               '/': (context) => const LoginPage(),
               '/home': (context) => const HomePage(),
+              '/revenuePage': (context) => const RevenuePage(),
+              '/ingredientPage': (context) => const IngredientPage(),
             },
           );
         });
