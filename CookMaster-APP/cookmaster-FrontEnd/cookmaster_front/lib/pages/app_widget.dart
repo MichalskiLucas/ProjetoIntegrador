@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 
+// ignore: use_key_in_widget_constructors
 class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

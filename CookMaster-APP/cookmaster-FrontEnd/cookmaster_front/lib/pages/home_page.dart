@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () {
+                  // ignore: avoid_print
                   print('Enviar Receita');
                 },
               ),
@@ -34,6 +35,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () {
+                  // ignore: avoid_print
                   print('Sacola');
                 },
               ),

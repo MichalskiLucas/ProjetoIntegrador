@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class ChefAstroPage extends StatefulWidget {
@@ -35,6 +37,7 @@ class _ChefAstroPageState extends State<ChefAstroPage> {
   }
 }
 
+// ignore: non_constant_identifier_names
 Widget _CookMasterSearchIngredient(BuildContext context) {
   return Material(
     child: SizedBox(

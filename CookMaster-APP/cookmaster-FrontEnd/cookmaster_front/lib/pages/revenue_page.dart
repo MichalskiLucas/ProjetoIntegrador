@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 class RevenuePage extends StatefulWidget {
@@ -14,6 +16,7 @@ class _RevenuePageState extends State<RevenuePage> {
       home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
+            // ignore: prefer_const_constructors
             leading: Icon(Icons.search),
             title: const TextField(
               decoration: InputDecoration(

@@ -44,6 +44,7 @@ class _IngredientPageState extends State<IngredientPage> {
   }
 }
 
+// ignore: non_constant_identifier_names
 Widget _CookMasterSearchIngredient(BuildContext context) {
   return const Material(
     child: SizedBox(),
