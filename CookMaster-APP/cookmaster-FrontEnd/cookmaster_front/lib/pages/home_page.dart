@@ -55,10 +55,15 @@ class HomePage extends StatelessWidget {
           ),
           backgroundColor: Colors.deepOrange,
           actions: [
-            IconButton(
-              iconSize: 30,
-              onPressed: () {},
+            PopupMenuButton(
               icon: const Icon(Icons.search),
+              itemBuilder: (context) => [
+                _buildPopUpMenuItem('  Buscar por Receitas', Icons.search, '/'),
+                _buildPopUpMenuItem('  Buscar por Ingredientes', Icons.search, '/')
+              ],
+              onSelected: (value) {
+                Navigator.of(context).pushNamed(value.toString());
+              },
             )
           ],
         ),
@@ -71,5 +76,20 @@ class HomePage extends StatelessWidget {
 Widget _listCookMasterHomePage() {
   return ListView(
     scrollDirection: Axis.vertical,
+  );
+}
+
+PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
+  return PopupMenuItem(
+    value: value,
+    child: Row(
+      children: [
+        Icon(
+          icon,
+          color: Colors.black,
+        ),
+        Text(title),
+      ],
+    ),
   );
 }
