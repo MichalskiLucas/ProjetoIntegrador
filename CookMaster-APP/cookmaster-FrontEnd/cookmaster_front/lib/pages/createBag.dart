@@ -1,5 +1,5 @@
 import 'package:cookmaster_front/components/AppBar.dart';
-import 'package:cookmaster_front/components/ButtonFinishBag.dart';
+import 'package:cookmaster_front/components/Button.dart';
 import 'package:flutter/material.dart';
 
 class CreateBagPage extends StatefulWidget {
