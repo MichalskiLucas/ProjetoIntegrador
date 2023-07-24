@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:flutter/material.dart';
 
 class BagPage extends StatefulWidget {
@@ -14,23 +15,10 @@ class _BagPageState extends State<BagPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            centerTitle: false,
-            leading: Image.asset('assets/images/logo.png'),
-            title: const Text('Cook Master'),
-            titleTextStyle: const TextStyle(
-              fontFamily: 'JacquesFrancois',
-              fontSize: 15,
-            ),
-            backgroundColor: Colors.deepOrange,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/home');
-                },
-                icon: const Icon(Icons.arrow_back),
-              )
-            ],
+          appBar: AppBarSimple(
+            title: 'Cook Master',
+            ctx: context,
+            routeReturn: '/home',
           ),
           body: _CookMasterBag(context)),
     );
@@ -44,36 +32,27 @@ Widget _CookMasterBag(BuildContext context) {
     children: [
       const SizedBox(height: 30),
       const SizedBox(
-        child: Opacity(
-          opacity: 0.3,
-          child: Text(
-            'Você ja possui uma sacola, deseja criar uma nova?',
-            style: TextStyle(fontFamily: 'JacquesFrancois', fontSize: 20),
-            textAlign: TextAlign.center,
-          ),
+        child: Text(
+          'Você ja possui uma sacola, deseja criar uma nova?',
+          style: TextStyle(fontFamily: 'JacquesFrancois', fontSize: 20),
+          textAlign: TextAlign.center,
         ),
       ),
       SizedBox(
-        child: Opacity(
-          opacity: 0.3,
-          child: Image.asset('assets/images/logo.png'),
-        ),
+        child: Image.asset('assets/images/logo.png'),
       ),
       const SizedBox(
-        child: Opacity(
-          opacity: 0.3,
-          child: Text(
-            'Cook Master',
-            style: TextStyle(
-              fontFamily: 'JacquesFrancois',
-              fontSize: 25,
-            ),
+        child: Text(
+          'Cook Master',
+          style: TextStyle(
+            fontFamily: 'JacquesFrancois',
+            fontSize: 25,
           ),
         ),
       ),
       const SizedBox(height: 250),
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Row(
           children: [
             SizedBox(
@@ -82,15 +61,20 @@ Widget _CookMasterBag(BuildContext context) {
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    return Colors.deepOrange;
-                  }),
+                    (Set<MaterialState> states) {
+                      return Colors.deepOrange;
+                    },
+                  ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          side: const BorderSide(color: Colors.deepOrange))),
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      side: const BorderSide(color: Colors.deepOrange),
+                    ),
+                  ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/bagViewPage');
+                },
                 child: const Text(
                   'Visualizar',
                   style: TextStyle(
@@ -114,7 +98,9 @@ Widget _CookMasterBag(BuildContext context) {
                           borderRadius: BorderRadius.circular(50.0),
                           side: const BorderSide(color: Colors.deepOrange))),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/createBagPage');
+                },
                 child: const Text(
                   'Criar',
                   style: TextStyle(

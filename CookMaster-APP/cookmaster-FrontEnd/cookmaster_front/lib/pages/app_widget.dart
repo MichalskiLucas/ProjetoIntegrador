@@ -15,24 +15,25 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: AppController.instance,
-        builder: (context, child) {
-          return MaterialApp(
-            theme: ThemeData(
-              primarySwatch: Colors.deepOrange,
-            ),
-            initialRoute: '/bagViewPage',
-            routes: {
-              '/': (context) => const LoginPage(),
-              '/home': (context) => const HomePage(),
-              '/revenuePage': (context) => const RevenuePage(),
-              '/ingredientPage': (context) => const IngredientPage(),
-              '/chefAstroPage': (context) => const ChefAstroPage(),
-              '/bagPage': (context) => const BagPage(),
-              '/createBagPage': (context) => const CreateBagPage(),
-              '/bagViewPage': (context) => const BagViewPage(),
-            },
-          );
-        });
+      animation: AppController.instance,
+      builder: (context, child) {
+        return MaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.deepOrange,
+          ),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const LoginPage(),
+            '/home': (context) => const HomePage(),
+            '/revenuePage': (context) => const RevenuePage(),
+            '/ingredientPage': (context) => const IngredientPage(),
+            '/chefAstroPage': (context) => const ChefAstroPage(),
+            '/bagPage': (context) => const BagPage(),
+            '/createBagPage': (context) => const CreateBagPage(),
+            '/bagViewPage': (context) => const BagViewPage(),
+          },
+        );
+      },
+    );
   }
 }

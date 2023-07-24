@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/bagPage');
+                  Navigator.of(context).popAndPushNamed('/bagPage');
                 },
               ),
               ListTile(
