@@ -1,12 +1,14 @@
 import 'package:cookmaster_front/controller/app_controller.dart';
-import 'package:cookmaster_front/pages/astroChef_page.dart';
-import 'package:cookmaster_front/pages/ingredient_page.dart';
-import 'package:cookmaster_front/pages/revenue_page.dart';
-import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:flutter/material.dart';
 
+import 'createBag.dart';
 import 'home_page.dart';
 import 'login_page.dart';
+import 'astroChef_page.dart';
+import 'ingredient_page.dart';
+import 'revenue_page.dart';
+import 'bag_page.dart';
+import 'bagView_page.dart';
 
 // ignore: use_key_in_widget_constructors
 class AppWidget extends StatelessWidget {
@@ -19,7 +21,7 @@ class AppWidget extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.deepOrange,
             ),
-            initialRoute: '/',
+            initialRoute: '/bagViewPage',
             routes: {
               '/': (context) => const LoginPage(),
               '/home': (context) => const HomePage(),
@@ -27,6 +29,8 @@ class AppWidget extends StatelessWidget {
               '/ingredientPage': (context) => const IngredientPage(),
               '/chefAstroPage': (context) => const ChefAstroPage(),
               '/bagPage': (context) => const BagPage(),
+              '/createBagPage': (context) => const CreateBagPage(),
+              '/bagViewPage': (context) => const BagViewPage(),
             },
           );
         });
