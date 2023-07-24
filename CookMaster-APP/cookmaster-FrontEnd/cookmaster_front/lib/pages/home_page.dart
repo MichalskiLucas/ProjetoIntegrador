@@ -35,8 +35,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () {
-                  // ignore: avoid_print
-                  print('Sacola');
+                  Navigator.of(context).pushReplacementNamed('/bagPage');
                 },
               ),
               ListTile(
