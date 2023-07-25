@@ -16,7 +16,7 @@ class IngredientRepository implements IIngredientRepository {
   @override
   Future<List<IngredientModel>> getAllIngredients() async {
     final response = await client.getAllIngredients(
-      url: 'localhost:8080/ingrediente',
+      url: 'http://localhost:8080/ingrediente',
     );
 
     switch (response.statusCode) {
@@ -26,8 +26,8 @@ class IngredientRepository implements IIngredientRepository {
         try {
           final body = jsonDecode(response.body);
 
-          if (body[''] is List) {
-            for (var item in body['']) {
+          if (body is List) {
+            for (var item in body) {
               final IngredientModel ingredient = IngredientModel.fromMap(item);
               ingredients.add(ingredient);
             }

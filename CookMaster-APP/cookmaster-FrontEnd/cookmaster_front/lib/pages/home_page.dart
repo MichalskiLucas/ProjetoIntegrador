@@ -1,6 +1,8 @@
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
+import 'package:cookmaster_front/pages/ingredient_page.dart';
 import 'package:cookmaster_front/pages/login_page.dart';
+import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -85,7 +87,11 @@ class HomePage extends StatelessWidget {
                     Icons.fastfood_outlined, '/ingredientPage')
               ],
               onSelected: (value) async {
-                await Get.toNamed(value.toString());
+                if (value.toString() == '/revenuePage') {
+                  await Get.to(RevenuePage());
+                } else {
+                  await Get.to(IngredientPage());
+                }
               },
             )
           ],
