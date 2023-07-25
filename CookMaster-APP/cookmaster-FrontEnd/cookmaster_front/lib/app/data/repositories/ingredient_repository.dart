@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:filter_list/filter_list.dart';
 
 abstract class IIngredientRepository {
   Future<List<IngredientModel>> getAllIngredients();
@@ -42,4 +43,6 @@ class IngredientRepository implements IIngredientRepository {
         throw Exception('Erro ao realizar consulta de ingredientes');
     }
   }
+
 }
+

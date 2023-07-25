@@ -3,6 +3,7 @@ import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/ingredient_page.dart';
 import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
+import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
