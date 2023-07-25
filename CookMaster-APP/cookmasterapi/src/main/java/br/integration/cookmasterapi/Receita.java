@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,7 @@ public class Receita {
 	
 	private boolean ativo;
 	
+	@Column(length = 32000)
 	private String imagem;
 	
 	@ManyToOne

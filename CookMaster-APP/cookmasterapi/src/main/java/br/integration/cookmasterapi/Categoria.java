@@ -20,6 +20,16 @@ public class Categoria {
 	private Long id;
 	
 	private String descricao;
+	
+	private String imagem;
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 
 	public Long getId() {
 		return id;
