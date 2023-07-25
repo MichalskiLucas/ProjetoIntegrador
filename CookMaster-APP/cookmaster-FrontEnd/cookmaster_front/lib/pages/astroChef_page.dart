@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ChefAstroPage extends StatefulWidget {
   const ChefAstroPage({super.key});
@@ -25,8 +27,8 @@ class _ChefAstroPageState extends State<ChefAstroPage> {
             backgroundColor: Colors.deepOrange,
             actions: [
               IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/home');
+                onPressed: () async {
+                  await Get.to(() => HomePage());
                 },
                 icon: const Icon(Icons.arrow_back),
               )

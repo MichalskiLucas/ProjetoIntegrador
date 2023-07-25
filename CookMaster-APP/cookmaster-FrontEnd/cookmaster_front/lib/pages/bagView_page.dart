@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,6 @@ Widget _CookMasterBagView(BuildContext context) {
       appBar: AppBarSimple(
         ctx: context,
         title: 'Sacola Cook Master',
-        routeReturn: '/bagPage',
       ),
       body: Center(
           //incrementer lista utilizada na sacola
