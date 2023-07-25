@@ -16,7 +16,6 @@ class _IngredientPageState extends State<IngredientPage> {
         appBar: AppBarSearch(
           ctx: context,
           labelText: 'Consultar Ingrediente',
-          routeReturn: '/home',
         ),
         body: _CookMasterSearchIngredient(context),
       ),

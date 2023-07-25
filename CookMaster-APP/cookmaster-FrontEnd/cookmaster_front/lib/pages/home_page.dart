@@ -1,4 +1,8 @@
+import 'package:cookmaster_front/pages/astroChef_page.dart';
+import 'package:cookmaster_front/pages/bag_page.dart';
+import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,8 +38,8 @@ class HomePage extends StatelessWidget {
                   fontFamily: 'JacquesFrancois',
                   color: Colors.black,
                 ),
-                onTap: () {
-                  Navigator.of(context).popAndPushNamed('/bagPage');
+                onTap: () async {
+                  await Get.to(() => BagPage());
                 },
               ),
               ListTile(
@@ -45,8 +49,8 @@ class HomePage extends StatelessWidget {
                   fontFamily: 'JacquesFrancois',
                   color: Colors.black,
                 ),
-                onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/chefAstroPage');
+                onTap: () async {
+                  await Get.to(() => ChefAstroPage());
                 },
               ),
               ListTile(
@@ -56,8 +60,8 @@ class HomePage extends StatelessWidget {
                   fontFamily: 'JacquesFrancois',
                   color: Colors.black,
                 ),
-                onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/');
+                onTap: () async {
+                  await Get.to(() => LoginPage());
                 },
               )
             ],
@@ -80,8 +84,8 @@ class HomePage extends StatelessWidget {
                 _buildPopUpMenuItem('  Buscar por Ingredientes',
                     Icons.fastfood_outlined, '/ingredientPage')
               ],
-              onSelected: (value) {
-                Navigator.of(context).pushNamed(value.toString());
+              onSelected: (value) async {
+                await Get.toNamed(value.toString());
               },
             )
           ],

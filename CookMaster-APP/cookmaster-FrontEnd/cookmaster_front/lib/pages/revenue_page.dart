@@ -18,7 +18,6 @@ class _RevenuePageState extends State<RevenuePage> {
           appBar: AppBarSearch(
             ctx: context,
             labelText: 'Consultar Receita',
-            routeReturn: '/home',
           ),
           body: _CookMasterSearchRevenue(context)),
     );

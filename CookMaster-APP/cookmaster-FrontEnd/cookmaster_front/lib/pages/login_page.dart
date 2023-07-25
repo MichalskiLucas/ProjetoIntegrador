@@ -1,4 +1,6 @@
+import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // ignore: unused_import
 import 'app_widget.dart';
 
@@ -52,8 +54,8 @@ Widget _listCookMasterLogin(BuildContext context) {
                       borderRadius: BorderRadius.circular(50.0),
                       side: const BorderSide(color: Colors.deepOrange))),
             ),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/home');
+            onPressed: () async {
+              await Get.to(() => HomePage());
             },
             child: const Text(
               'Entrar sem login',
@@ -82,8 +84,8 @@ Widget _listCookMasterLogin(BuildContext context) {
                       borderRadius: BorderRadius.circular(50.0),
                       side: const BorderSide(color: Colors.grey))),
             ),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed('/home');
+            onPressed: () async {
+              await Get.to(() => HomePage());
             },
             icon: Image.asset('assets/images/logoGoogle.png'),
             label: const Text(

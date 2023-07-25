@@ -1,5 +1,6 @@
 import 'package:cookmaster_front/controller/app_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import 'createBag.dart';
 import 'home_page.dart';
@@ -17,7 +18,7 @@ class AppWidget extends StatelessWidget {
     return AnimatedBuilder(
       animation: AppController.instance,
       builder: (context, child) {
-        return MaterialApp(
+        return GetMaterialApp(
           theme: ThemeData(
             primarySwatch: Colors.deepOrange,
           ),

@@ -1,14 +1,12 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppBarSimple extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final BuildContext ctx;
-  final String routeReturn;
-  const AppBarSimple(
-      {super.key,
-      required this.title,
-      required this.ctx,
-      required this.routeReturn});
+  const AppBarSimple({super.key, required this.title, required this.ctx});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +21,8 @@ class AppBarSimple extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.deepOrange,
       actions: [
         IconButton(
-          onPressed: () {
-            Navigator.of(ctx).pushNamed(routeReturn);
+          onPressed: () async {
+            Get.back();
           },
           icon: const Icon(Icons.arrow_back),
         )
@@ -38,14 +36,9 @@ class AppBarSimple extends StatelessWidget implements PreferredSizeWidget {
 
 class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
   final String labelText;
-  final String routeReturn;
   final BuildContext ctx;
 
-  const AppBarSearch(
-      {super.key,
-      required this.labelText,
-      required this.ctx,
-      required this.routeReturn});
+  const AppBarSearch({super.key, required this.labelText, required this.ctx});
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +62,8 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.deepOrange,
       actions: [
         IconButton(
-          onPressed: () {
-            Navigator.of(ctx).pushNamed(routeReturn);
+          onPressed: () async {
+            Get.back();
           },
           icon: const Icon(Icons.arrow_back),
         )

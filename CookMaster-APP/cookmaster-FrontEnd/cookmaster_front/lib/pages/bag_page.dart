@@ -1,7 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:cookmaster_front/components/AppBar.dart';
+import 'package:cookmaster_front/pages/bagView_page.dart';
+import 'package:cookmaster_front/pages/createBag.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BagPage extends StatefulWidget {
   const BagPage({super.key});
@@ -17,8 +20,7 @@ class _BagPageState extends State<BagPage> {
       home: Scaffold(
           appBar: AppBarSimple(
             title: 'Cook Master',
-            ctx: context,
-            routeReturn: '/home',
+            ctx: context
           ),
           body: _CookMasterBag(context)),
     );
@@ -72,8 +74,8 @@ Widget _CookMasterBag(BuildContext context) {
                     ),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/bagViewPage');
+                onPressed: () async {
+                  await Get.to(BagViewPage());
                 },
                 child: const Text(
                   'Visualizar',
@@ -98,8 +100,8 @@ Widget _CookMasterBag(BuildContext context) {
                           borderRadius: BorderRadius.circular(50.0),
                           side: const BorderSide(color: Colors.deepOrange))),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/createBagPage');
+                onPressed: () async {
+                  await Get.to(CreateBagPage());
                 },
                 child: const Text(
                   'Criar',

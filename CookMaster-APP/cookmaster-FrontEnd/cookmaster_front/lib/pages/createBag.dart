@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/components/Button.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,6 @@ Widget _CookMasterSearchIngredient(BuildContext context) {
       appBar: AppBarSearch(
         ctx: context,
         labelText: 'Consultar Ingrediente',
-        routeReturn: '/bagPage',
       ),
       body: const Center(
         child: ButtonFinishBag(),
