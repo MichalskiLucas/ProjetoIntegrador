@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,7 @@ public class Categoria {
 	private Long id;
 	
 	private String descricao;
-	
+	@Column(length = 32000)
 	private String imagem;
 
 	public String getImagem() {
