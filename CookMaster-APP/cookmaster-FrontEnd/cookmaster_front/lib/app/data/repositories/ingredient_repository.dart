@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:convert';
 
 import 'package:cookmaster_front/app/data/http/exceptions.dart';

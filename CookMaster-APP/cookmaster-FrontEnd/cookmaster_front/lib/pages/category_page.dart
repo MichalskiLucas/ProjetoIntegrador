@@ -1,14 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/store/category_store.dart';
 import 'package:flutter/material.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
+import '../utils/decodeImageBase64.dart';
 
 class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
+
   @override
   State<CategoryPage> createState() {
     return CategoryPageState();
@@ -24,7 +23,6 @@ class CategoryPageState extends State<CategoryPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     store.getProdutos();
   }
@@ -85,23 +83,5 @@ class CategoryPageState extends State<CategoryPage> {
         },
       ),
     );
-  }
-}
-
-class Base64ImageConverter extends StatelessWidget {
-  final String base64Image;
-
-  Base64ImageConverter({required this.base64Image});
-
-  @override
-  Widget build(BuildContext context) {
-    // Decodifica a string base64 para bytes
-    Uint8List bytes = base64Decode(base64Image.split(',').last);
-
-    // Cria a imagem usando os bytes decodificados
-    Image image = Image.memory(bytes);
-
-    // Retorna a imagem para ser exibida
-    return image;
   }
 }

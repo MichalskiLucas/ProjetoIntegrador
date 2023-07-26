@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_import
 
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:flutter/material.dart';
