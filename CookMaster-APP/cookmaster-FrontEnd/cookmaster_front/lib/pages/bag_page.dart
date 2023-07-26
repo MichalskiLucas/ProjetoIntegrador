@@ -18,11 +18,12 @@ class _BagPageState extends State<BagPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBarSimple(
-            title: 'Cook Master',
-            ctx: context
-          ),
-          body: _CookMasterBag(context)),
+        appBar: AppBarSimple(
+          title: 'Cook Master',
+          ctx: context,
+        ),
+        body: _CookMasterBag(context),
+      ),
     );
   }
 }
@@ -92,16 +93,21 @@ Widget _CookMasterBag(BuildContext context) {
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    return Colors.deepOrange;
-                  }),
+                    (Set<MaterialState> states) {
+                      return Colors.deepOrange;
+                    },
+                  ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          side: const BorderSide(color: Colors.deepOrange))),
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      side: const BorderSide(color: Colors.deepOrange),
+                    ),
+                  ),
                 ),
                 onPressed: () async {
-                  await Get.to(CreateBagPage());
+                  await Get.to(
+                    CreateBagPage(),
+                  );
                 },
                 child: const Text(
                   'Criar',

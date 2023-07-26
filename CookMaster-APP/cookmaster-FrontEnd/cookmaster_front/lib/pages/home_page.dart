@@ -59,7 +59,9 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(() => BagPage());
+                  await Get.to(
+                    () => BagPage(),
+                  );
                 },
               ),
               ListTile(
@@ -70,7 +72,9 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(() => ChefAstroPage());
+                  await Get.to(
+                    () => ChefAstroPage(),
+                  );
                 },
               ),
               ListTile(
@@ -81,7 +85,9 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(() => LoginPage());
+                  await Get.to(
+                    () => LoginPage(),
+                  );
                 },
               )
             ],
@@ -106,7 +112,9 @@ class HomePage extends StatelessWidget {
               ],
               onSelected: (value) async {
                 if (value.toString() == '/revenuePage') {
-                  await Get.to(RevenuePage());
+                  await Get.to(
+                    RevenuePage(),
+                  );
                 } else {
                   await store.getAllIngredients();
                   openFilterDelegate(context, store);
@@ -127,7 +135,9 @@ Widget _listCookMasterHomePage() {
     children: [
       ElevatedButton(
         onPressed: () async {
-          await Get.to(CategoryPage());
+          await Get.to(
+            CategoryPage(),
+          );
         },
         child: Text('Categorias'),
       ),
@@ -168,13 +178,12 @@ void openFilterDelegate(BuildContext context, IngredientStore store) async {
       return item.descricao;
     },
     onItemSearch: (IngredientModel item, String query) {
-      // Aqui você pode implementar a pesquisa de itens.
       return item.descricao.toLowerCase().contains(query.toLowerCase());
     },
     onApplyButtonClick: (List<IngredientModel>? list) {
       if (list != null) {
         selectedIngredients = list;
-        // Aqui você pode fazer algo com a lista de ingredientes selecionados após o clique no botão "Aplicar".
+        //fazer algo com a lista de ingredientes selecionados após o clique no botão "Aplicar".
       }
     },
   );

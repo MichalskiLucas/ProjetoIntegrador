@@ -28,7 +28,9 @@ class _ChefAstroPageState extends State<ChefAstroPage> {
             actions: [
               IconButton(
                 onPressed: () async {
-                  await Get.to(() => HomePage());
+                  await Get.to(
+                    () => HomePage(),
+                  );
                 },
                 icon: const Icon(Icons.arrow_back),
               )

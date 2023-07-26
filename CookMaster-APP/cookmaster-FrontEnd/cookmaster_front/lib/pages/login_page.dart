@@ -44,16 +44,21 @@ Widget _listCookMasterLogin(BuildContext context) {
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                return Colors.deepOrange;
-              }),
+                (Set<MaterialState> states) {
+                  return Colors.deepOrange;
+                },
+              ),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                      side: const BorderSide(color: Colors.deepOrange))),
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                  side: const BorderSide(color: Colors.deepOrange),
+                ),
+              ),
             ),
             onPressed: () async {
-              await Get.to(() => HomePage());
+              await Get.to(
+                () => HomePage(),
+              );
             },
             child: const Text(
               'Entrar sem login',
@@ -71,19 +76,24 @@ Widget _listCookMasterLogin(BuildContext context) {
           child: ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) {
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.grey.shade600;
+                  }
                   return Colors.grey.shade600;
-                }
-                return Colors.grey.shade600;
-              }),
+                },
+              ),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                      side: const BorderSide(color: Colors.grey))),
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                  side: const BorderSide(color: Colors.grey),
+                ),
+              ),
             ),
             onPressed: () async {
-              await Get.to(() => HomePage());
+              await Get.to(
+                () => HomePage(),
+              );
             },
             icon: Image.asset('assets/images/logoGoogle.png'),
             label: const Text(
