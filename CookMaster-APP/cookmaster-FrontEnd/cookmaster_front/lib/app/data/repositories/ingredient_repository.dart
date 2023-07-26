@@ -17,7 +17,8 @@ class IngredientRepository implements IIngredientRepository {
   @override
   Future<List<IngredientModel>> getAllIngredients() async {
     final response = await client.getAllIngredients(
-      url: 'http://localhost:8080/ingrediente',
+      //url: 'http://localhost:8080/ingrediente',
+      url: 'http://172.20.10.3:8080/ingrediente',
     );
 
     switch (response.statusCode) {
@@ -43,6 +44,4 @@ class IngredientRepository implements IIngredientRepository {
         throw Exception('Erro ao realizar consulta de ingredientes');
     }
   }
-
 }
-

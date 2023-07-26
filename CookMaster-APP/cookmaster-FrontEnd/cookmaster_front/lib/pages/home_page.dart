@@ -1,14 +1,24 @@
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
-import 'package:cookmaster_front/pages/ingredient_page.dart';
 import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../app/data/http/http_client.dart';
+import '../app/data/models/ingredient_model.dart';
+import '../app/data/repositories/ingredient_repository.dart';
+import '../store/ingredient_store.dart';
+
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final IngredientStore store = IngredientStore(
+    repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +101,9 @@ class HomePage extends StatelessWidget {
                 if (value.toString() == '/revenuePage') {
                   await Get.to(RevenuePage());
                 } else {
-                  await Get.to(IngredientPage());
+                  store.getAllIngredients();
+                  openFilterDelegate(context, store);
+                  //await Get.to(IngredientPage());
                 }
               },
             )
@@ -121,5 +133,35 @@ PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
         Text(title),
       ],
     ),
+  );
+}
+
+void openFilterDelegate(BuildContext context, IngredientStore store) async {
+  List<IngredientModel> ingredientList = store.state.value;
+  List<IngredientModel> selectedIngredients = [];
+
+  await FilterListDelegate.show(
+    context: context,
+    applyButtonText: 'Filtrar',
+    list: ingredientList,
+    searchFieldHint: 'Consultar Ingrediente',
+    searchFieldStyle: const TextStyle(
+      fontFamily: 'JacquesFrancois',
+    ),
+    selectedListData: selectedIngredients,
+    tileLabel: (IngredientModel? item) {
+      if (item == null) return '';
+      return item.descricao;
+    },
+    onItemSearch: (IngredientModel item, String query) {
+      // Aqui você pode implementar a pesquisa de itens.
+      return item.descricao.toLowerCase().contains(query.toLowerCase());
+    },
+    onApplyButtonClick: (List<IngredientModel>? list) {
+      if (list != null) {
+        selectedIngredients = list;
+        // Aqui você pode fazer algo com a lista de ingredientes selecionados após o clique no botão "Aplicar".
+      }
+    },
   );
 }

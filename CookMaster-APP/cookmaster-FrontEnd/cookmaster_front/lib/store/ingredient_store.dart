@@ -21,6 +21,7 @@ class IngredientStore {
     } on NotFoundException catch (e) {
       error.value = e.message;
     } catch (e) {
+      print(e.toString());
       error.value = e.toString();
     }
     isLoading.value = false;
