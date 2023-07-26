@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
+import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:filter_list/filter_list.dart';
@@ -27,10 +30,14 @@ class HomePage extends StatelessWidget {
         drawer: Drawer(
           child: Column(
             children: [
-              const UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.deepOrange),
-                accountName: Text('Lucas Michalski'),
-                accountEmail: Text('Lucas@gmail.com'),
+              UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: Colors.deepOrange),
+                currentAccountPicture: ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: Image.asset('assets/images/iconChefAstro.png'),
+                ),
+                accountName: const Text('Lucas Michalski'),
+                accountEmail: const Text('Lucas@gmail.com'),
               ),
               ListTile(
                 leading: Image.asset('assets/images/iconSend.png'),
@@ -101,9 +108,8 @@ class HomePage extends StatelessWidget {
                 if (value.toString() == '/revenuePage') {
                   await Get.to(RevenuePage());
                 } else {
-                  store.getAllIngredients();
+                  await store.getAllIngredients();
                   openFilterDelegate(context, store);
-                  //await Get.to(IngredientPage());
                 }
               },
             )
@@ -118,6 +124,14 @@ class HomePage extends StatelessWidget {
 Widget _listCookMasterHomePage() {
   return ListView(
     scrollDirection: Axis.vertical,
+    children: [
+      ElevatedButton(
+        onPressed: () async {
+          await Get.to(CategoryPage());
+        },
+        child: Text('Categorias'),
+      ),
+    ],
   );
 }
 

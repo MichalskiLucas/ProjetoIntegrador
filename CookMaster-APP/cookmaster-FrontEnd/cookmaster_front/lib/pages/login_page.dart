@@ -1,8 +1,6 @@
 import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// ignore: unused_import
-import 'app_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

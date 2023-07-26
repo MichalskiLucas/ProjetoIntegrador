@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';

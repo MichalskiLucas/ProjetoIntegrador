@@ -16,9 +16,8 @@ class IngredientRepository implements IIngredientRepository {
 
   @override
   Future<List<IngredientModel>> getAllIngredients() async {
-    final response = await client.getAllIngredients(
-      //url: 'http://localhost:8080/ingrediente',
-      url: 'http://172.20.10.3:8080/ingrediente',
+    final response = await client.get(
+      url: 'https://736a-138-204-72-99.ngrok-free.app/ingrediente',
     );
 
     switch (response.statusCode) {

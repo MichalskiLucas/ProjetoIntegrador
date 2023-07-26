@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
 import 'package:cookmaster_front/store/ingredient_store.dart';
