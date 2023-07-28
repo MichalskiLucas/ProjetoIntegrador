@@ -1,27 +1,43 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
-
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
+import 'package:cookmaster_front/services/auth_exception.dart';
+import 'package:cookmaster_front/services/auth_service.dart';
 import 'package:filter_list/filter_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../app/data/http/http_client.dart';
 import '../app/data/models/ingredient_model.dart';
 import '../app/data/repositories/ingredient_repository.dart';
 import '../store/ingredient_store.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  final User? users;
+  HomePage(this.users, {super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
       client: HttpClient(),
     ),
   );
+
+  _logout() async {
+    try {
+      await context.read<AuthService>().logout;
+    } on AuthException catch (e) {
+      Get.snackbar('erro', e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +50,10 @@ class HomePage extends StatelessWidget {
                 decoration: const BoxDecoration(color: Colors.deepOrange),
                 currentAccountPicture: ClipRRect(
                   borderRadius: BorderRadius.circular(40),
-                  child: Image.asset('assets/images/iconChefAstro.png'),
+                  child: Image.network(widget.users?.photoURL ?? ''),
                 ),
-                accountName: const Text('Lucas Michalski'),
-                accountEmail: const Text('Lucas@gmail.com'),
+                accountName: Text(widget.users?.displayName ?? 'Sem Login'),
+                accountEmail: Text(widget.users?.email ?? 'Sem Login'),
               ),
               ListTile(
                 leading: Image.asset('assets/images/iconSend.png'),
@@ -85,9 +101,12 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(
-                    () => LoginPage(),
-                  );
+                  if (widget.users == null) {
+                    await Get.to(LoginPage());
+                  } else {
+                    _logout();
+                    await Get.to(LoginPage());
+                  }
                 },
               )
             ],

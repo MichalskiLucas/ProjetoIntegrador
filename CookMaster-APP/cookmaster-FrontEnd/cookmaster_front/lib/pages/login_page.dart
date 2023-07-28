@@ -1,4 +1,5 @@
 import 'package:cookmaster_front/pages/home_page.dart';
+import 'package:cookmaster_front/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -57,7 +58,7 @@ Widget _listCookMasterLogin(BuildContext context) {
             ),
             onPressed: () async {
               await Get.to(
-                () => HomePage(),
+                () => HomePage(null),
               );
             },
             child: const Text(
@@ -91,9 +92,7 @@ Widget _listCookMasterLogin(BuildContext context) {
               ),
             ),
             onPressed: () async {
-              await Get.to(
-                () => HomePage(),
-              );
+              AuthService().signInWithGoogle();
             },
             icon: Image.asset('assets/images/logoGoogle.png'),
             label: const Text(
