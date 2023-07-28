@@ -1,11 +1,14 @@
 // ignore_for_file: file_names
 
 import 'package:cookmaster_front/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class ChefAstroPage extends StatefulWidget {
-  const ChefAstroPage({super.key});
+  final User? user;
+  const ChefAstroPage({super.key, required this.user});
 
   @override
   State<ChefAstroPage> createState() => _ChefAstroPageState();

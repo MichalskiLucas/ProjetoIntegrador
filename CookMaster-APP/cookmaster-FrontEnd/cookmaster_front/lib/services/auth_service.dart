@@ -37,14 +37,26 @@ class AuthService extends ChangeNotifier {
 
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      _getUser();
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final User? firebaseUser = userCredential.user;
+
+      return users = firebaseUser;
     } on FirebaseAuthException catch (e) {
       throw AuthException('Error: ${e.message}');
     }
   }
 
   logout() async {
-    await _auth.signOut();
-    _getUser();
+    try {
+      await GoogleSignIn().signOut();
+      await FirebaseAuth.instance.signOut();
+      users = null;
+
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException('Error: ${e.message}');
+    }
   }
 }

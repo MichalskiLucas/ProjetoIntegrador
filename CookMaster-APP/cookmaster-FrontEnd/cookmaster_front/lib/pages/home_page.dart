@@ -5,10 +5,12 @@ import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:cookmaster_front/services/auth_exception.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
+import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../app/data/http/http_client.dart';
@@ -18,13 +20,15 @@ import '../store/ingredient_store.dart';
 
 class HomePage extends StatefulWidget {
   final User? users;
-  HomePage(this.users, {super.key});
+  const HomePage(this.users, {super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  bool validateUser = false;
+
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
       client: HttpClient(),
@@ -39,6 +43,45 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  _userValidate() {
+    if (widget.users != null) {
+      return true;
+    }
+    return false;
+  }
+
+  _optionDinamyc() {
+    if (widget.users != null) {
+      return ListTile(
+        leading: Image.asset('assets/images/iconExit.png'),
+        title: const Text('Sair da Conta'),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'JacquesFrancois',
+          color: Colors.black,
+        ),
+        onTap: () async {
+          await AuthService().logout();
+        },
+      );
+    } else {
+      return ListTile(
+        leading: Image.asset(
+          'assets/images/logoGoogleDeepOrange.png',
+        ),
+        title: const Text('Realizar Login'),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'JacquesFrancois',
+          color: Colors.black,
+        ),
+        onTap: () async {
+          AuthService authService = AuthService();
+          await authService.signInWithGoogle();
+          Get.to(AuthCheck());
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,9 +92,14 @@ class _HomePageState extends State<HomePage> {
               UserAccountsDrawerHeader(
                 decoration: const BoxDecoration(color: Colors.deepOrange),
                 currentAccountPicture: ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: Image.network(widget.users?.photoURL ?? ''),
-                ),
+                    borderRadius: BorderRadius.circular(40),
+                    child: _userValidate()
+                        ? Image.network(widget.users?.photoURL ?? '')
+                        : const Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 50,
+                          )),
                 accountName: Text(widget.users?.displayName ?? 'Sem Login'),
                 accountEmail: Text(widget.users?.email ?? 'Sem Login'),
               ),
@@ -62,9 +110,11 @@ class _HomePageState extends State<HomePage> {
                   fontFamily: 'JacquesFrancois',
                   color: Colors.black,
                 ),
-                onTap: () {
-                  // ignore: avoid_print
-                  print('Enviar Receita');
+                onTap: () async {
+                  _userValidate()
+                      ? await Get.to(BagPage(user: widget.users))
+                      : Get.snackbar('Cook Master',
+                          'Necessário realizar login para enviar uma receita.');
                 },
               ),
               ListTile(
@@ -75,9 +125,10 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(
-                    () => BagPage(),
-                  );
+                  _userValidate()
+                      ? await Get.to(BagPage(user: widget.users))
+                      : Get.snackbar('Cook Master',
+                          'Necessário realizar login para usar a sacola.');
                 },
               ),
               ListTile(
@@ -88,27 +139,16 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(
-                    () => ChefAstroPage(),
-                  );
+                  _userValidate()
+                      ? await Get.to(ChefAstroPage(user: widget.users))
+                      : Get.snackbar(
+                          'Chef Astro',
+                          'É necessário realizar o login para conversar com o chef.',
+                          icon: const Icon(Icons.person),
+                        );
                 },
               ),
-              ListTile(
-                leading: Image.asset('assets/images/iconExit.png'),
-                title: const Text('Sair da Conta'),
-                titleTextStyle: const TextStyle(
-                  fontFamily: 'JacquesFrancois',
-                  color: Colors.black,
-                ),
-                onTap: () async {
-                  if (widget.users == null) {
-                    await Get.to(LoginPage());
-                  } else {
-                    _logout();
-                    await Get.to(LoginPage());
-                  }
-                },
-              )
+              _optionDinamyc(),
             ],
           ),
         ),
