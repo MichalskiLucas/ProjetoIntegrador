@@ -1,11 +1,10 @@
 import 'package:cookmaster_front/services/auth_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService extends ChangeNotifier {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   User? users;
   bool isLoading = true;
 
@@ -19,11 +18,6 @@ class AuthService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     });
-  }
-
-  _getUser() {
-    users = _auth.currentUser;
-    notifyListeners();
   }
 
   signInWithGoogle() async {

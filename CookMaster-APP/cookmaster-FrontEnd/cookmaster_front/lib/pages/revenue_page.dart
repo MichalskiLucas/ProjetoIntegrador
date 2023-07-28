@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RevenuePage extends StatefulWidget {
+  const RevenuePage({super.key});
+
   @override
   State<RevenuePage> createState() => _RevenuePageState();
 }

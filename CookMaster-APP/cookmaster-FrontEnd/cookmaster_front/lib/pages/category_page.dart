@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import '../utils/decodeImageBase64.dart';
 
 class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
+
   @override
   State<CategoryPage> createState() {
     return CategoryPageState();
@@ -67,7 +69,7 @@ class CategoryPageState extends State<CategoryPage> {
                   child: ListTile(
                     onTap: () async {
                       //implementar chamada e filtro da receita
-                      await Get.to(RevenuePage());
+                      await Get.to(const RevenuePage());
                     },
                     leading: Base64ImageConverter(
                       base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),

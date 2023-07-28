@@ -1,17 +1,13 @@
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
-import 'package:cookmaster_front/pages/login_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
-import 'package:cookmaster_front/services/auth_exception.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
 
 import '../app/data/http/http_client.dart';
 import '../app/data/models/ingredient_model.dart';
@@ -34,14 +30,6 @@ class _HomePageState extends State<HomePage> {
       client: HttpClient(),
     ),
   );
-
-  _logout() async {
-    try {
-      await context.read<AuthService>().logout;
-    } on AuthException catch (e) {
-      Get.snackbar('erro', e.message);
-    }
-  }
 
   _userValidate() {
     if (widget.users != null) {
@@ -76,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         onTap: () async {
           AuthService authService = AuthService();
           await authService.signInWithGoogle();
-          Get.to(AuthCheck());
+          Get.to(const AuthCheck());
         },
       );
     }
@@ -172,10 +160,11 @@ class _HomePageState extends State<HomePage> {
               onSelected: (value) async {
                 if (value.toString() == '/revenuePage') {
                   await Get.to(
-                    RevenuePage(),
+                    const RevenuePage(),
                   );
                 } else {
                   await store.getAllIngredients();
+                  // ignore: use_build_context_synchronously
                   openFilterDelegate(context, store);
                 }
               },
@@ -195,10 +184,10 @@ Widget _listCookMasterHomePage() {
       ElevatedButton(
         onPressed: () async {
           await Get.to(
-            CategoryPage(),
+            const CategoryPage(),
           );
         },
-        child: Text('Categorias'),
+        child: const Text('Categorias'),
       ),
     ],
   );

@@ -1,6 +1,5 @@
 import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,7 +58,7 @@ Widget _listCookMasterLogin(BuildContext context) {
             ),
             onPressed: () async {
               await Get.to(
-                () => HomePage(null),
+                () => const HomePage(null),
               );
             },
             child: const Text(
