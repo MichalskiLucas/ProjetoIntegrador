@@ -1,8 +1,11 @@
+// ignore_for_file: unused_import
+
 import 'dart:convert';
 
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:filter_list/filter_list.dart';
 
 abstract class IIngredientRepository {
   Future<List<IngredientModel>> getAllIngredients();
@@ -15,8 +18,8 @@ class IngredientRepository implements IIngredientRepository {
 
   @override
   Future<List<IngredientModel>> getAllIngredients() async {
-    final response = await client.getAllIngredients(
-      url: 'http://localhost:8080/ingrediente',
+    final response = await client.get(
+      url: 'https://a780-177-220-148-90.ngrok-free.app/ingrediente',
     );
 
     switch (response.statusCode) {

@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "cookmaster_front",
+            "cwd": "cookmaster_front",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "cookmaster_front (profile mode)",
+            "cwd": "cookmaster_front",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "cookmaster_front (release mode)",
+            "cwd": "cookmaster_front",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

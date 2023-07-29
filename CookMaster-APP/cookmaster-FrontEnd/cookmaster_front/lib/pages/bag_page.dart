@@ -1,13 +1,15 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
 import 'package:cookmaster_front/pages/createBag.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BagPage extends StatefulWidget {
-  const BagPage({super.key});
+  final User? user;
+  const BagPage({super.key, required this.user});
 
   @override
   State<BagPage> createState() => _BagPageState();
@@ -18,11 +20,12 @@ class _BagPageState extends State<BagPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBarSimple(
-            title: 'Cook Master',
-            ctx: context
-          ),
-          body: _CookMasterBag(context)),
+        appBar: AppBarSimple(
+          title: 'Cook Master',
+          ctx: context,
+        ),
+        body: _CookMasterBag(context),
+      ),
     );
   }
 }
@@ -92,16 +95,21 @@ Widget _CookMasterBag(BuildContext context) {
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    return Colors.deepOrange;
-                  }),
+                    (Set<MaterialState> states) {
+                      return Colors.deepOrange;
+                    },
+                  ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          side: const BorderSide(color: Colors.deepOrange))),
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      side: const BorderSide(color: Colors.deepOrange),
+                    ),
+                  ),
                 ),
                 onPressed: () async {
-                  await Get.to(CreateBagPage());
+                  await Get.to(
+                    CreateBagPage(),
+                  );
                 },
                 child: const Text(
                   'Criar',

@@ -1,7 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_import
 
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RevenuePage extends StatefulWidget {
   const RevenuePage({super.key});
@@ -15,11 +16,12 @@ class _RevenuePageState extends State<RevenuePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBarSearch(
-            ctx: context,
-            labelText: 'Consultar Receita',
-          ),
-          body: _CookMasterSearchRevenue(context)),
+        appBar: AppBarSearch(
+          ctx: context,
+          labelText: 'Consultar Receita',
+        ),
+        body: _CookMasterSearchRevenue(context),
+      ),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:cookmaster_front/pages/home_page.dart';
+import 'package:cookmaster_front/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// ignore: unused_import
-import 'app_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,16 +45,21 @@ Widget _listCookMasterLogin(BuildContext context) {
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                return Colors.deepOrange;
-              }),
+                (Set<MaterialState> states) {
+                  return Colors.deepOrange;
+                },
+              ),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                      side: const BorderSide(color: Colors.deepOrange))),
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                  side: const BorderSide(color: Colors.deepOrange),
+                ),
+              ),
             ),
             onPressed: () async {
-              await Get.to(() => HomePage());
+              await Get.to(
+                () => const HomePage(null),
+              );
             },
             child: const Text(
               'Entrar sem login',
@@ -73,19 +77,23 @@ Widget _listCookMasterLogin(BuildContext context) {
           child: ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) {
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.grey.shade600;
+                  }
                   return Colors.grey.shade600;
-                }
-                return Colors.grey.shade600;
-              }),
+                },
+              ),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                      side: const BorderSide(color: Colors.grey))),
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                  side: const BorderSide(color: Colors.grey),
+                ),
+              ),
             ),
             onPressed: () async {
-              await Get.to(() => HomePage());
+              AuthService authService = AuthService();
+              await authService.signInWithGoogle();
             },
             icon: Image.asset('assets/images/logoGoogle.png'),
             label: const Text(

@@ -46,7 +46,7 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: TextField(
         decoration: InputDecoration(
-            labelText: labelText.isNotEmpty ? labelText : 'Consutlar',
+            labelText: labelText.isNotEmpty ? labelText : 'Consultar',
             prefixIcon: const Icon(Icons.search),
             prefixIconColor: Colors.white,
             labelStyle: const TextStyle(

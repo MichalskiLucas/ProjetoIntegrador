@@ -1,8 +1,7 @@
 import 'package:cookmaster_front/controller/app_controller.dart';
+import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-
-import 'login_page.dart';
 
 // ignore: use_key_in_widget_constructors
 class AppWidget extends StatelessWidget {
@@ -16,7 +15,7 @@ class AppWidget extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.deepOrange,
           ),
-          home: const LoginPage(),
+          home: const AuthCheck(),
         );
       },
     );

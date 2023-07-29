@@ -1,13 +1,74 @@
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
-import 'package:cookmaster_front/pages/ingredient_page.dart';
-import 'package:cookmaster_front/pages/login_page.dart';
+import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
+import 'package:cookmaster_front/services/auth_service.dart';
+import 'package:cookmaster_front/widgets/auth_check.dart';
+import 'package:filter_list/filter_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+import '../app/data/http/http_client.dart';
+import '../app/data/models/ingredient_model.dart';
+import '../app/data/repositories/ingredient_repository.dart';
+import '../store/ingredient_store.dart';
+
+class HomePage extends StatefulWidget {
+  final User? users;
+  const HomePage(this.users, {super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool validateUser = false;
+
+  final IngredientStore store = IngredientStore(
+    repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  _userValidate() {
+    if (widget.users != null) {
+      return true;
+    }
+    return false;
+  }
+
+  _optionDinamyc() {
+    if (widget.users != null) {
+      return ListTile(
+        leading: Image.asset('assets/images/iconExit.png'),
+        title: const Text('Sair da Conta'),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'JacquesFrancois',
+          color: Colors.black,
+        ),
+        onTap: () async {
+          await AuthService().logout();
+        },
+      );
+    } else {
+      return ListTile(
+        leading: Image.asset(
+          'assets/images/logoGoogleDeepOrange.png',
+        ),
+        title: const Text('Realizar Login'),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'JacquesFrancois',
+          color: Colors.black,
+        ),
+        onTap: () async {
+          AuthService authService = AuthService();
+          await authService.signInWithGoogle();
+          Get.to(const AuthCheck());
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +77,19 @@ class HomePage extends StatelessWidget {
         drawer: Drawer(
           child: Column(
             children: [
-              const UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.deepOrange),
-                accountName: Text('Lucas Michalski'),
-                accountEmail: Text('Lucas@gmail.com'),
+              UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: Colors.deepOrange),
+                currentAccountPicture: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: _userValidate()
+                        ? Image.network(widget.users?.photoURL ?? '')
+                        : const Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 50,
+                          )),
+                accountName: Text(widget.users?.displayName ?? 'Sem Login'),
+                accountEmail: Text(widget.users?.email ?? 'Sem Login'),
               ),
               ListTile(
                 leading: Image.asset('assets/images/iconSend.png'),
@@ -28,9 +98,11 @@ class HomePage extends StatelessWidget {
                   fontFamily: 'JacquesFrancois',
                   color: Colors.black,
                 ),
-                onTap: () {
-                  // ignore: avoid_print
-                  print('Enviar Receita');
+                onTap: () async {
+                  _userValidate()
+                      ? await Get.to(BagPage(user: widget.users))
+                      : Get.snackbar('Cook Master',
+                          'Necessário realizar login para enviar uma receita.');
                 },
               ),
               ListTile(
@@ -41,7 +113,10 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(() => BagPage());
+                  _userValidate()
+                      ? await Get.to(BagPage(user: widget.users))
+                      : Get.snackbar('Cook Master',
+                          'Necessário realizar login para usar a sacola.');
                 },
               ),
               ListTile(
@@ -52,20 +127,16 @@ class HomePage extends StatelessWidget {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  await Get.to(() => ChefAstroPage());
+                  _userValidate()
+                      ? await Get.to(ChefAstroPage(user: widget.users))
+                      : Get.snackbar(
+                          'Chef Astro',
+                          'É necessário realizar o login para conversar com o chef.',
+                          icon: const Icon(Icons.person),
+                        );
                 },
               ),
-              ListTile(
-                leading: Image.asset('assets/images/iconExit.png'),
-                title: const Text('Sair da Conta'),
-                titleTextStyle: const TextStyle(
-                  fontFamily: 'JacquesFrancois',
-                  color: Colors.black,
-                ),
-                onTap: () async {
-                  await Get.to(() => LoginPage());
-                },
-              )
+              _optionDinamyc(),
             ],
           ),
         ),
@@ -88,9 +159,13 @@ class HomePage extends StatelessWidget {
               ],
               onSelected: (value) async {
                 if (value.toString() == '/revenuePage') {
-                  await Get.to(RevenuePage());
+                  await Get.to(
+                    const RevenuePage(),
+                  );
                 } else {
-                  await Get.to(IngredientPage());
+                  await store.getAllIngredients();
+                  // ignore: use_build_context_synchronously
+                  openFilterDelegate(context, store);
                 }
               },
             )
@@ -105,6 +180,16 @@ class HomePage extends StatelessWidget {
 Widget _listCookMasterHomePage() {
   return ListView(
     scrollDirection: Axis.vertical,
+    children: [
+      ElevatedButton(
+        onPressed: () async {
+          await Get.to(
+            const CategoryPage(),
+          );
+        },
+        child: const Text('Categorias'),
+      ),
+    ],
   );
 }
 
@@ -120,5 +205,34 @@ PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
         Text(title),
       ],
     ),
+  );
+}
+
+void openFilterDelegate(BuildContext context, IngredientStore store) async {
+  List<IngredientModel> ingredientList = store.state.value;
+  List<IngredientModel> selectedIngredients = [];
+
+  await FilterListDelegate.show(
+    context: context,
+    applyButtonText: 'Filtrar',
+    list: ingredientList,
+    searchFieldHint: 'Consultar Ingrediente',
+    searchFieldStyle: const TextStyle(
+      fontFamily: 'JacquesFrancois',
+    ),
+    selectedListData: selectedIngredients,
+    tileLabel: (IngredientModel? item) {
+      if (item == null) return '';
+      return item.descricao;
+    },
+    onItemSearch: (IngredientModel item, String query) {
+      return item.descricao.toLowerCase().contains(query.toLowerCase());
+    },
+    onApplyButtonClick: (List<IngredientModel>? list) {
+      if (list != null) {
+        selectedIngredients = list;
+        //fazer algo com a lista de ingredientes selecionados após o clique no botão "Aplicar".
+      }
+    },
   );
 }

@@ -1,11 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:cookmaster_front/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChefAstroPage extends StatefulWidget {
-  const ChefAstroPage({super.key});
+  final User? user;
+  const ChefAstroPage({super.key, required this.user});
 
   @override
   State<ChefAstroPage> createState() => _ChefAstroPageState();
@@ -28,7 +30,9 @@ class _ChefAstroPageState extends State<ChefAstroPage> {
             actions: [
               IconButton(
                 onPressed: () async {
-                  await Get.to(() => HomePage());
+                  await Get.to(
+                    () => const HomePage(null),
+                  );
                 },
                 icon: const Icon(Icons.arrow_back),
               )

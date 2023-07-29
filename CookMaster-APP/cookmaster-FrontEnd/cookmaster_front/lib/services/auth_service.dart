@@ -1,0 +1,56 @@
+import 'package:cookmaster_front/services/auth_exception.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+class AuthService extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? users;
+  bool isLoading = true;
+
+  AuthService() {
+    _authCheck();
+  }
+
+  _authCheck() {
+    _auth.authStateChanges().listen((User? user) {
+      users = (user == null) ? null : user;
+      isLoading = false;
+      notifyListeners();
+    });
+  }
+
+  signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final User? firebaseUser = userCredential.user;
+
+      return users = firebaseUser;
+    } on FirebaseAuthException catch (e) {
+      throw AuthException('Error: ${e.message}');
+    }
+  }
+
+  logout() async {
+    try {
+      await GoogleSignIn().signOut();
+      await FirebaseAuth.instance.signOut();
+      users = null;
+
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException('Error: ${e.message}');
+    }
+  }
+}
