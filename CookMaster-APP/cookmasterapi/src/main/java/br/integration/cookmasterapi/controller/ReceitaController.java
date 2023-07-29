@@ -18,9 +18,9 @@ import br.integration.cookmasterapi.Receita;
 import br.integration.cookmasterapi.services.ReceitaService;
 import io.swagger.annotations.Api;
 
-@Api(description = "Controlador Rest responsável pelas operações que representam a o objeto usuario")
+@Api(description = "Controlador Rest responsável pelas operações que representam a o objeto receita")
 @RestController
-@RequestMapping(path = "/usuario")
+@RequestMapping(path = "/receita")
 public class ReceitaController {
 
 	@Autowired
