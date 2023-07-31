@@ -1,4 +1,3 @@
-import 'package:cookmaster_front/pages/astroChef_page2.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';

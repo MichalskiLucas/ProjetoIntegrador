@@ -6,10 +6,10 @@ import 'package:rx_notifier/rx_notifier.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../atoms/chat_atom.dart';
-import 'package:cookmaster_front/config/constants.dart';
+import 'package:cookmaster_front/common/constants.dart';
 
 class ChatReducer extends RxReducer {
-  final chatGpt = ChatGpt(apiKey: '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');
+  final chatGpt = ChatGpt(apiKey: apiKey);
 
   ChatReducer() {
     on(() => [sendMessageAction.value], sendMessage);
