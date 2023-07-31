@@ -17,7 +17,7 @@ class CategoryRepository implements ICategoryRepository {
   @override
   Future<List<CategoryModel>> getAllCategory() async {
     final response = await client.get(
-      url: 'https://547b-138-204-72-21.ngrok-free.app/categoria',
+      url: 'https://f2ee-177-220-148-90.ngrok-free.app/categoria',
     );
 
     switch (response.statusCode) {
