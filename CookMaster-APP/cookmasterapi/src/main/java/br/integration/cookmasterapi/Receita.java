@@ -34,7 +34,7 @@ public class Receita {
 	
 	private boolean ativo;
 	
-	@Column(length = 32000)
+	@Column(length = 320000)
 	private String imagem;
 	
 	@ManyToOne

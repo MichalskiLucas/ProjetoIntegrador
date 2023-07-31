@@ -21,7 +21,7 @@ public class Categoria {
 	private Long id;
 	
 	private String descricao;
-	@Column(length = 32000)
+	@Column(length = 320000)
 	private String imagem;
 
 	public String getImagem() {
