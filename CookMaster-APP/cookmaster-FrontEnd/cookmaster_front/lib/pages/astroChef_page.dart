@@ -1,73 +1,91 @@
-// ignore_for_file: file_names
-
-import 'package:cookmaster_front/pages/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
-class ChefAstroPage extends StatefulWidget {
-  final User? user;
-  const ChefAstroPage({super.key, required this.user});
+import '../atoms/chat_atom.dart';
+import '../widgets/chat_bubble.dart';
+import '../widgets/chat_field.dart';
+
+class PageAstro extends StatefulWidget {
+  const PageAstro({super.key});
 
   @override
-  State<ChefAstroPage> createState() => _ChefAstroPageState();
+  State<PageAstro> createState() => _PageAstroState();
 }
 
-class _ChefAstroPageState extends State<ChefAstroPage> {
+class _PageAstroState extends State<PageAstro> {
+  void _sendMessage(String message) {
+    sendMessageAction.value = message;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            centerTitle: false,
-            leading: Image.asset('assets/images/iconChefAstro.png'),
-            title: const Text('Chef Astro'),
-            titleTextStyle: const TextStyle(
-              fontFamily: 'JacquesFrancois',
-              fontSize: 15,
-            ),
-            backgroundColor: Colors.deepOrange,
-            actions: [
-              IconButton(
-                onPressed: () async {
-                  await Get.to(
-                    () => const HomePage(null),
-                  );
-                },
-                icon: const Icon(Icons.arrow_back),
-              )
-            ],
-          ),
-          body: _CookMasterSearchIngredient(context)),
-    );
-  }
-}
+    context.select(() => [chatsState.length, chatLoading.value]);
+    final isLoading = chatLoading.value;
 
-// ignore: non_constant_identifier_names
-Widget _CookMasterSearchIngredient(BuildContext context) {
-  return Material(
-    child: SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SizedBox(
-            height: 40,
-            child: TextField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: 'Faça sua pergunta para o chef',
-                labelStyle: const TextStyle(
-                  fontFamily: 'JacquesFrancois',
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                suffixIcon: const Icon(Icons.send),
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        leading: Image.asset('assets/images/iconChefAstro.png'),
+        title: const Text('Chef Astro'),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'JacquesFrancois',
+          fontSize: 15,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back),
           ),
         ],
       ),
-    ),
-  );
+      body: Stack(
+        children: [
+          Align(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Opacity(
+                  opacity: 0.30,
+                  child: Image.asset('assets/images/logo.png'),
+                ),
+                const Opacity(
+                  opacity: 0.30,
+                  child: Text(
+                    'Cook Master',
+                    style:
+                        TextStyle(fontFamily: 'JacquesFrancois', fontSize: 20),
+                  ),
+                )
+              ],
+            ),
+          ),
+          ListView.builder(
+            padding: const EdgeInsets.only(
+              bottom: 120,
+            ),
+            reverse: true,
+            itemCount: chatsState.length,
+            itemBuilder: (context, index) {
+              return ChatBubble(model: chatsState[index]);
+            },
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ChatField(
+              sendEnabled: !isLoading,
+              onMessage: _sendMessage,
+            ),
+          ),
+          if (isLoading)
+            const Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(),
+            ),
+        ],
+      ),
+    );
+  }
 }

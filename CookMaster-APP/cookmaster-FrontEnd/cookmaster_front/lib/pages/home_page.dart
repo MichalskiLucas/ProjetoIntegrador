@@ -1,6 +1,7 @@
-import 'package:cookmaster_front/pages/astroChef_page.dart';
+import 'package:cookmaster_front/pages/astroChef_page2.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
+import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
@@ -127,13 +128,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  _userValidate()
-                      ? await Get.to(ChefAstroPage(user: widget.users))
-                      : Get.snackbar(
-                          'Chef Astro',
-                          'É necessário realizar o login para conversar com o chef.',
-                          icon: const Icon(Icons.person),
-                        );
+                  Get.to(const PageAstro());
                 },
               ),
               _optionDinamyc(),
