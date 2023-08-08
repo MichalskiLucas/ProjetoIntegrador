@@ -1,26 +1,26 @@
-import 'package:cookmaster_front/app/data/models/category_model.dart';
-import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
+import 'package:cookmaster_front/app/data/models/revenue_model.dart';
+import 'package:cookmaster_front/app/data/repositories/revenue_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../app/data/http/exceptions.dart';
 
-class CategoryStore {
-  final ICategoryRepository repository;
+class RevenueStore {
+  final IRevenueRepository repository;
 
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
-  final ValueNotifier<List<CategoryModel>> state =
-      ValueNotifier<List<CategoryModel>>([]);
+  final ValueNotifier<List<RevenueModel>> state =
+      ValueNotifier<List<RevenueModel>>([]);
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 
-  CategoryStore({required this.repository});
+  RevenueStore({required this.repository});
 
-  Future getCategory() async {
+  Future getRevenue() async {
     isLoading.value = true;
 
     try {
-      final result = await repository.getAllCategory();
+      final result = await repository.getAllRevenue();
       state.value = result;
     } on NotFoundException catch (e) {
       error.value = e.message;
