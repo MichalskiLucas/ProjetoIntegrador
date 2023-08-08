@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/common/constants.dart';
 import 'package:filter_list/filter_list.dart';
 
 abstract class IIngredientRepository {
@@ -19,7 +20,7 @@ class IngredientRepository implements IIngredientRepository {
   @override
   Future<List<IngredientModel>> getAllIngredients() async {
     final response = await client.get(
-      url: 'https://f2ee-177-220-148-90.ngrok-free.app/ingrediente',
+      url: '${urlApi}ingrediente',
     );
 
     switch (response.statusCode) {
