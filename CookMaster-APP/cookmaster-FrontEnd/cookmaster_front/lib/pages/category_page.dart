@@ -1,5 +1,4 @@
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
-import 'package:cookmaster_front/common/constants.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:cookmaster_front/store/category_store.dart';
@@ -27,7 +26,7 @@ class CategoryPageState extends State<CategoryPage> {
   @override
   void initState() {
     super.initState();
-    store.getProdutos();
+    store.getCategory();
   }
 
   @override

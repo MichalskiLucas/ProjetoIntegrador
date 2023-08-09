@@ -1,8 +1,11 @@
+import 'package:cookmaster_front/app/data/repositories/revenue_repository.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/revenue_page.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
+import 'package:cookmaster_front/store/revenue_store.dart';
+import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +30,12 @@ class _HomePageState extends State<HomePage> {
 
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  final RevenueStore storeRevenue = RevenueStore(
+    repository: RevenueRepository(
       client: HttpClient(),
     ),
   );
@@ -68,6 +77,12 @@ class _HomePageState extends State<HomePage> {
         },
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    storeRevenue.getRevenue();
   }
 
   @override
@@ -165,7 +180,60 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        body: _listCookMasterHomePage(),
+        body: AnimatedBuilder(
+          animation: Listenable.merge(
+              [storeRevenue.isLoading, storeRevenue.error, storeRevenue.state]),
+          builder: (context, child) {
+            if (storeRevenue.isLoading.value) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (storeRevenue.error.value.isNotEmpty) {
+              return Center(
+                child: Text(
+                  storeRevenue.error.value,
+                ),
+              );
+            }
+
+            if (storeRevenue.state.value.isEmpty) {
+              return const Center(
+                child: Text('lista vazia'),
+              );
+            } else {
+              return ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: storeRevenue.state.value.length,
+                itemBuilder: (_, index) {
+                  final item = storeRevenue.state.value[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      onTap: () async {
+                        //implementar chamada e filtro da receita
+                        await Get.to(const RevenuePage());
+                      },
+                      leading: Base64ImageConverter(
+                        base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),
+                      ),
+                      trailing:
+                          const Icon(Icons.arrow_forward, color: Colors.black),
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        item.descricao,
+                        style: const TextStyle(
+                          fontFamily: 'JacquesFrancois',
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }
