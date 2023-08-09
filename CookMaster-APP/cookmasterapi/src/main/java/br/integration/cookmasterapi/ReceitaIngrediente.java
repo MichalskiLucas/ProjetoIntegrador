@@ -18,131 +18,39 @@ import javax.validation.constraints.NotNull;
 import br.integration.cookmasterapi.enums.EnumUnitMeasure;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 @Entity
 @Table(name = "receitaingrediente")
 @ApiModel(description = "Modelo para representação de uma entidade ReceitaIngrediente")
 @Api
+@Data
 public class ReceitaIngrediente {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@OneToMany
-	private List<Ingrediente> ingredientes;
-	
-	@OneToMany
-	private List<Preparo> preparo;
-	
-	@OneToOne
-	private Receita receita;
-	
-	@OneToOne
-	private Categoria categoria;
-	
-	@NotBlank
-	@NotEmpty
-	@NotNull
-	private Double qtdIngrediente;
-	
-	
-	//private Double qtdIngrediente;
-	
-	@NotBlank
-	@NotEmpty
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private EnumUnitMeasure unMedida;
-	
-	private boolean ativo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @OneToMany
+    private List<Ingrediente> ingredientes;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @OneToMany
+    private List<Preparo> preparo;
 
-	public Receita getReceita() {
-		return receita;
-	}
+    @OneToOne
+    private Receita receita;
 
-	public void setReceita(Receita receita) {
-		this.receita = receita;
-	}
+    @OneToOne
+    private Categoria categoria;
 
-	public EnumUnitMeasure getUnMedida() {
-		return unMedida;
-	}
+    @NotBlank
+    @NotEmpty
+    @NotNull
+    private Double qtdIngrediente;
 
-	public void setUnMedida(EnumUnitMeasure unMedida) {
-		this.unMedida = unMedida;
-	}
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
-
-	public List<Ingrediente> getIngredientes() {
-		return ingredientes;
-	}
-
-	public void setIngredientes(List<Ingrediente> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-
-	public List<Preparo> getPreparo() {
-		return preparo;
-	}
-
-	public void setPreparo(List<Preparo> preparo) {
-		this.preparo = preparo;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-
-	public Double getQtdIngrediente() {
-		return qtdIngrediente;
-	}
-
-	public void setQtdIngrediente(Double qtdIngrediente) {
-		this.qtdIngrediente = qtdIngrediente;
-	}
-
-	@Override
-	public String toString() {
-		return "ReceitaIngrediente [id=" + id + ", ingredientes=" + ingredientes + ", preparo=" + preparo + ", receita="
-				+ receita + ", categoria=" + categoria + ", qtdIngrediente=" + qtdIngrediente + ", unMedida=" + unMedida
-				+ ", ativo=" + ativo + "]";
-	}
-
-	public ReceitaIngrediente(Long id, List<Ingrediente> ingredientes, List<Preparo> preparo, Receita receita,
-			Categoria categoria, Double qtdIngrediente, EnumUnitMeasure unMedida, boolean ativo) {
-		this.id = id;
-		this.ingredientes = ingredientes;
-		this.preparo = preparo;
-		this.receita = receita;
-		this.categoria = categoria;
-		this.qtdIngrediente = qtdIngrediente;
-		this.unMedida = unMedida;
-		this.ativo = ativo;
-	}
-	
-	public ReceitaIngrediente() {
-	}
-	
-	
-	
+    @NotBlank
+    @NotEmpty
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EnumUnitMeasure unMedida;
 }

@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.*;
+import org.hibernate.annotations.Type;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 
@@ -17,61 +20,22 @@ import io.swagger.annotations.ApiModel;
 @Table(name = "preparo")
 @ApiModel(description = "Modelo para representação de um passo de preparo")
 @Api
+@Data
 public class Preparo {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank
-	@NotEmpty
-	@NotNull
-	private String descricao;
-	
-	private String imagem;
-	
-	@ManyToOne
-	private Receita receita;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @NotBlank
+    @NotEmpty
+    @NotNull
+    private String descricao;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] imagem;
 
-	public String getDescricao() {
-		return descricao;
-	}
+    @ManyToOne
+    private Receita receita;
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
-
-	public Receita getReceita() {
-		return receita;
-	}
-
-	public void setReceita(Receita receita) {
-		this.receita = receita;
-	}
-
-	public Preparo(Long id, String descricao, String imagem, Receita receita) {
-		this.id = id;
-		this.descricao = descricao;
-		this.imagem = imagem;
-		this.receita = receita;
-	}
-	
-	public Preparo() {
-	}
 }

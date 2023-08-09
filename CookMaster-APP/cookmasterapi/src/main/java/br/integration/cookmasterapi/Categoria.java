@@ -9,57 +9,22 @@ import javax.persistence.Table;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 @Entity
 @Table(name = "categoria")
 @ApiModel(description = "Modelo para representação de uma entidade de categoria")
 @Api
+@Data
 public class Categoria {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String descricao;
-	@Column(length = 320000)
-	private String imagem;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public String getImagem() {
-		return imagem;
-	}
+    private String descricao;
+    @Column(length = 320000)
+    private String imagem;
 
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public Categoria(Long id, String descricao) {
-		this.id = id;
-		this.descricao = descricao;
-	}
-	
-	public Categoria() {
-	}
-
-	@Override
-	public String toString() {
-		return "Categoria [id=" + id + ", descricao=" + descricao + "]";
-	}
-	
-	
 }

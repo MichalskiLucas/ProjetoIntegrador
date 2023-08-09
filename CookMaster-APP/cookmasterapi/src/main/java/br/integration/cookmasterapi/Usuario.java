@@ -11,65 +11,26 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 @Entity
 @Table(name = "usuario")
 @ApiModel(description = "Modelo para representação de uma entidade usuario")
 @Api
+@Data
 public class Usuario {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank
-	@NotEmpty
-	@NotNull
-	private String nome;
-	
-	@NotBlank
-	@NotEmpty
-	@NotNull
-	private String email;
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotBlank
+    @NotEmpty
+    @NotNull
+    private String nome;
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Usuario(Long id, String nome, String email) {
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-	}
-	
-	public Usuario() {
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + "]";
-	}
-
-	
-	
+    @NotBlank
+    @NotEmpty
+    @NotNull
+    private String email;
 }
