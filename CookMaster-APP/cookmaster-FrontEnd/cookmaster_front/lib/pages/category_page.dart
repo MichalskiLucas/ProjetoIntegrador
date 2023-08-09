@@ -26,7 +26,7 @@ class CategoryPageState extends State<CategoryPage> {
   @override
   void initState() {
     super.initState();
-    store.getProdutos();
+    store.getCategory();
   }
 
   @override

@@ -16,7 +16,7 @@ class CategoryStore {
 
   CategoryStore({required this.repository});
 
-  Future getProdutos() async {
+  Future getCategory() async {
     isLoading.value = true;
 
     try {

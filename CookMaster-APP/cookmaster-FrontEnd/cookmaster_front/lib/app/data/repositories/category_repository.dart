@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/category_model.dart';
+import 'package:cookmaster_front/common/constants.dart';
 
 import '../http/exceptions.dart';
 
@@ -11,13 +12,12 @@ abstract class ICategoryRepository {
 
 class CategoryRepository implements ICategoryRepository {
   final IHttpClient client;
-
   CategoryRepository({required this.client});
 
   @override
   Future<List<CategoryModel>> getAllCategory() async {
     final response = await client.get(
-      url: 'https://a780-177-220-148-90.ngrok-free.app/categoria',
+      url: '${urlApi}categoria',
     );
 
     switch (response.statusCode) {
