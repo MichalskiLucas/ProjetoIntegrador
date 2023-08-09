@@ -1,10 +1,11 @@
-import 'package:cookmaster_front/app/data/repositories/revenue_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
-import 'package:cookmaster_front/pages/revenue_page.dart';
+import 'package:cookmaster_front/pages/recipe_page.dart';
+import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
-import 'package:cookmaster_front/store/revenue_store.dart';
+import 'package:cookmaster_front/store/recipe_store.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
@@ -34,8 +35,8 @@ class _HomePageState extends State<HomePage> {
     ),
   );
 
-  final RevenueStore storeRevenue = RevenueStore(
-    repository: RevenueRepository(
+  final RecipeStore storeRecipe = RecipeStore(
+    repository: RecipeRepository(
       client: HttpClient(),
     ),
   );
@@ -82,7 +83,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    storeRevenue.getRevenue();
+    setState(() {
+      storeRecipe.getRecipe();
+    });
   }
 
   @override
@@ -162,14 +165,14 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.search),
               itemBuilder: (context) => [
                 _buildPopUpMenuItem(
-                    '  Buscar por Receitas', Icons.search, '/revenuePage'),
+                    '  Buscar por Receitas', Icons.search, '/RecipePage'),
                 _buildPopUpMenuItem('  Buscar por Ingredientes',
                     Icons.fastfood_outlined, '/ingredientPage')
               ],
               onSelected: (value) async {
-                if (value.toString() == '/revenuePage') {
+                if (value.toString() == '/RecipePage') {
                   await Get.to(
-                    const RevenuePage(),
+                    const RecipePage(),
                   );
                 } else {
                   await store.getAllIngredients();
@@ -182,38 +185,43 @@ class _HomePageState extends State<HomePage> {
         ),
         body: AnimatedBuilder(
           animation: Listenable.merge(
-              [storeRevenue.isLoading, storeRevenue.error, storeRevenue.state]),
+            [
+              storeRecipe.isLoading,
+              storeRecipe.error,
+              storeRecipe.state,
+            ],
+          ),
           builder: (context, child) {
-            if (storeRevenue.isLoading.value) {
+            if (storeRecipe.isLoading.value) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
 
-            if (storeRevenue.error.value.isNotEmpty) {
+            if (storeRecipe.error.value.isNotEmpty) {
               return Center(
                 child: Text(
-                  storeRevenue.error.value,
+                  storeRecipe.error.value,
                 ),
               );
             }
 
-            if (storeRevenue.state.value.isEmpty) {
+            if (storeRecipe.state.value.isEmpty) {
               return const Center(
                 child: Text('lista vazia'),
               );
             } else {
               return ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: storeRevenue.state.value.length,
+                itemCount: storeRecipe.state.value.length,
                 itemBuilder: (_, index) {
-                  final item = storeRevenue.state.value[index];
+                  final item = storeRecipe.state.value[index];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       onTap: () async {
                         //implementar chamada e filtro da receita
-                        await Get.to(const RevenuePage());
+                        await Get.to(const RecipePage());
                       },
                       leading: Base64ImageConverter(
                         base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),
