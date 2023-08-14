@@ -3,7 +3,6 @@ import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
-import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/services/auth_service.dart';
 import 'package:cookmaster_front/store/recipe_store.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';

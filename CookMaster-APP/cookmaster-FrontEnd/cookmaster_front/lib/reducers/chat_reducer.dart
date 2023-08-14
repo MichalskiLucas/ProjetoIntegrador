@@ -25,10 +25,10 @@ class ChatReducer extends RxReducer {
 
     chatsState.insert(0, ChatModel(text: message, isSender: true));
     chatsState.insert(0, ChatModel(text: '...', isSender: false));
-    
+
     //Linha abaixo serve para filtrar o nicho de respostas do chat
     String _systemMessage =
-       "Você está se comunicando com um assistente de receitas. Pergunte sobre receitas.";
+        "Você está se comunicando com um assistente de receitas culinárias. Pergunte sobre receitas culinárias.";
 
     final request = CompletionRequest(
       stream: true,
