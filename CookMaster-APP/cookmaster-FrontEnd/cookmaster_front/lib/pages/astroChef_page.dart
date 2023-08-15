@@ -64,22 +64,25 @@ class _PageAstroState extends State<PageAstro> {
               ],
             ),
           ),
-          ListView.builder(
-            padding: const EdgeInsets.only(
-              bottom: 120,
-            ),
-            reverse: true,
-            itemCount: chatsState.length,
-            itemBuilder: (context, index) {
-              return ChatBubble(model: chatsState[index]);
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ChatField(
-              sendEnabled: !isLoading,
-              onMessage: _sendMessage,
-            ),
+          Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  itemCount: chatsState.length,
+                  itemBuilder: (context, index) {
+                    return ChatBubble(model: chatsState[index]);
+                  },
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ChatField(
+                  sendEnabled: !isLoading,
+                  onMessage: _sendMessage,
+                ),
+              ),
+            ],
           ),
           if (isLoading)
             const Align(

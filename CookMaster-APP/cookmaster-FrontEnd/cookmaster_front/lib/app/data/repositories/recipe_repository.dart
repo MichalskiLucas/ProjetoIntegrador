@@ -2,33 +2,33 @@ import 'dart:convert';
 
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
-import 'package:cookmaster_front/app/data/models/revenue_model.dart';
+import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/common/constants.dart';
 
-abstract class IRevenueRepository {
-  Future<List<RevenueModel>> getAllRevenue();
+abstract class IRecipeRepository {
+  Future<List<RecipeModel>> getAllRecipe();
 }
 
-class RevenueRepository implements IRevenueRepository {
+class RecipeRepository implements IRecipeRepository {
   final IHttpClient client;
-  RevenueRepository({required this.client});
+  RecipeRepository({required this.client});
 
   @override
-  Future<List<RevenueModel>> getAllRevenue() async {
+  Future<List<RecipeModel>> getAllRecipe() async {
     final response = await client.get(
       url: '${urlApi}receita',
     );
 
     switch (response.statusCode) {
       case 200:
-        final List<RevenueModel> categories = [];
+        final List<RecipeModel> categories = [];
 
         try {
           final body = jsonDecode(response.body);
 
           if (body is List) {
             for (var item in body) {
-              final RevenueModel category = RevenueModel.fromMap(item);
+              final RecipeModel category = RecipeModel.fromMap(item);
               categories.add(category);
             }
           }
