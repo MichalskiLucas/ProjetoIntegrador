@@ -1,26 +1,26 @@
-import 'package:cookmaster_front/app/data/models/revenue_model.dart';
-import 'package:cookmaster_front/app/data/repositories/revenue_repository.dart';
+import 'package:cookmaster_front/app/data/models/recipe_model.dart';
+import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../app/data/http/exceptions.dart';
 
-class RevenueStore {
-  final IRevenueRepository repository;
+class RecipeStore {
+  final IRecipeRepository repository;
 
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
-  final ValueNotifier<List<RevenueModel>> state =
-      ValueNotifier<List<RevenueModel>>([]);
+  final ValueNotifier<List<RecipeModel>> state =
+      ValueNotifier<List<RecipeModel>>([]);
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 
-  RevenueStore({required this.repository});
+  RecipeStore({required this.repository});
 
-  Future getRevenue() async {
+  Future getRecipe() async {
     isLoading.value = true;
 
     try {
-      final result = await repository.getAllRevenue();
+      final result = await repository.getAllRecipe();
       state.value = result;
     } on NotFoundException catch (e) {
       error.value = e.message;

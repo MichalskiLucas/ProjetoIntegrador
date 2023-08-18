@@ -4,14 +4,14 @@ import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RevenuePage extends StatefulWidget {
-  const RevenuePage({super.key});
+class RecipePage extends StatefulWidget {
+  const RecipePage({super.key});
 
   @override
-  State<RevenuePage> createState() => _RevenuePageState();
+  State<RecipePage> createState() => _RecipePageState();
 }
 
-class _RevenuePageState extends State<RevenuePage> {
+class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,13 +20,13 @@ class _RevenuePageState extends State<RevenuePage> {
           ctx: context,
           labelText: 'Consultar Receita',
         ),
-        body: _CookMasterSearchRevenue(context),
+        body: _CookMasterSearchRecipe(context),
       ),
     );
   }
 }
 
-Widget _CookMasterSearchRevenue(BuildContext context) {
+Widget _CookMasterSearchRecipe(BuildContext context) {
   return const Material(
     child: SizedBox(),
   );
