@@ -18,5 +18,4 @@ public interface ReceitaRepository extends JpaRepository<Receita,Long>{
 	
 	@Query
 	public List<Receita> findReceitaByCategoria(Categoria categoria);
-	
 }

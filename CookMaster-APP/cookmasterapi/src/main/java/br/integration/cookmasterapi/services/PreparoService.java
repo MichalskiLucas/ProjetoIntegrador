@@ -26,7 +26,7 @@ public class PreparoService {
     }
 
     public Preparo edit(Preparo preparo) throws Exception {
-
+        preparo.setImagem(Util.compressData(preparo.getImagem()));
         preparoRepository.saveAndFlush(preparo);
         return preparo;
 

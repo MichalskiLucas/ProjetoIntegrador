@@ -1,15 +1,12 @@
 package br.integration.cookmasterapi;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Null;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "categoria")
@@ -21,10 +18,12 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String descricao;
-    @Column(length = 320000)
-    private String imagem;
+
+    @Transient
+    private String imagemString;
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] imagem;
 
 
 }

@@ -16,6 +16,7 @@ import br.integration.cookmasterapi.enums.EnumVoto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 @Data
 @Entity
@@ -36,8 +37,8 @@ public class Receita {
 
     private boolean ativo;
 
-    @Column(length = 320000)
-    private String imagem;
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] imagem;
 
     @ManyToOne
     private Usuario usuario;

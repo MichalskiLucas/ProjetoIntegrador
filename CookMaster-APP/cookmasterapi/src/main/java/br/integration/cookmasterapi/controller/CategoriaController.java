@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.integration.cookmasterapi.dto.CategoriaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,40 +24,37 @@ import io.swagger.annotations.Api;
 @RequestMapping(path = "/categoria")
 public class CategoriaController {
 
-	@Autowired
-	private CategoriaService categoriaService;
+    @Autowired
+    private CategoriaService categoriaService;
 
-	@PostMapping
-	public Categoria insert(@RequestBody @Valid Categoria categoria) throws Exception {
+    @PostMapping
+    public CategoriaDto insert(@RequestBody CategoriaDto categoriaDto) throws Exception {
 
-		return categoriaService.insert(categoria);
+        return new CategoriaDto().getInstance(categoriaService.insert(categoriaDto));
 
-	}
+    }
 
-	@PutMapping
-	public Categoria edit(@RequestBody Categoria categoria) throws Exception {
+    @PutMapping
+    public CategoriaDto edit(@RequestBody CategoriaDto categoriaDto) throws Exception {
 
-		return categoriaService.edit(categoria);
+        return new CategoriaDto().getInstance(categoriaService.edit(categoriaDto));
+    }
 
-	}
+    @GetMapping
+    public List<CategoriaDto> findAll() throws Exception {
+        return new CategoriaDto().getListInstance(categoriaService.findAll());
+    }
 
-	@GetMapping
-	public List<Categoria> findAll() throws Exception {
+    @GetMapping(path = "/{id}")
+    public CategoriaDto findById(@PathVariable Long id) throws Exception {
+        return new CategoriaDto().getInstance(categoriaService.findById(id));
 
-		return categoriaService.findAll();
+    }
 
-	}
-	
-	@GetMapping(path = "/{id}")
-	public Categoria findById(@PathVariable Long id) throws Exception {
-			return categoriaService.findById(id);
+    @GetMapping(path = "/filter")
+    public List<CategoriaDto> findByFilters(@RequestParam("descricao") String descricao) {
 
-	}
-	
-	@GetMapping(path = "/filter")
-	public List<Categoria> findByFilters(@RequestParam("descricao") String descricao) {
+        return new CategoriaDto().getListInstance(categoriaService.findByFilters(descricao));
 
-			return categoriaService.findByFilters(descricao);
-
-	}
+    }
 }

@@ -3,6 +3,7 @@ package br.integration.cookmasterapi.services;
 import java.util.List;
 import java.util.Optional;
 
+import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +19,16 @@ public class ReceitaService {
 	
 	
 	public Receita insert(Receita receita) throws Exception {
-		
 		validarInsert(receita);
+		receita.setImagem(Util.compressData(receita.getImagem()));
 		receitaRepository.saveAndFlush(receita);
 		return receita;
-		
 	}
 	
 	public Receita edit(Receita receita) throws Exception {
-
+		receita.setImagem(Util.compressData(receita.getImagem()));
 		receitaRepository.saveAndFlush(receita);
 		return receita;
-		
 	}
 	
 	public List<Receita> findAll(){
