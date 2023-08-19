@@ -10,14 +10,4 @@ public abstract class BaseDto<TEntity, TDto> {
 
     public abstract TDto getInstance(TEntity oentity) throws IOException, DataFormatException;
 
-    private String erro;
-
-    public String getErro() {
-        return erro;
-    }
-
-    public void setErro(String erro) {
-        this.erro = erro;
-    }
-
 }

@@ -20,8 +20,6 @@ public class Categoria {
     private Long id;
     private String descricao;
 
-    @Transient
-    private String imagemString;
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] imagem;
 

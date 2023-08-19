@@ -78,7 +78,7 @@ public class CategoriaService {
     private Categoria validaUpdate(CategoriaDto dto) throws Exception {
 
         if (dto.getId() == null)
-            throw new Exception("Para atualizar uma nova categoria, deve-se informar o ID");
+            throw new Exception("Para atualizar uma categoria, deve-se informar o ID");
 
         Categoria c = findById(dto.getId());
 

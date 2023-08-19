@@ -11,11 +11,12 @@ import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
 @Data
-public class CategoriaDto extends BaseDto<Categoria, CategoriaDto>{
+public class CategoriaDto extends BaseDto<Categoria, CategoriaDto> {
 
     private Long id;
     private String descricao;
     private String imagem;
+
     @Override
     public CategoriaDto getInstance(Categoria entity) throws IOException, DataFormatException {
         if (entity != null) {
@@ -34,9 +35,7 @@ public class CategoriaDto extends BaseDto<Categoria, CategoriaDto>{
         return list.stream().map((Categoria c) -> {
             try {
                 return getInstance(c);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (DataFormatException e) {
+            } catch (IOException | DataFormatException e) {
                 throw new RuntimeException(e);
             }
         }).collect(Collectors.toList());

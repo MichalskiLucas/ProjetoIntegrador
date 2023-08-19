@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.integration.cookmasterapi.dto.ReceitaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,36 +28,36 @@ public class ReceitaController {
 	private ReceitaService receitaService;
 
 	@PostMapping
-	public Receita insert(@RequestBody @Valid Receita receita) throws Exception {
+	public ReceitaDto insert(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
 
-		return receitaService.insert(receita);
+		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
 
 	}
 
 	@PutMapping
-	public Receita edit(@RequestBody Receita receita) throws Exception {
+	public ReceitaDto edit(@RequestBody ReceitaDto receitaDto) throws Exception {
 
-		return receitaService.edit(receita);
+		return new ReceitaDto().getInstance(receitaService.edit(receitaDto));
 
 	}
 
 	@GetMapping
-	public List<Receita> findAll() throws Exception {
+	public List<ReceitaDto> findAll() throws Exception {
 
-		return receitaService.findAll();
+		return new ReceitaDto().getListInstance(receitaService.findAll());
 
 	}
 	
 	@GetMapping(path = "/{id}")
-	public Receita findById(@PathVariable Long id) throws Exception {
-			return receitaService.findById(id);
+	public ReceitaDto findById(@PathVariable Long id) throws Exception {
+		return new ReceitaDto().getInstance(receitaService.findById(id));
 
 	}
 	
 	@GetMapping(path = "/filter")
-	public List<Receita> findByFilters(@RequestParam("descricao") String descricao) {
+	public List<ReceitaDto> findByFilters(@RequestParam("descricao") String descricao) {
 
-			return receitaService.findByFilters(descricao);
+		return new ReceitaDto().getListInstance(receitaService.findByFilters(descricao));
 
 	}
 }
