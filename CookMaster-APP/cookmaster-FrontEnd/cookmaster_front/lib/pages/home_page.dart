@@ -220,11 +220,11 @@ class _HomePageState extends State<HomePage> {
                     child: ListTile(
                       onTap: () async {
                         //implementar chamada e filtro da receita
-                        await Get.to(const RecipePage());
+                        await Get.to(const CategoryPage());
                       },
-                      leading: Base64ImageConverter(
+                      /*leading: Base64ImageConverter(
                         base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),
-                      ),
+                      ),*/
                       trailing:
                           const Icon(Icons.arrow_forward, color: Colors.black),
                       contentPadding: EdgeInsets.zero,
