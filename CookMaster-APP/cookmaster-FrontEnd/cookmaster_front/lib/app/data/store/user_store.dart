@@ -5,7 +5,7 @@ import 'package:cookmaster_front/app/data/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../app/data/http/exceptions.dart';
+import '../http/exceptions.dart';
 
 class UserStore {
   final IUserRepository repository;

@@ -3,8 +3,8 @@ import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
-import 'package:cookmaster_front/services/auth_service.dart';
-import 'package:cookmaster_front/store/recipe_store.dart';
+import 'package:cookmaster_front/app/data/services/auth_service.dart';
+import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import '../app/data/http/http_client.dart';
 import '../app/data/models/ingredient_model.dart';
 import '../app/data/repositories/ingredient_repository.dart';
-import '../store/ingredient_store.dart';
+import '../app/data/store/ingredient_store.dart';
 
 class HomePage extends StatefulWidget {
   final User? users;

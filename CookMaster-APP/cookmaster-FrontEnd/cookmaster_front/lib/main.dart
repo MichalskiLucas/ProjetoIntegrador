@@ -1,6 +1,6 @@
-import 'package:cookmaster_front/firebase_options.dart';
+import 'package:cookmaster_front/utils/firebase_options.dart';
 import 'package:cookmaster_front/reducers/chat_reducer.dart';
-import 'package:cookmaster_front/services/auth_service.dart';
+import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

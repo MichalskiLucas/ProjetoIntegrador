@@ -2,7 +2,7 @@ import 'package:cookmaster_front/app/data/models/category_model.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../app/data/http/exceptions.dart';
+import '../http/exceptions.dart';
 
 class CategoryStore {
   final ICategoryRepository repository;

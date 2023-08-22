@@ -1,5 +1,5 @@
 import 'package:cookmaster_front/pages/home_page.dart';
-import 'package:cookmaster_front/services/auth_service.dart';
+import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
