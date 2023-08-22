@@ -1,4 +1,7 @@
+import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/repositories/user_repository.dart';
 import 'package:cookmaster_front/services/auth_exception.dart';
+import 'package:cookmaster_front/store/user_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,6 +38,14 @@ class AuthService extends ChangeNotifier {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       final User? firebaseUser = userCredential.user;
+
+      final UserStore store = UserStore(
+        repository: UserRepository(
+          client: HttpClient(),
+        ),
+      );
+
+      store.postUser(firebaseUser);
 
       return users = firebaseUser;
     } on FirebaseAuthException catch (e) {

@@ -82,7 +82,7 @@ public class CategoriaService {
 
         Categoria c = findById(dto.getId());
 
-        if (findByDescricao(dto.getDescricao()) != null)
+        if (findByDescricao(dto.getDescricao()) != null && !c.getDescricao().equals(dto.getDescricao()))
             throw new Exception("Categoria com a mesma descrição já inserido");
 
         c.setId(dto.getId());

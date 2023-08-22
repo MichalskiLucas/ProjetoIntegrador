@@ -54,4 +54,4 @@ public class ReceitaDto extends BaseDto<Receita, ReceitaDto> {
 }
 
 
-}
+
