@@ -1,10 +1,11 @@
-import 'package:cookmaster_front/controller/app_controller.dart';
+import 'package:cookmaster_front/app/data/controller/app_controller.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-// ignore: use_key_in_widget_constructors
 class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(

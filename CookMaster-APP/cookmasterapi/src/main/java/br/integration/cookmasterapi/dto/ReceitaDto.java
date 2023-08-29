@@ -20,7 +20,7 @@ public class ReceitaDto extends BaseDto<Receita, ReceitaDto> {
     private boolean ativo;
     private String imagem;
     private Usuario usuario;
-    private Double voto;
+    private EnumVoto voto;
     private Categoria categoria;
 
     @Override
@@ -52,3 +52,6 @@ public class ReceitaDto extends BaseDto<Receita, ReceitaDto> {
 
     }
 }
+
+
+

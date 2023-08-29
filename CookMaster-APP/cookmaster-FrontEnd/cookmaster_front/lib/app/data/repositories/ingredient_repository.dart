@@ -28,20 +28,19 @@ class IngredientRepository implements IIngredientRepository {
         final List<IngredientModel> ingredients = [];
 
         try {
-          final body = jsonDecode(response.body);
+          final body = utf8.decode(response.bodyBytes);
+          final List<dynamic> decodedBody = jsonDecode(body);
 
-          if (body is List) {
-            for (var item in body) {
-              final IngredientModel ingredient = IngredientModel.fromMap(item);
-              ingredients.add(ingredient);
-            }
+          for (var item in decodedBody) {
+            final IngredientModel ingredient = IngredientModel.fromMap(item);
+            ingredients.add(ingredient);
           }
         } catch (e) {
           throw Exception('Erro ao fazer parsing do JSON');
         }
         return ingredients;
       case 404:
-        throw NotFoundException('Url informada não esta válida');
+        throw NotFoundException('Url informada não está válida');
       default:
         throw Exception('Erro ao realizar consulta de ingredientes');
     }

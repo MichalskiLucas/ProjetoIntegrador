@@ -1,7 +1,7 @@
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
-import 'package:cookmaster_front/store/category_store.dart';
+import 'package:cookmaster_front/app/data/store/category_store.dart';
 import 'package:flutter/material.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:get/get.dart';
