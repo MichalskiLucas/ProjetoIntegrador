@@ -56,11 +56,11 @@ public class UsuarioService {
             throw new Exception("Não deve informar o ID para inserir o ususario");
         }
         if(findByNome(usuario.getNome()) != null){
-        	throw new Exception("Ingrediente com o mesmo nome já inserido");
+        	throw new Exception("ususario com o mesmo nome já inserido");
         }
         
         if(findByNome(usuario.getEmail()) != null){
-        	throw new Exception("Ingrediente com o mesmo email já inserido");
+        	throw new Exception("ususario com o mesmo email já inserido");
         }
     }
 }
