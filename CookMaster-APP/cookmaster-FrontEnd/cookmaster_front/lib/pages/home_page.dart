@@ -5,6 +5,7 @@ import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
+import 'package:cookmaster_front/pages/sendRecipe_page.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(BagPage(user: widget.users))
+                      ? await Get.to(SendRecipePage(user: widget.users))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.');
                 },
