@@ -17,6 +17,7 @@ class SendRecipePage extends StatefulWidget {
 class _SendRecipePageState extends State<SendRecipePage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
+  String? selectedCategory; // Estado para a categoria selecionada
 
   @override
   void initState() {
@@ -196,10 +197,52 @@ class _SendRecipePageState extends State<SendRecipePage> {
                     ],
                   ),
                 const SizedBox(height: 10),
-                TextField(
+                const TextField(
                   decoration: InputDecoration(
-                    labelText: "Título do Conteúdo",
-                    border: OutlineInputBorder(),
+                    labelText: "Título da Receita",
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  width: double.infinity,
+                  child: DropdownButton<String>(
+                    hint: selectedCategory != null
+                        ? Text(selectedCategory!)
+                        : Text("Selecione uma categoria"),
+                    value: selectedCategory,
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedCategory = newValue;
+                      });
+                    },
+                    items: const [
+                      DropdownMenuItem<String>(
+                        value: "Massas",
+                        child: Text("Massas"),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: "Carnes",
+                        child: Text("Carnes"),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: "Sobremesas",
+                        child: Text("Sobremesas"),
+                      ),
+                    ], // Ícone da seta
+                    iconSize: 24, // Tamanho do ícone
+                    isExpanded: true, // Permite que o botão seja expandido
+                    underline: Container(
+                      height: 1, // Altura da borda
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey, // Cor da borda
+                            width: 1, // Espessura da borda
+                          ),
+                        ),
+                      ),
+                    ), // Remove a linha de seleção
                   ),
                 ),
               ],
