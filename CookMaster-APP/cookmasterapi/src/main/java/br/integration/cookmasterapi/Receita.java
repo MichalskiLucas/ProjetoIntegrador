@@ -1,13 +1,6 @@
 package br.integration.cookmasterapi;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -34,6 +27,7 @@ public class Receita {
     @NotNull
     private String descricao;
 
+    private Double voto;
 
     private boolean ativo;
 
@@ -42,8 +36,6 @@ public class Receita {
 
     @ManyToOne
     private Usuario usuario;
-
-    private EnumVoto voto;
 
     @OneToOne
     private Categoria categoria;

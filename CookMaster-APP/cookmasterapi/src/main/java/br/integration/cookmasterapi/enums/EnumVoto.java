@@ -1,19 +1,19 @@
 package br.integration.cookmasterapi.enums;
 
 public enum EnumVoto {
-	UMA("1 Estrela"),
-	DUAS("2 Estrela"),
-	TRES("3 Estrela"),
-	QUATRO("4 Estrela"),
-	CINCO("5 Estrela"),;
+	UM(1),
+	DUAS(2),
+	TRES(3),
+	QUATRO(4),
+	CINCO(5),;
 	
-	public final String value;
+	public final Integer value;
 
-	private EnumVoto(String value) {
+	private EnumVoto(Integer value) {
 		this.value = value;
 	}
 
-	public String getValue() {
+	public Integer getValue() {
 		return value;
 	}
 }

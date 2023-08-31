@@ -60,4 +60,11 @@ public class ReceitaController {
 		return new ReceitaDto().getListInstance(receitaService.findByFilters(descricao));
 
 	}
+
+//	@GetMapping(path = "/topFive")
+//	public List<ReceitaDto> findTopFive() throws Exception {
+//
+//		return new ReceitaDto().getListInstance(receitaService.findTopFive());
+//
+//	}
 }

@@ -50,6 +50,10 @@ public class ReceitaService {
         return receitaRepository.findReceitaByCategoria(categoria);
     }
 
+//    public List<Receita> findTopFive() {
+//        return receitaRepository.findTop5ByVoto();
+//    }
+
     private Receita validaInsert(ReceitaDto dto) throws Exception {
 
         Receita r = new Receita();
