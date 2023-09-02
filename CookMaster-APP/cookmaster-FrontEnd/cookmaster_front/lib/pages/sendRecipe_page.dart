@@ -17,7 +17,8 @@ class SendRecipePage extends StatefulWidget {
 class _SendRecipePageState extends State<SendRecipePage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
-  String? selectedCategory; // Estado para a categoria selecionada
+  String? selectedCategory;
+  List<Ingredient> ingredients = [];
 
   @override
   void initState() {
@@ -120,6 +121,84 @@ class _SendRecipePageState extends State<SendRecipePage> {
     );
   }
 
+  void _addIngredient() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String ingredientName = '';
+        double ingredientQuantity = 0.0;
+        String ingredientUnit = '';
+        return AlertDialog(
+          title: const Text(
+            "Adicionar Ingrediente",
+            style: TextStyle(fontFamily: "JacquesFrancois"),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  ingredientName = value;
+                },
+                decoration: const InputDecoration(
+                  labelText: "Ingrediente",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                onChanged: (value) {
+                  ingredientQuantity = double.tryParse(value) ?? 0.0;
+                },
+                decoration: const InputDecoration(
+                  labelText: "Quantidade",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                onChanged: (value) {
+                  ingredientUnit = value;
+                },
+                decoration: const InputDecoration(
+                  labelText: "Unidade de Medida",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Voltar"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        ingredients.add(
+                          Ingredient(
+                            name: ingredientName,
+                            quantity: ingredientQuantity,
+                            unit: ingredientUnit,
+                          ),
+                        );
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Adicionar"),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,14 +254,13 @@ class _SendRecipePageState extends State<SendRecipePage> {
                   Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.file(
                             File(selectedImagePath!),
-                            width: MediaQuery.of(context).size.width -
-                                20, // Largura responsiva
-                            height: 200, // Altura fixa
+                            width: MediaQuery.of(context).size.width - 20,
+                            height: 200,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -204,7 +282,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: DropdownButton<String>(
                     hint: selectedCategory != null
@@ -229,20 +307,89 @@ class _SendRecipePageState extends State<SendRecipePage> {
                         value: "Sobremesas",
                         child: Text("Sobremesas"),
                       ),
-                    ], // Ícone da seta
-                    iconSize: 24, // Tamanho do ícone
-                    isExpanded: true, // Permite que o botão seja expandido
+                    ],
+                    iconSize: 24,
+                    isExpanded: true,
                     underline: Container(
-                      height: 1, // Altura da borda
+                      height: 1,
                       decoration: const BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.grey, // Cor da borda
-                            width: 1, // Espessura da borda
+                            color: Colors.grey,
+                            width: 1,
                           ),
                         ),
                       ),
-                    ), // Remove a linha de seleção
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Ingredientes",
+                        style: TextStyle(
+                          fontFamily: "JacquesFrancois",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      for (var ingredient in ingredients)
+                        ListTile(
+                          title: Text(ingredient.name),
+                          subtitle:
+                              Text('${ingredient.quantity} ${ingredient.unit}'),
+                        ),
+                      ElevatedButton(
+                        onPressed: _addIngredient,
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          side: MaterialStateProperty.all(
+                            const BorderSide(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(120, 40),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.add, color: Colors.deepOrange),
+                            Text(
+                              "Adicionar Ingrediente",
+                              style: TextStyle(
+                                  fontFamily: "JacquesFrancois",
+                                  color: Colors.deepOrange),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -258,6 +405,18 @@ class _SendRecipePageState extends State<SendRecipePage> {
       ),
     );
   }
+}
+
+class Ingredient {
+  final String name;
+  final double quantity;
+  final String unit;
+
+  Ingredient({
+    required this.name,
+    required this.quantity,
+    required this.unit,
+  });
 }
 
 class CameraScreen extends StatefulWidget {
