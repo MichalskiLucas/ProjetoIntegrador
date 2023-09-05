@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../app/data/http/http_client.dart';
 
 class SendRecipePage extends StatefulWidget {
   final User? user;
@@ -19,6 +22,12 @@ class _SendRecipePageState extends State<SendRecipePage> {
   String? selectedImagePath;
   String? selectedCategory;
   List<Ingredient> ingredients = [];
+
+  final IngredientStore storeIngredients = IngredientStore(
+    repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
 
   @override
   void initState() {
@@ -214,7 +223,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             padding: const EdgeInsets.all(20),
@@ -287,7 +296,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
                   child: DropdownButton<String>(
                     hint: selectedCategory != null
                         ? Text(selectedCategory!)
-                        : Text("Selecione uma categoria"),
+                        : const Text("Selecione uma categoria"),
                     value: selectedCategory,
                     onChanged: (newValue) {
                       setState(() {
@@ -376,7 +385,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
                             const Size(120, 40),
                           ),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.add, color: Colors.deepOrange),
@@ -393,12 +402,6 @@ class _SendRecipePageState extends State<SendRecipePage> {
                   ),
                 ),
               ],
-            ),
-          ),
-          const Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [],
             ),
           ),
         ],
