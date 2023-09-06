@@ -1,8 +1,7 @@
 package br.integration.cookmasterapi.services;
 
-import br.integration.cookmasterapi.ReceitaIngrediente;
+import br.integration.cookmasterapi.model.ReceitaIngrediente;
 import br.integration.cookmasterapi.repository.ReceitaIngredienteRepository;
-import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

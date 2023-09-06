@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.integration.cookmasterapi.Classificacao;
-import br.integration.cookmasterapi.Receita;
+import br.integration.cookmasterapi.model.Classificacao;
+import br.integration.cookmasterapi.model.Receita;
 import br.integration.cookmasterapi.services.ClassificacaoService;
 import io.swagger.annotations.Api;
 

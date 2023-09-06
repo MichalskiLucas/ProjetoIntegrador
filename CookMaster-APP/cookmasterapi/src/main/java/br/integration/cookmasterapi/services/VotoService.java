@@ -1,10 +1,8 @@
 package br.integration.cookmasterapi.services;
 
-import br.integration.cookmasterapi.Receita;
-import br.integration.cookmasterapi.Usuario;
-import br.integration.cookmasterapi.Voto;
+import br.integration.cookmasterapi.model.Receita;
+import br.integration.cookmasterapi.model.Voto;
 import br.integration.cookmasterapi.repository.ReceitaRepository;
-import br.integration.cookmasterapi.repository.UsuarioRepository;
 import br.integration.cookmasterapi.repository.VotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package br.integration.cookmasterapi;
+package br.integration.cookmasterapi.model;
 
 import java.util.List;
 

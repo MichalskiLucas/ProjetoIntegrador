@@ -8,7 +8,7 @@ import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.integration.cookmasterapi.Categoria;
+import br.integration.cookmasterapi.model.Categoria;
 import br.integration.cookmasterapi.repository.CategoriaRepository;
 
 @Service

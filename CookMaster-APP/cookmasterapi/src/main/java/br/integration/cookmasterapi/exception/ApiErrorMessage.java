@@ -1,4 +1,4 @@
-package br.integration.coockmasterapi.exception;
+package br.integration.cookmasterapi.exception;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package br.integration.cookmasterapi;
+package br.integration.cookmasterapi.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

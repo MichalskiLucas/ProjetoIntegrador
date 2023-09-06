@@ -1,9 +1,8 @@
 package br.integration.cookmasterapi.dto;
 
-import br.integration.cookmasterapi.Categoria;
-import br.integration.cookmasterapi.Receita;
-import br.integration.cookmasterapi.Usuario;
-import br.integration.cookmasterapi.enums.EnumVoto;
+import br.integration.cookmasterapi.model.Categoria;
+import br.integration.cookmasterapi.model.Receita;
+import br.integration.cookmasterapi.model.Usuario;
 import br.integration.cookmasterapi.util.Util;
 import lombok.Data;
 

@@ -1,35 +1,34 @@
-package br.integration.cookmasterapi;
+package br.integration.cookmasterapi.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.integration.cookmasterapi.enums.EnumVoto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Entity
-@Table(name = "sacola")
-@ApiModel(description = "Modelo para representação de uma entidade sacola")
+@Table(name = "classificacao")
+@ApiModel(description = "Modelo para representação de uma entidade de classificação")
 @Api
 @Data
-public class Sacola {
+public class Classificacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    private Receita receita;
+
+    @ManyToOne
     private Usuario usuario;
 
 
-    @OneToMany
-    private List<Ingrediente> ingredientes;
+    private EnumVoto voto;
 }

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.integration.cookmasterapi.Classificacao;
-import br.integration.cookmasterapi.Receita;
+import br.integration.cookmasterapi.model.Classificacao;
+import br.integration.cookmasterapi.model.Receita;
 @Repository
 public interface ClassificacaoRepository extends JpaRepository<Classificacao,Long>{
 

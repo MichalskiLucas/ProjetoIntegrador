@@ -1,6 +1,6 @@
 package br.integration.cookmasterapi.controller;
 
-import br.integration.cookmasterapi.Voto;
+import br.integration.cookmasterapi.model.Voto;
 import br.integration.cookmasterapi.services.VotoService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

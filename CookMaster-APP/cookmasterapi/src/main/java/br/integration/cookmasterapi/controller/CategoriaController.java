@@ -2,8 +2,6 @@ package br.integration.cookmasterapi.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import br.integration.cookmasterapi.dto.CategoriaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.integration.cookmasterapi.Categoria;
 import br.integration.cookmasterapi.services.CategoriaService;
 import io.swagger.annotations.Api;
 

@@ -1,7 +1,7 @@
 package br.integration.cookmasterapi.repository;
 
-import br.integration.cookmasterapi.Receita;
-import br.integration.cookmasterapi.Voto;
+import br.integration.cookmasterapi.model.Receita;
+import br.integration.cookmasterapi.model.Voto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.HttpStatus;
 
-import br.integration.coockmasterapi.exception.ApiErrorMessage;
+import br.integration.cookmasterapi.exception.ApiErrorMessage;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {

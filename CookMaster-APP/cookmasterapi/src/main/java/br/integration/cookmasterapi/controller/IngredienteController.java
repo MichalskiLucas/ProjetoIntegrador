@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.integration.cookmasterapi.Ingrediente;
+import br.integration.cookmasterapi.model.Ingrediente;
 import br.integration.cookmasterapi.services.IngredienteService;
 import io.swagger.annotations.Api;
 

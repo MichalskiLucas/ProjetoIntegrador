@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.integration.cookmasterapi.Classificacao;
-import br.integration.cookmasterapi.Receita;
+import br.integration.cookmasterapi.model.Classificacao;
+import br.integration.cookmasterapi.model.Receita;
 import br.integration.cookmasterapi.repository.ClassificacaoRepository;
 
 @Service

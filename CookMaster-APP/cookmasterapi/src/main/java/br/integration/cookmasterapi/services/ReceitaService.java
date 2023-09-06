@@ -3,14 +3,13 @@ package br.integration.cookmasterapi.services;
 import java.util.List;
 import java.util.Optional;
 
-import br.integration.cookmasterapi.dto.CategoriaDto;
 import br.integration.cookmasterapi.dto.ReceitaDto;
 import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.integration.cookmasterapi.Categoria;
-import br.integration.cookmasterapi.Receita;
+import br.integration.cookmasterapi.model.Categoria;
+import br.integration.cookmasterapi.model.Receita;
 import br.integration.cookmasterapi.repository.ReceitaRepository;
 
 @Service

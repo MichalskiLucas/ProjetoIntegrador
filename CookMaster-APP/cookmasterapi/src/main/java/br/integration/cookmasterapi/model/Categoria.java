@@ -1,4 +1,4 @@
-package br.integration.cookmasterapi;
+package br.integration.cookmasterapi.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Null;

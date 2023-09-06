@@ -1,6 +1,6 @@
 package br.integration.cookmasterapi.repository;
 
-import br.integration.cookmasterapi.Preparo;
+import br.integration.cookmasterapi.model.Preparo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

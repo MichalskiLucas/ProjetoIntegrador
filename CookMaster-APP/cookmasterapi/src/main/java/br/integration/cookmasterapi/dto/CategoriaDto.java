@@ -1,10 +1,9 @@
 package br.integration.cookmasterapi.dto;
 
-import br.integration.cookmasterapi.Categoria;
+import br.integration.cookmasterapi.model.Categoria;
 import br.integration.cookmasterapi.util.Util;
 import lombok.Data;
 
-import javax.persistence.Transient;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;

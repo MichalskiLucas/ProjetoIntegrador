@@ -1,6 +1,6 @@
 package br.integration.cookmasterapi.services;
 
-import br.integration.cookmasterapi.Preparo;
+import br.integration.cookmasterapi.model.Preparo;
 import br.integration.cookmasterapi.repository.PreparoRepository;
 import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
