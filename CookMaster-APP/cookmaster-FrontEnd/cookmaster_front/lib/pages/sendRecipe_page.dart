@@ -21,6 +21,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
   String? selectedCategory;
+  String? selectedIngredient;
   List<Ingredient> ingredients = [];
 
   final IngredientStore storeIngredients = IngredientStore(
@@ -145,13 +146,42 @@ class _SendRecipePageState extends State<SendRecipePage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                onChanged: (value) {
-                  ingredientName = value;
+              DropdownButton<String>(
+                hint: selectedIngredient != null
+                    ? Text(selectedIngredient!)
+                    : const Text("Selecione um ingrediente"),
+                value: selectedIngredient,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedIngredient = newValue;
+                  });
                 },
-                decoration: const InputDecoration(
-                  labelText: "Ingrediente",
-                  border: OutlineInputBorder(),
+                items: const [
+                  DropdownMenuItem<String>(
+                    value: "Salada",
+                    child: Text("Salada"),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: "Banana",
+                    child: Text("Banana"),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: "Uva",
+                    child: Text("Uva"),
+                  ),
+                ],
+                iconSize: 24,
+                isExpanded: true,
+                underline: Container(
+                  height: 1,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.grey,
+                        width: 1,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -159,6 +189,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
                 onChanged: (value) {
                   ingredientQuantity = double.tryParse(value) ?? 0.0;
                 },
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: "Quantidade",
                   border: OutlineInputBorder(),
