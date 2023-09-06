@@ -1,4 +1,4 @@
-package br.integration.coockmasterapi.task;
+package br.integration.cookmasterapi.task;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
