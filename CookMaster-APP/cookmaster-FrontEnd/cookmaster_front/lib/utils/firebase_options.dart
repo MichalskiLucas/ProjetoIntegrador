@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -63,7 +53,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1053572601670',
     projectId: 'cookmaster-124f5',
     storageBucket: 'cookmaster-124f5.appspot.com',
-    iosClientId: '1053572601670-c7vmo279spp8eu7tj7c7rlre0f49nhoi.apps.googleusercontent.com',
+    iosClientId:
+        '1053572601670-c7vmo279spp8eu7tj7c7rlre0f49nhoi.apps.googleusercontent.com',
     iosBundleId: 'br.com.cookmaster.cookmasterFront',
   );
 }
