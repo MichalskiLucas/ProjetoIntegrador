@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
+import 'package:cookmaster_front/components/DropdownButtonIngredients.dart';
+import 'package:cookmaster_front/components/DropdownButtonUnit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,7 +23,6 @@ class _SendRecipePageState extends State<SendRecipePage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
   String? selectedCategory;
-  String? selectedIngredient;
   List<Ingredient> ingredients = [];
 
   final IngredientStore storeIngredients = IngredientStore(
@@ -135,74 +136,35 @@ class _SendRecipePageState extends State<SendRecipePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        int ingredientQuantity = 0;
         String ingredientName = '';
-        double ingredientQuantity = 0.0;
         String ingredientUnit = '';
         return AlertDialog(
-          title: const Text(
-            "Adicionar Ingrediente",
-            style: TextStyle(fontFamily: "JacquesFrancois"),
+          title: const Center(
+            child: Text(
+              "Adicionar Ingrediente",
+              style: TextStyle(fontFamily: "JacquesFrancois"),
+            ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              DropdownButton<String>(
-                hint: selectedIngredient != null
-                    ? Text(selectedIngredient!)
-                    : const Text("Selecione um ingrediente"),
-                value: selectedIngredient,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedIngredient = newValue;
-                  });
-                },
-                items: const [
-                  DropdownMenuItem<String>(
-                    value: "Salada",
-                    child: Text("Salada"),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: "Banana",
-                    child: Text("Banana"),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: "Uva",
-                    child: Text("Uva"),
-                  ),
-                ],
-                iconSize: 24,
-                isExpanded: true,
-                underline: Container(
-                  height: 1,
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey,
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                ),
+              DropdownMenuIngredient(
+                selectedIngredient: ingredientName,
+              ),
+              const SizedBox(height: 10),
+              DropdownMenuUnitMeansure(
+                selectedUnit: ingredientUnit,
               ),
               const SizedBox(height: 10),
               TextField(
                 onChanged: (value) {
-                  ingredientQuantity = double.tryParse(value) ?? 0.0;
+                  ingredientQuantity = int.tryParse(value) ?? 0;
                 },
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: "Quantidade",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                onChanged: (value) {
-                  ingredientUnit = value;
-                },
-                decoration: const InputDecoration(
-                  labelText: "Unidade de Medida",
-                  border: OutlineInputBorder(),
+                  border: UnderlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 10),
@@ -229,6 +191,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
                       Navigator.pop(context);
                     },
                     child: const Text("Adicionar"),
+                    
                   ),
                 ],
               ),
@@ -443,7 +406,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
 
 class Ingredient {
   final String name;
-  final double quantity;
+  final int quantity;
   final String unit;
 
   Ingredient({
