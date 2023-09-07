@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cookmaster_front/utils/firebase_options.dart';
 import 'package:cookmaster_front/reducers/chat_reducer.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
