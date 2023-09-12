@@ -524,14 +524,20 @@ class _SendRecipePageState extends State<SendRecipePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width - 90,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text("Enviar Receita")),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Enviar Receita"),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
