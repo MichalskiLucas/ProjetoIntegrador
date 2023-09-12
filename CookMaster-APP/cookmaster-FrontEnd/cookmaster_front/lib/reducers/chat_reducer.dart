@@ -26,8 +26,7 @@ class ChatReducer extends RxReducer {
     chatsState.insert(0, ChatModel(text: message, isSender: true));
     chatsState.insert(0, ChatModel(text: '...', isSender: false));
 
-    //Linha abaixo serve para filtrar o nicho de respostas do chat
-    String _systemMessage =
+    String systemMessage =
         "Você está se comunicando com um assistente de receitas culinárias. Pergunte sobre receitas culinárias.";
 
     final request = CompletionRequest(
@@ -36,7 +35,7 @@ class ChatReducer extends RxReducer {
       model: ChatGptModel.gpt35Turbo,
       messages: [
         Message(role: Role.user.name, content: message),
-        Message(role: Role.system.name, content: _systemMessage),
+        Message(role: Role.system.name, content: systemMessage),
       ],
     );
 

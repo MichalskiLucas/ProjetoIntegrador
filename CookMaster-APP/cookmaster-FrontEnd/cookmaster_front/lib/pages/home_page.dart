@@ -6,7 +6,6 @@ import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
-import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';

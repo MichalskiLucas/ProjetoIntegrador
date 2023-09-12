@@ -1,6 +1,4 @@
-import 'package:cookmaster_front/app/data/models/category_model.dart';
 import 'package:cookmaster_front/app/data/models/user_model.dart';
-import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
