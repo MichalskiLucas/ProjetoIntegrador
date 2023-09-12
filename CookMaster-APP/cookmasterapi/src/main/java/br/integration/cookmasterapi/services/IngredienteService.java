@@ -1,8 +1,8 @@
 package br.integration.cookmasterapi.services;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import br.integration.cookmasterapi.enums.EnumUnitMeasure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,4 +59,15 @@ public class IngredienteService {
         	throw new Exception("Ingrediente com a mesma descrição já inserido");
         }
     }
+
+	public List<Map<String, String>> getUnitMeasure(){
+		List<Map<String, String>> result = new ArrayList<>();
+		for (EnumUnitMeasure e : EnumUnitMeasure.values()) {
+			Map<String, String> m = new HashMap<>();
+			m.put("value", String.valueOf(e.name()));
+			m.put("descricao", e.getValue());
+			result.add(m);
+		}
+		return result;
+	}
 }

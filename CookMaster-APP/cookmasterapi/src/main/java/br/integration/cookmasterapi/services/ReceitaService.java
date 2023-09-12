@@ -49,9 +49,9 @@ public class ReceitaService {
         return receitaRepository.findReceitaByCategoria(categoria);
     }
 
-//    public List<Receita> findTopFive() {
-//        return receitaRepository.findTop5ByVoto();
-//    }
+    public List<Long> findIdReceitaWithVoto() {
+        return receitaRepository.findIdReceitaWithVoto();
+    }
 
     private Receita validaInsert(ReceitaDto dto) throws Exception {
 

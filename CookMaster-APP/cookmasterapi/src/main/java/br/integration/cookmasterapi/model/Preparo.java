@@ -32,9 +32,6 @@ public class Preparo {
     @NotNull
     private String descricao;
 
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] imagem;
-
     @ManyToOne
     private Receita receita;
 

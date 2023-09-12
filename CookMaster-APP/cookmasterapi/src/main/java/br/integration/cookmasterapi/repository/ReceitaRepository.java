@@ -19,8 +19,8 @@ public interface ReceitaRepository extends JpaRepository<Receita,Long>{
 	@Query
 	public List<Receita> findReceitaByCategoria(Categoria categoria);
 
-//	@Query("select r from Receita r order by r.voto desc limit 5")
-//	List<Receita> findDistinctTopByVotoWithLimit5 ();
+	@Query("select r.id from Receita r where r.voto != null")
+	List<Long> findIdReceitaWithVoto ();
 
 
 

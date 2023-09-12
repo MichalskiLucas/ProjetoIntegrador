@@ -45,8 +45,7 @@ public class VotoController {
     }
 
     @GetMapping(path = "/findVotoByReceita/{receitaId}")
-    public List<Voto> findVotoByReceita(@PathVariable Long receitaId) throws Exception {
-        return votoService.findByReceita(receitaId);
-
+    public List<Voto> findVotoByReceitaId(@PathVariable Long receitaId) throws Exception {
+        return votoService.findByReceitaId(receitaId);
     }
 }

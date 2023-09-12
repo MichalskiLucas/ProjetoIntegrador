@@ -19,14 +19,12 @@ public class PreparoService {
     public Preparo insert(Preparo preparo) throws Exception {
 
         validarInsert(preparo);
-        preparo.setImagem(Util.compressData(preparo.getImagem()));
         preparoRepository.saveAndFlush(preparo);
         return preparo;
 
     }
 
     public Preparo edit(Preparo preparo) throws Exception {
-        preparo.setImagem(Util.compressData(preparo.getImagem()));
         preparoRepository.saveAndFlush(preparo);
         return preparo;
 

@@ -44,9 +44,8 @@ public class VotoService {
         else throw new Exception("Voto com ID: " + id + " não identificado!");
     }
 
-    public List<Voto> findByReceita(Long receitaId) {
-        Optional<Receita> receita = receitaRepository.findById(receitaId);
-        return votoRepository.findVotoByReceita(receita);
+    public List<Voto> findByReceitaId(Long receitaId) {
+        return votoRepository.findVotoByReceitaId(Optional.ofNullable(receitaId));
     }
 
     private void validaInsert(Voto voto) throws Exception {

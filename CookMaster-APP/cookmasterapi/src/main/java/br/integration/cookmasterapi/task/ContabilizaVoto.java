@@ -1,5 +1,10 @@
 package br.integration.cookmasterapi.task;
 
+import br.integration.cookmasterapi.model.Voto;
+import br.integration.cookmasterapi.repository.ReceitaRepository;
+import br.integration.cookmasterapi.services.ReceitaService;
+import br.integration.cookmasterapi.services.VotoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -8,12 +13,56 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class ContabilizaVoto {
 
+    @Autowired
+    private ReceitaService receitaService;
+
+    @Autowired
+    private VotoService votoService;
+    private List<Long> receitas = new ArrayList<>();
+
+    private List<Voto> votos = new ArrayList<>();
+
+    private int votoReceita;
+
     @Scheduled(fixedDelay = 1000)
-    public void atualizaVoto() {
+    public void atualizaVoto() throws Exception {
         System.out.println(
-                "TASK VOTO RODANDO - ");
+                " Task is running ");
+
+        getReceitas();
+        //votos.clear();
+        if (!receitas.isEmpty()) {
+            for (Long receita : receitas) {
+                try {
+                    System.out.println("receitaId: " + receita.toString());
+                    votos = votoService.findByReceitaId(receita);
+                    for (Voto voto : votos){
+                        votoReceita =+ voto.getVoto();
+                    }
+                    System.out.println("voto: " + votoReceita);
+                } catch (Exception ex) {
+                    throw new Exception("Erro ao processar a task: ContabilizaVoto. Erro: " + ex.getMessage());
+                }
+            }
+
+        }
+
+
+    }
+
+
+    private void getReceitas() {
+        if (receitas.isEmpty()) {
+            List<Long> ids = receitaService.findIdReceitaWithVoto();
+            if (!ids.isEmpty())
+                ids.stream().forEach(r -> receitas.add(Long.parseLong(r.toString())));
+        }
     }
 }
+
