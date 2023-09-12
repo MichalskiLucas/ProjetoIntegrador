@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
         onTap: () async {
           AuthService authService = AuthService();
           await authService.signInWithGoogle();
-          Get.to(const AuthCheck());
+          Get.to(() => const AuthCheck());
         },
       );
     }
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(SendRecipePage(user: widget.users))
+                      ? await Get.to(() => SendRecipePage(user: widget.users))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.');
                 },
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(BagPage(user: widget.users))
+                      ? await Get.to(() => BagPage(user: widget.users))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para usar a sacola.');
                 },
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
                 onTap: () async {
-                  Get.to(const PageAstro());
+                  Get.to(() => const PageAstro());
                 },
               ),
               _optionDinamyc(),
