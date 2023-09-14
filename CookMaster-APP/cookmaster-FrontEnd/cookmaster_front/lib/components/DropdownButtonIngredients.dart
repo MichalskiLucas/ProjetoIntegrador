@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 class DropdownMenuIngredient extends StatefulWidget {
-  const DropdownMenuIngredient({Key? key, required this.selectedIngredient})
-      : super(key: key);
+  const DropdownMenuIngredient({
+    Key? key,
+    required this.onSelected,
+  }) : super(key: key);
 
-  final String selectedIngredient;
+  final void Function(String) onSelected;
 
   @override
-  _DropdownMenuIngredientState createState() =>
-      _DropdownMenuIngredientState(selectedIngredient);
+  _DropdownMenuIngredientState createState() => _DropdownMenuIngredientState();
 }
 
 class _DropdownMenuIngredientState extends State<DropdownMenuIngredient> {
-  String selectedIngredient;
-
-  _DropdownMenuIngredientState(this.selectedIngredient);
+  String selectedIngredient = ''; // Inicialize como vazio
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       hint: selectedIngredient.isNotEmpty
           ? Text(selectedIngredient)
-          : const Text("Selecione um ingrediente"),
+          : const Text("Selecione um Ingrediente"),
       value: selectedIngredient.isNotEmpty ? selectedIngredient : null,
       onChanged: (newValue) {
         setState(() {
           selectedIngredient = newValue!;
+          widget.onSelected(selectedIngredient);
         });
       },
       items: const [

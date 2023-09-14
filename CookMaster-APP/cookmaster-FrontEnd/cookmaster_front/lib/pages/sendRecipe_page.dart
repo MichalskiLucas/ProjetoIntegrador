@@ -24,6 +24,8 @@ class _SendRecipePageState extends State<SendRecipePage> {
   String? selectedImagePath;
   String? selectedCategory;
   List<Ingredient> ingredients = [];
+  List<Preparation> preparations = [];
+  int count = 0;
 
   final IngredientStore storeIngredients = IngredientStore(
     repository: IngredientRepository(
@@ -150,11 +152,19 @@ class _SendRecipePageState extends State<SendRecipePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               DropdownMenuIngredient(
-                selectedIngredient: ingredientName,
+                onSelected: (newValue) {
+                  setState(() {
+                    ingredientName = newValue;
+                  });
+                },
               ),
               const SizedBox(height: 10),
               DropdownMenuUnitMeansure(
-                selectedUnit: ingredientUnit,
+                onSelected: (newValue) {
+                  setState(() {
+                    ingredientUnit = newValue;
+                  });
+                },
               ),
               const SizedBox(height: 10),
               TextField(
@@ -191,7 +201,62 @@ class _SendRecipePageState extends State<SendRecipePage> {
                       Navigator.pop(context);
                     },
                     child: const Text("Adicionar"),
-                    
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _addPreparation() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String dsPreparation = '';
+        return AlertDialog(
+          title: const Center(
+            child: Text(
+              "Adicionar Passo",
+              style: TextStyle(fontFamily: "JacquesFrancois"),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  dsPreparation = value;
+                },
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  labelText: "Passo",
+                  border: UnderlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Voltar"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        preparations.add(
+                          Preparation(
+                              dsPreparation: dsPreparation, step: ++count),
+                        );
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Adicionar"),
                   ),
                 ],
               ),
@@ -210,12 +275,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
           "Envio Receita",
           style: TextStyle(fontFamily: 'JacquesFrancois'),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.send),
-          ),
-        ],
+        actions: [],
       ),
       body: ListView(
         children: [
@@ -395,6 +455,89 @@ class _SendRecipePageState extends State<SendRecipePage> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Modo de Preparo",
+                        style: TextStyle(
+                          fontFamily: "JacquesFrancois",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      for (var preparation in preparations)
+                        ListTile(
+                          title: Text("Passo: ${preparation.step}"),
+                          subtitle: Text('${preparation.dsPreparation}'),
+                        ),
+                      ElevatedButton(
+                        onPressed: _addPreparation,
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          side: MaterialStateProperty.all(
+                            const BorderSide(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(120, 40),
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.add, color: Colors.deepOrange),
+                            Text(
+                              "Adicionar Passo",
+                              style: TextStyle(
+                                  fontFamily: "JacquesFrancois",
+                                  color: Colors.deepOrange),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 90,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Enviar Receita"),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -414,6 +557,13 @@ class Ingredient {
     required this.quantity,
     required this.unit,
   });
+}
+
+class Preparation {
+  final String dsPreparation;
+  final int step;
+
+  Preparation({required this.dsPreparation, required this.step});
 }
 
 class CameraScreen extends StatefulWidget {

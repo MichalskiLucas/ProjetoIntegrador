@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 
 class DropdownMenuUnitMeansure extends StatefulWidget {
-  const DropdownMenuUnitMeansure({Key? key, required this.selectedUnit})
+  const DropdownMenuUnitMeansure({Key? key, required this.onSelected})
       : super(key: key);
 
-  final String selectedUnit;
+  final void Function(String) onSelected;
 
   @override
   _DropdownMenuUnitMeansureState createState() =>
-      _DropdownMenuUnitMeansureState(selectedUnit);
+      _DropdownMenuUnitMeansureState();
 }
 
 class _DropdownMenuUnitMeansureState extends State<DropdownMenuUnitMeansure> {
-  String selectedUnit;
-
-  _DropdownMenuUnitMeansureState(this.selectedUnit);
+  String selectedUnit = ''; // Inicialize como vazio
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +24,7 @@ class _DropdownMenuUnitMeansureState extends State<DropdownMenuUnitMeansure> {
       onChanged: (newValue) {
         setState(() {
           selectedUnit = newValue!;
+          widget.onSelected(selectedUnit); // Chama a função de retorno de chamada
         });
       },
       items: const [
