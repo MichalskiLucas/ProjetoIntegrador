@@ -33,6 +33,12 @@ public class ReceitaController {
 
 	}
 
+	public ReceitaDto createReceitaIngrediente(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
+
+		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
+
+	}
+
 	@PutMapping
 	public ReceitaDto edit(@RequestBody ReceitaDto receitaDto) throws Exception {
 

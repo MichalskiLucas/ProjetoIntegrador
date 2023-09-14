@@ -40,9 +40,6 @@ public class ReceitaIngrediente {
     @OneToOne
     private Receita receita;
 
-    @OneToOne
-    private Categoria categoria;
-
     @NotBlank
     @NotEmpty
     @NotNull

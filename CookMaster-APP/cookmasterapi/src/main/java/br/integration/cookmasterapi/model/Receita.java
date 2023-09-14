@@ -26,7 +26,7 @@ public class Receita {
     @NotNull
     private String descricao;
 
-    private Double voto;
+    private int voto;
 
     private boolean ativo;
 

@@ -93,4 +93,10 @@ public class ReceitaService {
         return r;
 
     }
+
+    public void updateVoto(Long idReceita,int voto) throws Exception {
+        Receita receita = findById(idReceita);
+        receita.setVoto(voto);
+        receitaRepository.saveAndFlush(receita);
+    }
 }

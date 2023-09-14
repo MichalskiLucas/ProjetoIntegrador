@@ -59,4 +59,11 @@ public class UsuarioController {
 			return usuarioService.findByFilters(nome);
 
 	}
+
+	@GetMapping(path = "/filterEmail")
+	public Usuario findByEmail(@RequestParam("email") String email) {
+
+		return usuarioService.findByEmail(email);
+
+	}
 }

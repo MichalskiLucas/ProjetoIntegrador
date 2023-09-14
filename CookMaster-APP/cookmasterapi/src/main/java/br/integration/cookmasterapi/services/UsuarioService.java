@@ -12,55 +12,59 @@ import br.integration.cookmasterapi.repository.UsuarioRepository;
 @Service
 public class UsuarioService {
 
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	
-	public Usuario insert(Usuario usuario) throws Exception {
-		
-		validarInsert(usuario);
-		usuarioRepository.saveAndFlush(usuario);
-		return usuario;
-		
-	}
-	
-	public Usuario edit(Usuario usuario) throws Exception {
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-		usuarioRepository.saveAndFlush(usuario);
-		return usuario;
-		
-	}
-	
-	public List<Usuario> findAll(){
-		return usuarioRepository.findAll();
-	}
-	
-	public Usuario findById(Long id) throws Exception{
-		Optional<Usuario> retorno =  usuarioRepository.findById(id);
-		if(retorno.isPresent())
-			return retorno.get();
-		else
-			throw new Exception("Ingrediente com ID: " + id+" não identificado!");
-	}
-	
-	public List<Usuario> findByFilters(String nome) {
-		return usuarioRepository.findByNomeContainingAllIgnoringCase(nome);
-	}
-	
-	public Usuario findByNome(String nome) {
-		return usuarioRepository.findUsuarioByNome(nome);
-	}
-	
-	private void validarInsert(Usuario usuario) throws Exception{
-        if (usuario.getId() != null){
+
+    public Usuario insert(Usuario usuario) throws Exception {
+
+        validarInsert(usuario);
+        usuarioRepository.saveAndFlush(usuario);
+        return usuario;
+
+    }
+
+    public Usuario edit(Usuario usuario) throws Exception {
+
+        usuarioRepository.saveAndFlush(usuario);
+        return usuario;
+
+    }
+
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
+    }
+
+    public Usuario findById(Long id) throws Exception {
+        Optional<Usuario> retorno = usuarioRepository.findById(id);
+        if (retorno.isPresent())
+            return retorno.get();
+        else
+            throw new Exception("Ingrediente com ID: " + id + " não identificado!");
+    }
+
+    public List<Usuario> findByFilters(String nome) {
+        return usuarioRepository.findByNomeContainingAllIgnoringCase(nome);
+    }
+
+    public Usuario findByNome(String nome) {
+        return usuarioRepository.findUsuarioByNome(nome);
+    }
+
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findUsuarioByEmail(email);
+    }
+
+    private void validarInsert(Usuario usuario) throws Exception {
+        if (usuario.getId() != null) {
             throw new Exception("Não deve informar o ID para inserir o ususario");
         }
-        if(findByNome(usuario.getNome()) != null){
-        	throw new Exception("ususario com o mesmo nome já inserido");
+        if (findByNome(usuario.getNome()) != null) {
+            throw new Exception("ususario com o mesmo nome já inserido");
         }
-        
-        if(findByNome(usuario.getEmail()) != null){
-        	throw new Exception("ususario com o mesmo email já inserido");
+
+        if (findByNome(usuario.getEmail()) != null) {
+            throw new Exception("ususario com o mesmo email já inserido");
         }
     }
 }

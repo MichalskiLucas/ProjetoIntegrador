@@ -27,13 +27,12 @@ public class ContabilizaVoto {
     private List<Long> receitas = new ArrayList<>();
 
     private List<Voto> votos = new ArrayList<>();
-
     private int votoReceita;
 
     @Scheduled(fixedDelay = 1000)
     public void atualizaVoto() throws Exception {
-        System.out.println(
-                " Task is running ");
+//        System.out.println(
+//                " Task is running ");
 
         getReceitas();
         //votos.clear();
@@ -42,10 +41,14 @@ public class ContabilizaVoto {
                 try {
                     System.out.println("receitaId: " + receita.toString());
                     votos = votoService.findByReceitaId(receita);
-                    for (Voto voto : votos){
-                        votoReceita =+ voto.getVoto();
+                    votoReceita = 0;
+                    for (Voto voto : votos) {
+                        if (voto.getVoto() > 0) {
+                            votoReceita = votoReceita + voto.getVoto();
+                        }
                     }
-                    System.out.println("voto: " + votoReceita);
+                    votoReceita = votoReceita / votos.size();
+                    receitaService.updateVoto(receita, votoReceita);
                 } catch (Exception ex) {
                     throw new Exception("Erro ao processar a task: ContabilizaVoto. Erro: " + ex.getMessage());
                 }
