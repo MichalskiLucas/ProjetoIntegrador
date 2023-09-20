@@ -39,7 +39,6 @@ public class ContabilizaVoto {
         if (!receitas.isEmpty()) {
             for (Long receita : receitas) {
                 try {
-                    System.out.println("receitaId: " + receita.toString());
                     votos = votoService.findByReceitaId(receita);
                     votoReceita = 0;
                     for (Voto voto : votos) {
