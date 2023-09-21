@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:cookmaster_front/app/data/models/category_model.dart';
+import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/store/category_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:cookmaster_front/components/DropdownButtonIngredients.dart';
 import 'package:cookmaster_front/components/DropdownButtonUnit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,9 +26,11 @@ class SendRecipePage extends StatefulWidget {
 class _SendRecipePageState extends State<SendRecipePage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
-  String? selectedCategory;
+  CategoryModel? selectedCategory;
   List<Ingredient> ingredients = [];
   List<Preparation> preparations = [];
+  List<CategoryModel> categoryList = [];
+  late Map<int, String> categoryMap = {};
   int count = 0;
 
   final IngredientStore storeIngredients = IngredientStore(
@@ -33,8 +39,15 @@ class _SendRecipePageState extends State<SendRecipePage> {
     ),
   );
 
+  final CategoryStore storeCategory = CategoryStore(
+    repository: CategoryRepository(
+      client: HttpClient(),
+    ),
+  );
+
   @override
   void initState() {
+    loadingCategory();
     super.initState();
     initializeCamera();
   }
@@ -42,6 +55,24 @@ class _SendRecipePageState extends State<SendRecipePage> {
   Future<void> initializeCamera() async {
     WidgetsFlutterBinding.ensureInitialized();
     cameras = await availableCameras();
+  }
+
+  Future<List<CategoryModel>> loadingCategory() async {
+    try {
+      await storeCategory.getCategory();
+      categoryList = storeCategory.state.value;
+      setState(() {
+        null;
+      });
+      if (categoryList.isNotEmpty) {
+        return categoryList;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print("Erro ao carregar categorias: $error");
+      return [];
+    }
   }
 
   Future<void> openGallery() async {
@@ -347,9 +378,9 @@ class _SendRecipePageState extends State<SendRecipePage> {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: DropdownButton<String>(
+                  child: DropdownButton<CategoryModel>(
                     hint: selectedCategory != null
-                        ? Text(selectedCategory!)
+                        ? Text(selectedCategory.toString()!)
                         : const Text("Selecione uma categoria"),
                     value: selectedCategory,
                     onChanged: (newValue) {
@@ -357,20 +388,12 @@ class _SendRecipePageState extends State<SendRecipePage> {
                         selectedCategory = newValue;
                       });
                     },
-                    items: const [
-                      DropdownMenuItem<String>(
-                        value: "Massas",
-                        child: Text("Massas"),
-                      ),
-                      DropdownMenuItem<String>(
-                        value: "Carnes",
-                        child: Text("Carnes"),
-                      ),
-                      DropdownMenuItem<String>(
-                        value: "Sobremesas",
-                        child: Text("Sobremesas"),
-                      ),
-                    ],
+                    items: categoryList.map((CategoryModel value) {
+                      return DropdownMenuItem<CategoryModel>(
+                        value: value,
+                        child: Text(value.descricao),
+                      );
+                    }).toList(),
                     iconSize: 24,
                     isExpanded: true,
                     underline: Container(
