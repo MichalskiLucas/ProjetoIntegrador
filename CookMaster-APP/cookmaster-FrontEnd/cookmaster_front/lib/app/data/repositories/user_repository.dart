@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class IUserRepository {
   Future<UserModel> postUser(User? user);
+  Future<UserModel> getUser(String email);
 }
 
 class UserRepository implements IUserRepository {
@@ -45,6 +46,29 @@ class UserRepository implements IUserRepository {
         throw NotFoundException('Url informada não está válida');
       default:
         throw Exception('Erro ao realizar cadastro de usuário');
+    }
+  }
+
+  @override
+  Future<UserModel> getUser(String email) async {
+    final response = await client.get(
+      url: '${urlApi}usuario/filterEmail?email=$email',
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        try {
+          final body = utf8.decode(response.bodyBytes);
+          final dynamic decodedBody = jsonDecode(body);
+
+          return UserModel.fromMap(decodedBody);
+        } catch (e) {
+          throw Exception('Erro ao fazer parsing do JSON');
+        }
+      case 404:
+        throw NotFoundException('Url informada não esta válida');
+      default:
+        throw Exception('Erro ao realizar consulta de unidades de medida');
     }
   }
 }

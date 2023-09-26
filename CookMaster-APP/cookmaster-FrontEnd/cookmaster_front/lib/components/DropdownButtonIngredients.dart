@@ -36,7 +36,10 @@ class _DropdownMenuIngredientState extends State<DropdownMenuIngredient> {
       items: widget.listIngredient.map((IngredientModel value) {
         return DropdownMenuItem<IngredientModel>(
           value: value,
-          child: Text(value.descricao),
+          child: Text(
+            value.descricao,
+            overflow: TextOverflow.ellipsis,
+          ),
         );
       }).toList(),
       iconSize: 24,
