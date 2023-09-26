@@ -1,15 +1,18 @@
 import 'dart:io';
 
 import 'package:cookmaster_front/app/data/models/category_model.dart';
+import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/app/data/models/unitMeansure_model.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/unitMeansure_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
+import 'package:cookmaster_front/app/data/store/unitMeasure_store.dart';
 import 'package:cookmaster_front/components/DropdownButtonIngredients.dart';
 import 'package:cookmaster_front/components/DropdownButtonUnit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,11 +33,13 @@ class _SendRecipePageState extends State<SendRecipePage> {
   List<Ingredient> ingredients = [];
   List<Preparation> preparations = [];
   List<CategoryModel> categoryList = [];
+  List<IngredientModel> ingredientList = [];
+  List<UnitMeansureModel> listUnitMeansure = [];
   late Map<int, String> categoryMap = {};
   int count = 0;
 
-  final IngredientStore storeIngredients = IngredientStore(
-    repository: IngredientRepository(
+  final UnitMeansureStore storeUnitMeansure = UnitMeansureStore(
+    repository: UnitMeansureRepository(
       client: HttpClient(),
     ),
   );
@@ -45,9 +50,16 @@ class _SendRecipePageState extends State<SendRecipePage> {
     ),
   );
 
+  final IngredientStore storeIngredient = IngredientStore(
+      repository: IngredientRepository(
+    client: HttpClient(),
+  ));
+
   @override
   void initState() {
     loadingCategory();
+    loadingIngredient();
+    loadingUnitMeansure();
     super.initState();
     initializeCamera();
   }
@@ -55,6 +67,38 @@ class _SendRecipePageState extends State<SendRecipePage> {
   Future<void> initializeCamera() async {
     WidgetsFlutterBinding.ensureInitialized();
     cameras = await availableCameras();
+  }
+
+  Future<List<UnitMeansureModel>> loadingUnitMeansure() async {
+    try {
+      await storeUnitMeansure.getUnitMeansure();
+      listUnitMeansure = storeUnitMeansure.state.value;
+      setState(() {});
+      if (listUnitMeansure.isNotEmpty) {
+        return listUnitMeansure;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print("Erro ao carregar unidades de medida: $error");
+      return [];
+    }
+  }
+
+  Future<List<IngredientModel>> loadingIngredient() async {
+    try {
+      await storeIngredient.getAllIngredients();
+      ingredientList = storeIngredient.state.value;
+      setState(() {});
+      if (ingredientList.isNotEmpty) {
+        return ingredientList;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print("Erro ao carregar ingredientes: $error");
+      return [];
+    }
   }
 
   Future<List<CategoryModel>> loadingCategory() async {
@@ -170,8 +214,8 @@ class _SendRecipePageState extends State<SendRecipePage> {
       context: context,
       builder: (BuildContext context) {
         int ingredientQuantity = 0;
-        String ingredientName = '';
-        String ingredientUnit = '';
+        IngredientModel? ingredientName;
+        UnitMeansureModel? ingredientUnit;
         return AlertDialog(
           title: const Center(
             child: Text(
@@ -183,6 +227,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               DropdownMenuIngredient(
+                listIngredient: ingredientList,
                 onSelected: (newValue) {
                   setState(() {
                     ingredientName = newValue;
@@ -191,6 +236,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
               ),
               const SizedBox(height: 10),
               DropdownMenuUnitMeansure(
+                listUnitMeansure: listUnitMeansure,
                 onSelected: (newValue) {
                   setState(() {
                     ingredientUnit = newValue;
@@ -223,9 +269,9 @@ class _SendRecipePageState extends State<SendRecipePage> {
                       setState(() {
                         ingredients.add(
                           Ingredient(
-                            name: ingredientName,
+                            name: ingredientName!.descricao.toString(),
                             quantity: ingredientQuantity,
-                            unit: ingredientUnit,
+                            unit: ingredientUnit!.descricao.toString(),
                           ),
                         );
                       });
