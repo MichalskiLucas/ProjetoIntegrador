@@ -34,7 +34,10 @@ class _DropdownMenuUnitMeansureState extends State<DropdownMenuUnitMeansure> {
       items: widget.listUnitMeansure.map((UnitMeansureModel value) {
         return DropdownMenuItem<UnitMeansureModel>(
           value: value,
-          child: Text(value.descricao),
+          child: Text(
+            value.descricao,
+            overflow: TextOverflow.ellipsis,
+          ),
         );
       }).toList(),
       iconSize: 24,

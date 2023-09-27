@@ -1,9 +1,11 @@
 import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/user_repository.dart';
 import 'package:cookmaster_front/app/data/services/auth_exception.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService extends ChangeNotifier {
@@ -45,7 +47,12 @@ class AuthService extends ChangeNotifier {
         ),
       );
 
-      store.postUser(firebaseUser);
+      if (firebaseUser!.email != null) {
+        final UserModel? userModel = await store.getUser(firebaseUser.email);
+        if (userModel == null) {
+          store.postUser(firebaseUser);
+        }
+      }
 
       return users = firebaseUser;
     } on FirebaseAuthException catch (e) {
