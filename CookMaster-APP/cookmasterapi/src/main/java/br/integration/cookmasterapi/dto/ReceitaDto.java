@@ -30,11 +30,13 @@ public class ReceitaDto extends BaseDto<Receita, ReceitaDto> {
             dto.setId(entity.getId());
             dto.setDescricao(entity.getDescricao());
             dto.setAtivo(entity.isAtivo());
-            dto.setImagem(Util.decompress(entity.getImagem()));
+            if(entity.getImagem() !=null)
+                dto.setImagem(Util.decompress(entity.getImagem()));
+
             dto.setUsuario(entity.getUsuario());
             dto.setVoto(entity.getVoto());
             dto.setCategoria(entity.getCategoria());
-            return null;
+            return dto;
         } else
             return null;
     }

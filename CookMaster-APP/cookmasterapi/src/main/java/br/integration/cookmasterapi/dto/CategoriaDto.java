@@ -23,7 +23,10 @@ public class CategoriaDto extends BaseDto<Categoria, CategoriaDto> {
 
             dto.setId(entity.getId());
             dto.setDescricao(entity.getDescricao());
-            dto.setImagem(Util.decompress(entity.getImagem()));
+
+            if(entity.getImagem()!=null)
+                dto.setImagem(Util.decompress(entity.getImagem()));
+
             return dto;
         } else
             return null;

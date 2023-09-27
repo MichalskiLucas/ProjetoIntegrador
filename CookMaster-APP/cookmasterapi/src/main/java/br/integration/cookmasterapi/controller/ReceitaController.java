@@ -32,8 +32,8 @@ public class ReceitaController {
 		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
 
 	}
-
-	public ReceitaDto createReceitaIngrediente(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
+	@PostMapping(path = "/receitaIgredienteComplete")
+	public ReceitaDto receitaIgredienteComplete(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
 
 		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
 
