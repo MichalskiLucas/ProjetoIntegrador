@@ -1,4 +1,8 @@
+import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
+import 'package:cookmaster_front/app/data/store/category_store.dart';
+import 'package:cookmaster_front/components/CardRecipe.dart';
+import 'package:cookmaster_front/components/ListTileCategory.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
@@ -6,6 +10,7 @@ import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
+import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,8 +33,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool validateUser = false;
 
+  User? get _users => widget.users;
+
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  final CategoryStore storeCategory = CategoryStore(
+    repository: CategoryRepository(
       client: HttpClient(),
     ),
   );
@@ -84,6 +97,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     setState(() {
       storeRecipe.getRecipe();
+      storeCategory.getCategory();
     });
   }
 
@@ -182,64 +196,49 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        body: AnimatedBuilder(
-          animation: Listenable.merge(
-            [
-              storeRecipe.isLoading,
-              storeRecipe.error,
-              storeRecipe.state,
-            ],
-          ),
-          builder: (context, child) {
-            if (storeRecipe.isLoading.value) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (storeRecipe.error.value.isNotEmpty) {
-              return Center(
-                child: Text(
-                  storeRecipe.error.value,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 40, left: 8.0, right: 8.0),
+          child: Column(
+            children: [
+              CardRecipe(
+                store: storeRecipe,
+              ),
+              Container(
+                color: Colors.deepOrange,
+                height: 40,
+                width: MediaQuery.of(context).size.width,
+                child: const Center(
+                  child: Text(
+                    'Categorias',
+                    style: TextStyle(
+                      fontFamily: 'JacquesFrancois',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              );
-            }
-
-            if (storeRecipe.state.value.isEmpty) {
-              return const Center(
-                child: Text('lista vazia'),
-              );
-            } else {
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: storeRecipe.state.value.length,
-                itemBuilder: (_, index) {
-                  final item = storeRecipe.state.value[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      onTap: () async {
-                        //implementar chamada e filtro da receita
-                        await Get.to(const CategoryPage());
-                      },
-                      /*leading: Base64ImageConverter(
-                        base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),
-                      ),*/
-                      trailing:
-                          const Icon(Icons.arrow_forward, color: Colors.black),
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(
-                        item.descricao,
-                        style: const TextStyle(
-                          fontFamily: 'JacquesFrancois',
-                        ),
+              ),
+              ListTileCategory(
+                store: storeCategory,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 150,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text("Ver Mais..."),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Color.fromRGBO(255, 87, 34, 1)),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                  );
-                },
-              );
-            }
-          },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 class RecipeModel {
   final int id;
   final String descricao;
-  final bool ativo;
+  final bool? ativo;
   final String image;
 
   RecipeModel({

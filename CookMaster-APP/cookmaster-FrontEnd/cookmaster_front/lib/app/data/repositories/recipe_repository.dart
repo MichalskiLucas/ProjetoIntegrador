@@ -16,26 +16,26 @@ class RecipeRepository implements IRecipeRepository {
   @override
   Future<List<RecipeModel>> getAllRecipe() async {
     final response = await client.get(
-      url: '${urlApi}receita',
-    );
+        //url: '${urlApi}receita',
+        url: 'https://run.mocky.io/v3/20ee96f6-f127-4eca-8ed1-42181243b7a0');
 
     switch (response.statusCode) {
       case 200:
-        final List<RecipeModel> categories = [];
+        final List<RecipeModel> recipes = [];
 
         try {
           final body = jsonDecode(response.body);
 
           if (body is List) {
             for (var item in body) {
-              final RecipeModel category = RecipeModel.fromMap(item);
-              categories.add(category);
+              final RecipeModel recipe = RecipeModel.fromMap(item);
+              recipes.add(recipe);
             }
           }
         } catch (e) {
           throw Exception('Erro ao fazer parsing do JSON');
         }
-        return categories;
+        return recipes;
       case 404:
         throw NotFoundException('Url informada não esta válida');
       default:
