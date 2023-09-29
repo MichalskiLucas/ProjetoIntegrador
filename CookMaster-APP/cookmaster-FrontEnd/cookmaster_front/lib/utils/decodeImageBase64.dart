@@ -7,9 +7,13 @@ import 'package:flutter/material.dart';
 
 class Base64ImageConverter extends StatelessWidget {
   final String base64Image;
-  final double imageSize;
+  final double imageWidth;
+  final double imageHeight;
 
-  const Base64ImageConverter({required this.base64Image, this.imageSize = 64.0});
+  const Base64ImageConverter(
+      {required this.base64Image,
+      this.imageWidth = 64.0,
+      this.imageHeight = 64.0});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +23,8 @@ class Base64ImageConverter extends StatelessWidget {
       borderRadius: BorderRadius.circular(10.0),
       child: Image.memory(
         bytes,
-        width: imageSize,
-        height: imageSize,
+        width: imageWidth,
+        height: imageHeight,
         fit: BoxFit.cover,
       ),
     );

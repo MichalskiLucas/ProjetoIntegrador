@@ -18,7 +18,6 @@ class CategoryStore {
 
   Future getCategory() async {
     isLoading.value = true;
-
     try {
       final result = await repository.getAllCategory();
       state.value = result;

@@ -22,7 +22,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
       ],
-      child: RxRoot(
+      child: const RxRoot(
         child: AppWidget(),
       ),
     ),

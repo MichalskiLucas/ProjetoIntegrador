@@ -30,4 +30,17 @@ class UserStore {
     }
     isLoading.value = false;
   }
+
+  Future getUser(String? email) async {
+    isLoading.value = true;
+    try {
+      final result = await repository.getUser(email!);
+      state.value = result;
+    } on NotFoundException catch (e) {
+      null;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
 }

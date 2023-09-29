@@ -1,7 +1,14 @@
 import 'dart:io';
 
+import 'package:cookmaster_front/app/data/models/category_model.dart';
+import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/app/data/models/unitMeansure_model.dart';
+import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/unitMeansure_repository.dart';
+import 'package:cookmaster_front/app/data/store/category_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
+import 'package:cookmaster_front/app/data/store/unitMeasure_store.dart';
 import 'package:cookmaster_front/components/DropdownButtonIngredients.dart';
 import 'package:cookmaster_front/components/DropdownButtonUnit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,19 +29,37 @@ class SendRecipePage extends StatefulWidget {
 class _SendRecipePageState extends State<SendRecipePage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
-  String? selectedCategory;
+  CategoryModel? selectedCategory;
   List<Ingredient> ingredients = [];
   List<Preparation> preparations = [];
+  List<CategoryModel> categoryList = [];
+  List<IngredientModel> ingredientList = [];
+  List<UnitMeansureModel> listUnitMeansure = [];
+  late Map<int, String> categoryMap = {};
   int count = 0;
 
-  final IngredientStore storeIngredients = IngredientStore(
-    repository: IngredientRepository(
+  final UnitMeansureStore storeUnitMeansure = UnitMeansureStore(
+    repository: UnitMeansureRepository(
       client: HttpClient(),
     ),
   );
 
+  final CategoryStore storeCategory = CategoryStore(
+    repository: CategoryRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  final IngredientStore storeIngredient = IngredientStore(
+      repository: IngredientRepository(
+    client: HttpClient(),
+  ));
+
   @override
   void initState() {
+    loadingCategory();
+    loadingIngredient();
+    loadingUnitMeansure();
     super.initState();
     initializeCamera();
   }
@@ -42,6 +67,56 @@ class _SendRecipePageState extends State<SendRecipePage> {
   Future<void> initializeCamera() async {
     WidgetsFlutterBinding.ensureInitialized();
     cameras = await availableCameras();
+  }
+
+  Future<List<UnitMeansureModel>> loadingUnitMeansure() async {
+    try {
+      await storeUnitMeansure.getUnitMeansure();
+      listUnitMeansure = storeUnitMeansure.state.value;
+      setState(() {});
+      if (listUnitMeansure.isNotEmpty) {
+        return listUnitMeansure;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print("Erro ao carregar unidades de medida: $error");
+      return [];
+    }
+  }
+
+  Future<List<IngredientModel>> loadingIngredient() async {
+    try {
+      await storeIngredient.getAllIngredients();
+      ingredientList = storeIngredient.state.value;
+      setState(() {});
+      if (ingredientList.isNotEmpty) {
+        return ingredientList;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print("Erro ao carregar ingredientes: $error");
+      return [];
+    }
+  }
+
+  Future<List<CategoryModel>> loadingCategory() async {
+    try {
+      await storeCategory.getCategory();
+      categoryList = storeCategory.state.value;
+      setState(() {
+        null;
+      });
+      if (categoryList.isNotEmpty) {
+        return categoryList;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      print("Erro ao carregar categorias: $error");
+      return [];
+    }
   }
 
   Future<void> openGallery() async {
@@ -139,8 +214,8 @@ class _SendRecipePageState extends State<SendRecipePage> {
       context: context,
       builder: (BuildContext context) {
         int ingredientQuantity = 0;
-        String ingredientName = '';
-        String ingredientUnit = '';
+        IngredientModel? ingredientName;
+        UnitMeansureModel? ingredientUnit;
         return AlertDialog(
           title: const Center(
             child: Text(
@@ -152,6 +227,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               DropdownMenuIngredient(
+                listIngredient: ingredientList,
                 onSelected: (newValue) {
                   setState(() {
                     ingredientName = newValue;
@@ -160,6 +236,7 @@ class _SendRecipePageState extends State<SendRecipePage> {
               ),
               const SizedBox(height: 10),
               DropdownMenuUnitMeansure(
+                listUnitMeansure: listUnitMeansure,
                 onSelected: (newValue) {
                   setState(() {
                     ingredientUnit = newValue;
@@ -192,9 +269,9 @@ class _SendRecipePageState extends State<SendRecipePage> {
                       setState(() {
                         ingredients.add(
                           Ingredient(
-                            name: ingredientName,
+                            name: ingredientName!.descricao.toString(),
                             quantity: ingredientQuantity,
-                            unit: ingredientUnit,
+                            unit: ingredientUnit!.descricao.toString(),
                           ),
                         );
                       });
@@ -347,9 +424,9 @@ class _SendRecipePageState extends State<SendRecipePage> {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: DropdownButton<String>(
+                  child: DropdownButton<CategoryModel>(
                     hint: selectedCategory != null
-                        ? Text(selectedCategory!)
+                        ? Text(selectedCategory.toString()!)
                         : const Text("Selecione uma categoria"),
                     value: selectedCategory,
                     onChanged: (newValue) {
@@ -357,20 +434,12 @@ class _SendRecipePageState extends State<SendRecipePage> {
                         selectedCategory = newValue;
                       });
                     },
-                    items: const [
-                      DropdownMenuItem<String>(
-                        value: "Massas",
-                        child: Text("Massas"),
-                      ),
-                      DropdownMenuItem<String>(
-                        value: "Carnes",
-                        child: Text("Carnes"),
-                      ),
-                      DropdownMenuItem<String>(
-                        value: "Sobremesas",
-                        child: Text("Sobremesas"),
-                      ),
-                    ],
+                    items: categoryList.map((CategoryModel value) {
+                      return DropdownMenuItem<CategoryModel>(
+                        value: value,
+                        child: Text(value.descricao),
+                      );
+                    }).toList(),
                     iconSize: 24,
                     isExpanded: true,
                     underline: Container(

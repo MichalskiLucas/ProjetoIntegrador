@@ -25,13 +25,12 @@ class CategoryRepository implements ICategoryRepository {
         final List<CategoryModel> categories = [];
 
         try {
-          final body = jsonDecode(response.body);
+          final body = utf8.decode(response.bodyBytes);
+          final List<dynamic> decodedBody = jsonDecode(body);
 
-          if (body is List) {
-            for (var item in body) {
-              final CategoryModel category = CategoryModel.fromMap(item);
-              categories.add(category);
-            }
+          for (var item in decodedBody) {
+            final CategoryModel category = CategoryModel.fromMap(item);
+            categories.add(category);
           }
         } catch (e) {
           throw Exception('Erro ao fazer parsing do JSON');
