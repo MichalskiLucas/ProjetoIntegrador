@@ -11,14 +11,13 @@ import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
+import 'package:cookmaster_front/utils/openFilterDelegate.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
-import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../app/data/http/http_client.dart';
-import '../app/data/models/ingredient_model.dart';
 import '../app/data/repositories/ingredient_repository.dart';
 import '../app/data/store/ingredient_store.dart';
 
@@ -191,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   await store.getAllIngredients();
                   // ignore: use_build_context_synchronously
-                  openFilterDelegate(context, store);
+                  openFilterDelegate(context, store, "Filtrar");
                 }
               },
             )
@@ -274,34 +273,5 @@ PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
         Text(title),
       ],
     ),
-  );
-}
-
-void openFilterDelegate(BuildContext context, IngredientStore store) async {
-  List<IngredientModel> ingredientList = store.state.value;
-  List<IngredientModel> selectedIngredients = [];
-
-  await FilterListDelegate.show(
-    context: context,
-    applyButtonText: 'Filtrar',
-    list: ingredientList,
-    searchFieldHint: 'Consultar Ingrediente',
-    searchFieldStyle: const TextStyle(
-      fontFamily: 'JacquesFrancois',
-    ),
-    selectedListData: selectedIngredients,
-    tileLabel: (IngredientModel? item) {
-      if (item == null) return '';
-      return item.descricao;
-    },
-    onItemSearch: (IngredientModel item, String query) {
-      return item.descricao.toLowerCase().contains(query.toLowerCase());
-    },
-    onApplyButtonClick: (List<IngredientModel>? list) {
-      if (list != null) {
-        selectedIngredients = list;
-        //fazer algo com a lista de ingredientes selecionados após o clique no botão "Aplicar".
-      }
-    },
   );
 }
