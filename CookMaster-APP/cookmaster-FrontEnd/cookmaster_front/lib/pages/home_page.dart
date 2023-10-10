@@ -1,6 +1,7 @@
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
+import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
@@ -10,7 +11,6 @@ import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
-import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -84,6 +84,7 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black,
         ),
         onTap: () async {
+          chatsState.clear();
           AuthService authService = AuthService();
           await authService.signInWithGoogle();
           Get.to(() => const AuthCheck());
