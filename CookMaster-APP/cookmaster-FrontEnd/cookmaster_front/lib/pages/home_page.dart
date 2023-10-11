@@ -16,7 +16,6 @@ import 'package:cookmaster_front/widgets/auth_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../app/data/http/http_client.dart';
 import '../app/data/repositories/ingredient_repository.dart';
 import '../app/data/store/ingredient_store.dart';
@@ -185,7 +184,7 @@ class _HomePageState extends State<HomePage> {
               onSelected: (value) async {
                 if (value.toString() == '/RecipePage') {
                   await Get.to(
-                    const RecipePage(),
+                    () => const RecipePage(),
                   );
                 } else {
                   await store.getAllIngredients();
@@ -224,17 +223,19 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 150,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Ver Mais..."),
+                  onPressed: () {
+                    Get.to(() => const CategoryPage());
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                        Color.fromRGBO(255, 87, 34, 1)),
+                        const Color.fromRGBO(255, 87, 34, 1)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),
+                  child: const Text("Ver Mais..."),
                 ),
               ),
             ],
