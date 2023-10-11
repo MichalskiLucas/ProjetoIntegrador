@@ -2,6 +2,7 @@ import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../atoms/chat_atom.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -57,6 +58,7 @@ Widget _listCookMasterLogin(BuildContext context) {
               ),
             ),
             onPressed: () async {
+              chatsState.clear();
               await Get.to(
                 () => const HomePage(null),
               );
@@ -94,6 +96,7 @@ Widget _listCookMasterLogin(BuildContext context) {
             onPressed: () async {
               AuthService authService = AuthService();
               await authService.signInWithGoogle();
+              chatsState.clear();
             },
             icon: Image.asset('assets/images/logoGoogle.png'),
             label: const Text(

@@ -7,3 +7,9 @@ final chatLoading = RxNotifier(false);
 
 // action
 final sendMessageAction = RxNotifier<String>('');
+
+// Função para atualizar chatsState
+void updateChatsState(List<ChatModel> newChats) {
+  chatsState.clear();
+  chatsState.addAll(newChats);
+}
