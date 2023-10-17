@@ -1,4 +1,3 @@
-import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
@@ -34,12 +33,6 @@ class _HomePageState extends State<HomePage> {
 
   User? get _users => widget.users;
 
-  final RecipeStore storeCookingRecipe = RecipeStore(
-    repository: RecipeRepository(
-      client: HttpClient(),
-    ),
-  );
-
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
       client: HttpClient(),
@@ -64,7 +57,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       storeRecipe.getRecipe();
       storeCategory.getCategory();
-      storeCookingRecipe.getCookingRecipe();
     });
   }
 
@@ -210,7 +202,6 @@ class _HomePageState extends State<HomePage> {
             children: [
               CardRecipe(
                 store: storeRecipe,
-                storeCookingRecipe: storeCookingRecipe,
               ),
               Container(
                 color: Colors.deepOrange,

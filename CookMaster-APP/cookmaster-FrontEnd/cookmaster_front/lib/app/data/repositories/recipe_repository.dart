@@ -8,7 +8,7 @@ import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IRecipeRepository {
   Future<List<RecipeModel>> getAllRecipe();
-  Future<CookingRecipeModel> getCookingRecipe();
+  Future<CookingRecipeModel> getCookingRecipe(int id);
 }
 
 class RecipeRepository implements IRecipeRepository {
@@ -46,9 +46,9 @@ class RecipeRepository implements IRecipeRepository {
   }
 
   @override
-  Future<CookingRecipeModel> getCookingRecipe() async {
+  Future<CookingRecipeModel> getCookingRecipe(int id) async {
     final response = await client.get(
-        //url: '${urlApi}receita',
+        //url: '${urlApi}receita/${id}',
         url: 'https://run.mocky.io/v3/16b61d72-8d0f-42b5-9049-73075ef6b329');
 
     switch (response.statusCode) {

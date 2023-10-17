@@ -34,11 +34,11 @@ class RecipeStore {
     isLoading.value = false;
   }
 
-  Future getCookingRecipe() async {
+  Future getCookingRecipe(int id) async {
     isLoading.value = true;
 
     try {
-      final result = await repository.getCookingRecipe();
+      final result = await repository.getCookingRecipe(id);
       stateCooking.value = result;
     } on NotFoundException catch (e) {
       error.value = e.message;
