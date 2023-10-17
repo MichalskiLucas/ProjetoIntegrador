@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IRecipeRepository {
   Future<List<RecipeModel>> getAllRecipe();
+  Future<CookingRecipeModel> getCookingRecipe(int id);
 }
 
 class RecipeRepository implements IRecipeRepository {
@@ -40,6 +42,30 @@ class RecipeRepository implements IRecipeRepository {
         throw NotFoundException('Url informada não esta válida');
       default:
         throw Exception('Erro ao realizar consulta de ingredientes');
+    }
+  }
+
+  @override
+  Future<CookingRecipeModel> getCookingRecipe(int id) async {
+    final response = await client.get(
+        //url: '${urlApi}receita/${id}',
+        url:
+            'https://run.mocky.io/v3/9d85e186-6643-4703-9f21-068ffd04bc79');
+
+    switch (response.statusCode) {
+      case 200:
+        try {
+          final body = utf8.decode(response.bodyBytes);
+          final dynamic decodedBody = jsonDecode(body);
+
+          return CookingRecipeModel.fromMap(decodedBody);
+        } catch (e) {
+          throw Exception('Erro ao fazer parsing do JSON');
+        }
+      case 404:
+        throw NotFoundException('Url informada não esta válida');
+      default:
+        throw Exception('Erro ao realizar consulta de receita');
     }
   }
 }

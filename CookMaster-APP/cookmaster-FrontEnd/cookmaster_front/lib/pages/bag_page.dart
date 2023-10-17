@@ -1,8 +1,11 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, use_build_context_synchronously
 
+import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
-import 'package:cookmaster_front/pages/createBag.dart';
+import 'package:cookmaster_front/utils/openFilterDelegate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +19,12 @@ class BagPage extends StatefulWidget {
 }
 
 class _BagPageState extends State<BagPage> {
+  final IngredientStore store = IngredientStore(
+    repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,14 +33,14 @@ class _BagPageState extends State<BagPage> {
           title: 'Cook Master',
           ctx: context,
         ),
-        body: _CookMasterBag(context),
+        body: _CookMasterBag(context, store),
       ),
     );
   }
 }
 
 // ignore: non_constant_identifier_names
-Widget _CookMasterBag(BuildContext context) {
+Widget _CookMasterBag(BuildContext context, IngredientStore store) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -107,9 +116,8 @@ Widget _CookMasterBag(BuildContext context) {
                   ),
                 ),
                 onPressed: () async {
-                  await Get.to(
-                    CreateBagPage(),
-                  );
+                  await store.getAllIngredients();
+                  openFilterDelegate(context, store, "Finalizar");
                 },
                 child: const Text(
                   'Criar',

@@ -1,3 +1,5 @@
+import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
@@ -14,6 +16,12 @@ class CardRecipe extends StatefulWidget {
 
 class _CardRecipeState extends State<CardRecipe> {
   RecipeStore get _store => widget.store;
+
+  final RecipeStore storeCookingRecipe = RecipeStore(
+    repository: RecipeRepository(
+      client: HttpClient(),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +61,12 @@ class _CardRecipeState extends State<CardRecipe> {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () async {
-                        // Implementar chamada e filtro da receita
-                        await Get.to(const RecipePage());
+                        await storeCookingRecipe.getCookingRecipe(item.id);
+                        await Get.to(
+                          () => RecipePage(
+                            storeCookingRecipe: storeCookingRecipe,
+                          ),
+                        );
                       },
                       child: Card(
                         color: Colors.white,
@@ -68,7 +80,9 @@ class _CardRecipeState extends State<CardRecipe> {
                                 base64Image:
                                     item.image.replaceAll(RegExp(r'\s+'), ''),
                               ),
-                              const Divider(),
+                              const Divider(
+                                color: Colors.black,
+                              ),
                               Text(
                                 item.descricao,
                                 overflow: TextOverflow.ellipsis,

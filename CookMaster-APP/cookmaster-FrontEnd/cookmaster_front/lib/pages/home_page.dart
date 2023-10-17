@@ -1,24 +1,22 @@
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
+import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
-import 'package:cookmaster_front/pages/recipe_page.dart';
+import 'package:cookmaster_front/pages/recipeSearch_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
-import 'package:cookmaster_front/utils/decodeImageBase64.dart';
+import 'package:cookmaster_front/utils/openFilterDelegate.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
-import 'package:filter_list/filter_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../app/data/http/http_client.dart';
-import '../app/data/models/ingredient_model.dart';
 import '../app/data/repositories/ingredient_repository.dart';
 import '../app/data/store/ingredient_store.dart';
 
@@ -53,6 +51,15 @@ class _HomePageState extends State<HomePage> {
     ),
   );
 
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      storeRecipe.getRecipe();
+      storeCategory.getCategory();
+    });
+  }
+
   _userValidate() {
     if (widget.users != null) {
       return true;
@@ -84,21 +91,13 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black,
         ),
         onTap: () async {
+          chatsState.clear();
           AuthService authService = AuthService();
           await authService.signInWithGoogle();
           Get.to(() => const AuthCheck());
         },
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      storeRecipe.getRecipe();
-      storeCategory.getCategory();
-    });
   }
 
   @override
@@ -131,7 +130,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(() => SendRecipePage(user: widget.users))
+                      ? await Get.to(
+                          () => SendRecipeSearchPage(user: widget.users))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.');
                 },
@@ -178,19 +178,19 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.search),
               itemBuilder: (context) => [
                 _buildPopUpMenuItem(
-                    '  Buscar por Receitas', Icons.search, '/RecipePage'),
+                    '  Buscar por Receitas', Icons.search, '/RecipeSearchPage'),
                 _buildPopUpMenuItem('  Buscar por Ingredientes',
                     Icons.fastfood_outlined, '/ingredientPage')
               ],
               onSelected: (value) async {
-                if (value.toString() == '/RecipePage') {
+                if (value.toString() == '/RecipeSearchPage') {
                   await Get.to(
-                    const RecipePage(),
+                    () => const RecipeSearchPage(),
                   );
                 } else {
                   await store.getAllIngredients();
                   // ignore: use_build_context_synchronously
-                  openFilterDelegate(context, store);
+                  openFilterDelegate(context, store, "Filtrar");
                 }
               },
             )
@@ -224,17 +224,19 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 150,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Ver Mais..."),
+                  onPressed: () {
+                    Get.to(() => const CategoryPage());
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                        Color.fromRGBO(255, 87, 34, 1)),
+                        const Color.fromRGBO(255, 87, 34, 1)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                   ),
+                  child: const Text("Ver Mais..."),
                 ),
               ),
             ],
@@ -273,34 +275,5 @@ PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
         Text(title),
       ],
     ),
-  );
-}
-
-void openFilterDelegate(BuildContext context, IngredientStore store) async {
-  List<IngredientModel> ingredientList = store.state.value;
-  List<IngredientModel> selectedIngredients = [];
-
-  await FilterListDelegate.show(
-    context: context,
-    applyButtonText: 'Filtrar',
-    list: ingredientList,
-    searchFieldHint: 'Consultar Ingrediente',
-    searchFieldStyle: const TextStyle(
-      fontFamily: 'JacquesFrancois',
-    ),
-    selectedListData: selectedIngredients,
-    tileLabel: (IngredientModel? item) {
-      if (item == null) return '';
-      return item.descricao;
-    },
-    onItemSearch: (IngredientModel item, String query) {
-      return item.descricao.toLowerCase().contains(query.toLowerCase());
-    },
-    onApplyButtonClick: (List<IngredientModel>? list) {
-      if (list != null) {
-        selectedIngredients = list;
-        //fazer algo com a lista de ingredientes selecionados após o clique no botão "Aplicar".
-      }
-    },
   );
 }
