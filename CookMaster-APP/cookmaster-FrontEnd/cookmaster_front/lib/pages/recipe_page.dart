@@ -99,13 +99,16 @@ class _RecipePageState extends State<RecipePage> {
                           children: _store.stateCooking.value.ingredientes!.map(
                             (ingrediente) {
                               final descricaoComPontos =
-                                  '• ${ingrediente.quantidade}${ingrediente.unMedida!.toLowerCase()} ${ingrediente.descricao}';
-                              return Text(
-                                descricaoComPontos,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontFamily: 'JacquesFrancois',
-                                  fontSize: 15,
+                                  '• ${ingrediente.quantidade}${ingrediente.unMedida!.toLowerCase()} ${ingrediente.descricao};';
+                              return Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  descricaoComPontos,
+                                  overflow: TextOverflow.visible,
+                                  style: const TextStyle(
+                                    fontFamily: 'JacquesFrancois',
+                                    fontSize: 15,
+                                  ),
                                 ),
                               );
                             },
