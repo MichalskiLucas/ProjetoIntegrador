@@ -1,6 +1,9 @@
+import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/user_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
+import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
@@ -30,8 +33,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool validateUser = false;
-
-  User? get _users => widget.users;
+  User? get _user => widget.users;
+  final UserStore storeUser = UserStore(
+    repository: UserRepository(
+      client: HttpClient(),
+    ),
+  );
 
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
@@ -58,17 +65,22 @@ class _HomePageState extends State<HomePage> {
       storeRecipe.getRecipe();
       storeCategory.getCategory();
     });
+    _userGet();
+  }
+
+  _userGet() async {
+    await storeUser.getUser(_user?.email!);
   }
 
   _userValidate() {
-    if (widget.users != null) {
+    if (_user != null) {
       return true;
     }
     return false;
   }
 
   _optionDinamyc() {
-    if (widget.users != null) {
+    if (_user != null) {
       return ListTile(
         leading: Image.asset('assets/images/iconExit.png'),
         title: const Text('Sair da Conta'),
@@ -112,14 +124,14 @@ class _HomePageState extends State<HomePage> {
                 currentAccountPicture: ClipRRect(
                     borderRadius: BorderRadius.circular(40),
                     child: _userValidate()
-                        ? Image.network(widget.users?.photoURL ?? '')
+                        ? Image.network(_user?.photoURL ?? '')
                         : const Icon(
                             Icons.person,
                             color: Colors.white,
                             size: 50,
                           )),
-                accountName: Text(widget.users?.displayName ?? 'Sem Login'),
-                accountEmail: Text(widget.users?.email ?? 'Sem Login'),
+                accountName: Text(_user?.displayName ?? 'Sem Login'),
+                accountEmail: Text(_user?.email ?? 'Sem Login'),
               ),
               ListTile(
                 leading: Image.asset('assets/images/iconSend.png'),
@@ -130,8 +142,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(
-                          () => SendRecipeSearchPage(user: widget.users))
+                      ? await Get.to(() => SendRecipeSearchPage(user: _user))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.');
                 },
@@ -145,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(() => BagPage(user: widget.users))
+                      ? await Get.to(() => BagPage(user: _user))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para usar a sacola.');
                 },
@@ -201,6 +212,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               CardRecipe(
+                userStore: storeUser,
                 store: storeRecipe,
               ),
               Container(

@@ -11,7 +11,7 @@ class UserStore {
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   final ValueNotifier<UserModel> state =
-      ValueNotifier<UserModel>(UserModel(email: '', nome: ''));
+      ValueNotifier<UserModel>(UserModel(id: 0, email: '', nome: ''));
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 

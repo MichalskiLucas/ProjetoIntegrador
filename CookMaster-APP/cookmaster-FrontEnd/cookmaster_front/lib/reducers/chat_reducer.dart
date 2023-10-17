@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cookmaster_front/app/data/models/chatgpt_model.dart';
 import 'package:chat_gpt_flutter/chat_gpt_flutter.dart';
+import 'package:get/get.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -39,7 +40,14 @@ class ChatReducer extends RxReducer {
       ],
     );
 
-    final stream = await chatGpt.createChatCompletionStream(request);
+    Stream<StreamCompletionResponse>? stream;
+
+    try {
+      stream = await chatGpt.createChatCompletionStream(request);
+    } catch (e) {
+      Get.snackbar("Erro ao consultar Chef",
+          "Ocorreu um erro ao tentar consultar o chef");
+    }
 
     if (stream == null) {
       chatLoading.value = false;
