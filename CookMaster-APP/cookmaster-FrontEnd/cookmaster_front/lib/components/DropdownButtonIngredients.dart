@@ -37,7 +37,7 @@ class _DropdownMenuIngredientState extends State<DropdownMenuIngredient> {
         return DropdownMenuItem<IngredientModel>(
           value: value,
           child: Text(
-            value.descricao,
+            value.descricao!,
             overflow: TextOverflow.ellipsis,
           ),
         );

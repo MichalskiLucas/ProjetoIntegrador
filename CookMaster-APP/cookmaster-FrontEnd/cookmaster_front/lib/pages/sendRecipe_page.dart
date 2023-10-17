@@ -18,15 +18,15 @@ import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../app/data/http/http_client.dart';
 
-class SendRecipePage extends StatefulWidget {
+class SendRecipeSearchPage extends StatefulWidget {
   final User? user;
-  const SendRecipePage({Key? key, required this.user}) : super(key: key);
+  const SendRecipeSearchPage({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<SendRecipePage> createState() => _SendRecipePageState();
+  State<SendRecipeSearchPage> createState() => _SendRecipeSearchPageState();
 }
 
-class _SendRecipePageState extends State<SendRecipePage> {
+class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
   CategoryModel? selectedCategory;
