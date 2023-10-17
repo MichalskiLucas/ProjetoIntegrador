@@ -12,7 +12,8 @@ class RecipePage extends StatefulWidget {
   final UserStore userStore;
   const RecipePage({
     super.key,
-    required this.storeCookingRecipe, required this.userStore,
+    required this.storeCookingRecipe,
+    required this.userStore,
   });
 
   @override
@@ -21,7 +22,7 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
   RecipeStore get _store => widget.storeCookingRecipe;
-
+  UserStore get _storeUser => widget.userStore;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -198,7 +199,9 @@ class _RecipePageState extends State<RecipePage> {
                         const Divider(
                           color: Colors.black,
                         ),
-                        const DynamicStarRating(),
+                        DynamicStarRating(
+                          userStore: _storeUser,
+                        ),
                       ],
                     ),
                   ),
