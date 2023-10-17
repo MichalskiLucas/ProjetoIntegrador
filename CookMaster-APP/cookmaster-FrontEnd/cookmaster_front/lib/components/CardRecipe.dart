@@ -1,12 +1,16 @@
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
+import 'package:cookmaster_front/pages/recipeSearch_page.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CardRecipe extends StatefulWidget {
-  const CardRecipe({Key? key, required this.store}) : super(key: key);
+  const CardRecipe(
+      {Key? key, required this.store, required this.storeCookingRecipe})
+      : super(key: key);
   final RecipeStore store;
+  final RecipeStore storeCookingRecipe;
 
   @override
   _CardRecipeState createState() => _CardRecipeState();
@@ -14,6 +18,7 @@ class CardRecipe extends StatefulWidget {
 
 class _CardRecipeState extends State<CardRecipe> {
   RecipeStore get _store => widget.store;
+  RecipeStore get _storeCookingRecipe => widget.storeCookingRecipe;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +59,9 @@ class _CardRecipeState extends State<CardRecipe> {
                     child: GestureDetector(
                       onTap: () async {
                         // Implementar chamada e filtro da receita
-                        await Get.to(const RecipePage());
+                        await Get.to(() => RecipePage(
+                              storeCookingRecipe: _storeCookingRecipe,
+                            ));
                       },
                       child: Card(
                         color: Colors.white,

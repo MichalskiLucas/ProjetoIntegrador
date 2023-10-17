@@ -1,3 +1,4 @@
+import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
@@ -7,7 +8,7 @@ import 'package:cookmaster_front/components/ListTileCategory.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
-import 'package:cookmaster_front/pages/recipe_page.dart';
+import 'package:cookmaster_front/pages/recipeSearch_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
@@ -33,6 +34,12 @@ class _HomePageState extends State<HomePage> {
 
   User? get _users => widget.users;
 
+  final RecipeStore storeCookingRecipe = RecipeStore(
+    repository: RecipeRepository(
+      client: HttpClient(),
+    ),
+  );
+
   final IngredientStore store = IngredientStore(
     repository: IngredientRepository(
       client: HttpClient(),
@@ -50,6 +57,16 @@ class _HomePageState extends State<HomePage> {
       client: HttpClient(),
     ),
   );
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      storeRecipe.getRecipe();
+      storeCategory.getCategory();
+      storeCookingRecipe.getCookingRecipe();
+    });
+  }
 
   _userValidate() {
     if (widget.users != null) {
@@ -92,15 +109,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    setState(() {
-      storeRecipe.getRecipe();
-      storeCategory.getCategory();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -130,7 +138,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(() => SendRecipePage(user: widget.users))
+                      ? await Get.to(
+                          () => SendRecipeSearchPage(user: widget.users))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.');
                 },
@@ -177,14 +186,14 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.search),
               itemBuilder: (context) => [
                 _buildPopUpMenuItem(
-                    '  Buscar por Receitas', Icons.search, '/RecipePage'),
+                    '  Buscar por Receitas', Icons.search, '/RecipeSearchPage'),
                 _buildPopUpMenuItem('  Buscar por Ingredientes',
                     Icons.fastfood_outlined, '/ingredientPage')
               ],
               onSelected: (value) async {
-                if (value.toString() == '/RecipePage') {
+                if (value.toString() == '/RecipeSearchPage') {
                   await Get.to(
-                    () => const RecipePage(),
+                    () => const RecipeSearchPage(),
                   );
                 } else {
                   await store.getAllIngredients();
@@ -201,6 +210,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               CardRecipe(
                 store: storeRecipe,
+                storeCookingRecipe: storeCookingRecipe,
               ),
               Container(
                 color: Colors.deepOrange,

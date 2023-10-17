@@ -1,3 +1,4 @@
+import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ class RecipeStore {
 
   final ValueNotifier<List<RecipeModel>> state =
       ValueNotifier<List<RecipeModel>>([]);
+
+  final ValueNotifier<CookingRecipeModel> stateCooking =
+      ValueNotifier<CookingRecipeModel>(CookingRecipeModel());
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 
@@ -28,5 +32,18 @@ class RecipeStore {
       error.value = e.toString();
     }
     isLoading.value = false;
+  }
+
+  Future getCookingRecipe() async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.getCookingRecipe();
+      stateCooking.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
   }
 }

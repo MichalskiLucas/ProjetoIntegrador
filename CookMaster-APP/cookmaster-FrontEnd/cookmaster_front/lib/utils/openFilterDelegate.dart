@@ -21,7 +21,7 @@ void openFilterDelegate(BuildContext context, IngredientStore store, String appl
       return item.descricao;
     },
     onItemSearch: (IngredientModel item, String query) {
-      return item.descricao.toLowerCase().contains(query.toLowerCase());
+      return item.descricao!.toLowerCase().contains(query.toLowerCase());
     },
     onApplyButtonClick: (List<IngredientModel>? list) {
       if (list != null) {
