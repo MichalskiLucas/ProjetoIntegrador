@@ -80,7 +80,9 @@ class _CardRecipeState extends State<CardRecipe> {
                                 base64Image:
                                     item.image.replaceAll(RegExp(r'\s+'), ''),
                               ),
-                              const Divider(),
+                              const Divider(
+                                color: Colors.black,
+                              ),
                               Text(
                                 item.descricao,
                                 overflow: TextOverflow.ellipsis,

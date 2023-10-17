@@ -26,15 +26,15 @@ class CookingRecipeModel {
     }
 
     List<PreparationModel>? preparos = <PreparationModel>[];
-    if (map['preparos'] != null) {
-      for (var preparoJson in map['preparos']) {
+    if (map['preparo'] != null) {
+      for (var preparoJson in map['preparo']) {
         preparos.add(PreparationModel.fromMap(preparoJson));
       }
     }
 
     return CookingRecipeModel(
         descricao: map['descricao'],
-        image: map['imagem'],
+        image: map['image'],
         id: map['id'],
         voto: map['voto'],
         ingredientes: ingredientes,

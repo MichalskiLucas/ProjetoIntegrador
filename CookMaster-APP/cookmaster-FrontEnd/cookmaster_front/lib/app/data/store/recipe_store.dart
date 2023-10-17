@@ -13,8 +13,8 @@ class RecipeStore {
   final ValueNotifier<List<RecipeModel>> state =
       ValueNotifier<List<RecipeModel>>([]);
 
-  final ValueNotifier<CookingRecipeModel> stateCooking =
-      ValueNotifier<CookingRecipeModel>(CookingRecipeModel());
+  final ValueNotifier<CookingRecipeModel> stateCooking = ValueNotifier<CookingRecipeModel>(CookingRecipeModel());
+
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 
