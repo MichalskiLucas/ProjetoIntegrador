@@ -18,7 +18,7 @@ public class UsuarioService {
 
     public Usuario insert(Usuario usuario) throws Exception {
 
-        validarInsert(usuario);
+        validaInsert(usuario);
         usuarioRepository.saveAndFlush(usuario);
         return usuario;
 
@@ -55,7 +55,7 @@ public class UsuarioService {
         return usuarioRepository.findUsuarioByEmail(email);
     }
 
-    private void validarInsert(Usuario usuario) throws Exception {
+    public void validaInsert(Usuario usuario) throws Exception {
         if (usuario.getId() != null) {
             throw new Exception("Não deve informar o ID para inserir o ususario");
         }

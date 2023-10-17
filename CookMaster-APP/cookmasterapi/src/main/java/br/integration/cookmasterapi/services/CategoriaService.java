@@ -59,18 +59,20 @@ public class CategoriaService {
         return categoriaRepository.findCategoriaByDescricao(descricao);
     }
 
-    private Categoria validaInsert(CategoriaDto dto) throws Exception {
+    public Categoria validaInsert(CategoriaDto dto) throws Exception {
 
         Categoria c = new Categoria();
-
-        if (dto.getId() != null)
-            throw new Exception("Para inserir uma nova categoria, não deve-se informar o ID");
+        c = findByDescricao(dto.getDescricao());
         if (findByDescricao(dto.getDescricao()) != null) {
             throw new Exception("Categoria com a mesma descrição já inserido");
         }
+        if (dto.getId() != 0)
+            throw new Exception("Para inserir uma nova categoria, não deve-se informar o ID");
+
         c.setId(dto.getId());
         c.setDescricao(dto.getDescricao());
-        c.setImagem(Util.compressData(dto.getImagem()));
+        if(dto.getImagem() != null)
+            c.setImagem(Util.compressData(dto.getImagem()));
         return c;
 
     }

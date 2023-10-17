@@ -18,7 +18,7 @@ public class IngredienteService {
 	
 	public Ingrediente insert(Ingrediente ingrediente) throws Exception {
 		
-		validarInsert(ingrediente);
+		validaInsert(ingrediente);
 		ingredienteRepository.saveAndFlush(ingrediente);
 		return ingrediente;
 		
@@ -51,8 +51,8 @@ public class IngredienteService {
 		return ingredienteRepository.findIngredienteByDescricao(descricao);
 	}
 	
-	private void validarInsert(Ingrediente ingrediente) throws Exception{
-        if (ingrediente.getId() != null){
+	public void validaInsert(Ingrediente ingrediente) throws Exception{
+        if (ingrediente.getId() != 0){
             throw new Exception("Não deve informar o ID para inserir o ingrediente");
         }
         if(findByDescricao(ingrediente.getDescricao()) != null){
