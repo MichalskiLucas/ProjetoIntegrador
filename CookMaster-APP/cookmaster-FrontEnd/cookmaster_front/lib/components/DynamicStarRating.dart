@@ -33,18 +33,35 @@ class _DynamicStarRatingState extends State<DynamicStarRating> {
     final List<Widget> starIcons = List.generate(5, (index) {
       return IconButton(
         onPressed: () async {
-          setState(
-            () {
-              rating = index + 1;
-            },
-          );
-          try {
-            await store.postVote(rating, _user.state.value.id, _idReceita);
+          if (_user.state.value.id != 0) {
+            setState(
+              () {
+                rating = index + 1;
+              },
+            );
+            try {
+              await store.postVote(rating, _user.state.value.id, _idReceita);
+              Get.snackbar(
+                'Voto Contabilizado',
+                'Obrigado por avaliar essa receita!',
+                snackPosition: SnackPosition.BOTTOM,
+                icon: const Icon(Icons.verified),
+              );
+            } catch (e) {
+              Get.snackbar(
+                'Erro ao fazer Avaliação',
+                'Não foi possivel realizar o seu voto',
+                snackPosition: SnackPosition.BOTTOM,
+                icon: const Icon(Icons.error),
+              );
+            }
+          } else {
             Get.snackbar(
-                'Voto Contabilizado', 'Obrigado por avaliar essa receita!');
-          } catch (e) {
-            Get.snackbar('Erro ao fazer Avaliação',
-                'Não foi possivel realizar o seu voto');
+              'Não realizado o voto',
+              'É necessário realizar o login para votar',
+              snackPosition: SnackPosition.BOTTOM,
+              icon: const Icon(Icons.error),
+            );
           }
         },
         icon: Icon(
