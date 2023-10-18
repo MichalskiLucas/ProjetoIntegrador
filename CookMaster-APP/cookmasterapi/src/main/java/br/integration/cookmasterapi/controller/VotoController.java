@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.controller;
 
+import br.integration.cookmasterapi.dto.VotoDto;
 import br.integration.cookmasterapi.model.Voto;
 import br.integration.cookmasterapi.services.VotoService;
 import io.swagger.annotations.Api;
@@ -18,16 +19,16 @@ public class VotoController {
     private VotoService votoService;
 
     @PostMapping
-    public Voto insert(@RequestBody @Valid Voto voto) throws Exception {
+    public Voto insert(@RequestBody @Valid VotoDto votoDto) throws Exception {
 
-        return votoService.insert(voto);
+        return votoService.insert(votoDto);
 
     }
 
     @PutMapping
-    public Voto edit(@RequestBody Voto voto) throws Exception {
+    public Voto edit(@RequestBody VotoDto votoDto) throws Exception {
 
-        return votoService.edit(voto);
+        return votoService.edit(votoDto);
 
     }
 

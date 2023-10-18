@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.services;
 
+import br.integration.cookmasterapi.dto.VotoDto;
 import br.integration.cookmasterapi.model.Receita;
 import br.integration.cookmasterapi.model.Voto;
 import br.integration.cookmasterapi.repository.ReceitaRepository;
@@ -19,15 +20,32 @@ public class VotoService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
+    @Autowired
+    private UsuarioService usuarioService;
 
-    public Voto insert(Voto voto) throws Exception {
+    @Autowired
+    private ReceitaService receitaService;
+
+
+    public Voto insert(VotoDto votoDto) throws Exception {
+        Voto voto = new Voto();
+        voto.setUsuario(usuarioService.findById(votoDto.getIdUsuario()));
+        voto.setReceita(receitaService.findById(votoDto.getIdReceita()));
+        voto.setVoto(votoDto.getVoto());
+        if(votoDto.getId() != null)
+            voto.setId(votoDto.getId());
         validaInsert(voto);
         votoRepository.saveAndFlush(voto);
         return voto;
 
     }
 
-    public Voto edit(Voto voto) throws Exception {
+    public Voto edit(VotoDto votoDto) throws Exception {
+        Voto voto = new Voto();
+        voto.setId(votoDto.getId());
+        voto.setUsuario(usuarioService.findById(votoDto.getIdUsuario()));
+        voto.setReceita(receitaService.findById(votoDto.getIdReceita()));
+        voto.setVoto(votoDto.getVoto());
         validaUpdate(voto);
         votoRepository.saveAndFlush(voto);
         return voto;

@@ -8,6 +8,6 @@ public abstract class BaseDto<TEntity, TDto> {
 
     public abstract List<TDto> getListInstance(List<TEntity> list);
 
-    public abstract TDto getInstance(TEntity oentity) throws IOException, DataFormatException;
+    public abstract TDto getInstance(TEntity entity) throws IOException, DataFormatException;
 
 }
