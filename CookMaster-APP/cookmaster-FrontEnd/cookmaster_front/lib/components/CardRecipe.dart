@@ -1,14 +1,18 @@
 import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
+import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CardRecipe extends StatefulWidget {
-  const CardRecipe({Key? key, required this.store}) : super(key: key);
+  const CardRecipe({Key? key, required this.store, required this.userStore})
+      : super(key: key);
   final RecipeStore store;
+  final UserStore userStore;
 
   @override
   _CardRecipeState createState() => _CardRecipeState();
@@ -16,6 +20,7 @@ class CardRecipe extends StatefulWidget {
 
 class _CardRecipeState extends State<CardRecipe> {
   RecipeStore get _store => widget.store;
+  UserStore get _user => widget.userStore;
 
   final RecipeStore storeCookingRecipe = RecipeStore(
     repository: RecipeRepository(
@@ -65,6 +70,7 @@ class _CardRecipeState extends State<CardRecipe> {
                         await Get.to(
                           () => RecipePage(
                             storeCookingRecipe: storeCookingRecipe,
+                            userStore: _user,
                           ),
                         );
                       },

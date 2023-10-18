@@ -1,18 +1,19 @@
-// ignore_for_file: avoid_unnecessary_containers
-
-import 'dart:ffi';
-
+// ignore_for_file: avoid_unnecessary_containers, unnecessary_null_comparison
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
+import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
+import 'package:cookmaster_front/components/DynamicStarRating.dart';
+import 'package:cookmaster_front/components/RowDynamicStar.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class RecipePage extends StatefulWidget {
   final RecipeStore storeCookingRecipe;
+  final UserStore userStore;
   const RecipePage({
     super.key,
     required this.storeCookingRecipe,
+    required this.userStore,
   });
 
   @override
@@ -21,14 +22,14 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
   RecipeStore get _store => widget.storeCookingRecipe;
-
+  UserStore get _storeUser => widget.userStore;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBarSimple(title: "CookMaster", ctx: context),
         body: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 40, left: 8.0, right: 8.0),
+          padding: const EdgeInsets.only(bottom: 40, left: 8.0, right: 8.0),
           child: Column(
             children: [
               _store.stateCooking.value != null
@@ -165,6 +166,41 @@ class _RecipePageState extends State<RecipePage> {
                               },
                             ).toList();
                           }(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 20,
+              ),
+              Card(
+                color: Colors.white,
+                child: Container(
+                  padding: const EdgeInsets.all(32.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        RowDynamicStar(
+                          voto: _store.stateCooking.value.voto != null
+                              ? _store.stateCooking.value.voto!
+                              : 0,
+                        ),
+                        const Text(
+                          "Avaliação",
+                          style: TextStyle(
+                            fontFamily: 'JacquesFrancois',
+                            fontSize: 20,
+                            color: Colors.deepOrange,
+                          ),
+                        ),
+                        const Divider(
+                          color: Colors.black,
+                        ),
+                        DynamicStarRating(
+                          userStore: _storeUser,
                         ),
                       ],
                     ),
