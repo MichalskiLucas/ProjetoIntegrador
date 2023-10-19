@@ -200,6 +200,7 @@ class _RecipePageState extends State<RecipePage> {
                           color: Colors.black,
                         ),
                         DynamicStarRating(
+                          idReceita: _store.stateCooking.value.id!,
                           userStore: _storeUser,
                         ),
                       ],

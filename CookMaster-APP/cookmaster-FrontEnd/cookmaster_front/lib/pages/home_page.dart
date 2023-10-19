@@ -144,7 +144,9 @@ class _HomePageState extends State<HomePage> {
                   _userValidate()
                       ? await Get.to(() => SendRecipeSearchPage(user: _user))
                       : Get.snackbar('Cook Master',
-                          'Necessário realizar login para enviar uma receita.');
+                          'Necessário realizar login para enviar uma receita.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          icon: const Icon(Icons.login));
                 },
               ),
               ListTile(
@@ -158,7 +160,9 @@ class _HomePageState extends State<HomePage> {
                   _userValidate()
                       ? await Get.to(() => BagPage(user: _user))
                       : Get.snackbar('Cook Master',
-                          'Necessário realizar login para usar a sacola.');
+                          'Necessário realizar login para usar a sacola.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          icon: const Icon(Icons.login));
                 },
               ),
               ListTile(
