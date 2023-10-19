@@ -66,6 +66,10 @@ public class VotoService {
         return votoRepository.findVotoByReceitaId(Optional.ofNullable(receitaId));
     }
 
+    public List<Voto> findByUsuarioId(Long usuarioId) {
+        return votoRepository.findVotoByUsuarioId(Optional.ofNullable(usuarioId));
+    }
+
     private void validaInsert(Voto voto) throws Exception {
         if (voto.getId() != null)
             throw new Exception("Para inserir um voto, não deve-se informar o ID");

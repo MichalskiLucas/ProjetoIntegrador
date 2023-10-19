@@ -16,4 +16,7 @@ public interface VotoRepository extends JpaRepository<Voto,Long>{
 	@Query
 	public List<Voto> findVotoByReceitaId(Optional<Long> receitaId);
 
+	@Query
+	public List<Voto> findVotoByUsuarioId(Optional<Long> usuarioId);
+
 }
