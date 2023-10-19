@@ -1,3 +1,4 @@
+import 'package:cookmaster_front/app/data/models/vote_model.dart';
 import 'package:cookmaster_front/app/data/repositories/vote_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ class VoteStore {
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   final ValueNotifier<int> state = ValueNotifier<int>(0);
+  final ValueNotifier<VoteModel> stateGet =
+      ValueNotifier<VoteModel>(VoteModel());
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 
@@ -22,6 +25,19 @@ class VoteStore {
       state.value = result;
     } on NotFoundException catch (e) {
       error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
+  Future getVote(int? userId) async {
+    isLoading.value = true;
+    try {
+      final result = await repository.getVoteByUser(userId!);
+      stateGet.value = result;
+    } on NotFoundException catch (e) {
+      null;
     } catch (e) {
       error.value = e.toString();
     }

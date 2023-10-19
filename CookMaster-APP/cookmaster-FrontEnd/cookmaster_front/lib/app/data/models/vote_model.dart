@@ -1,19 +1,21 @@
 class VoteModel {
-  final int voto;
-  final int idUsuario;
-  final int idReceita;
+  final int? id;
+  final int? voto;
+  final int? idUsuario;
+  final int? idReceita;
 
   VoteModel({
-    required this.idUsuario,
-    required this.voto,
-    required this.idReceita,
+    this.id,
+    this.idUsuario,
+    this.voto,
+    this.idReceita,
   });
 
   factory VoteModel.fromMap(Map<String, dynamic> map) {
     return VoteModel(
-      idReceita: map['idReceita'],
-      idUsuario: map['idUsuario'],
-      voto: map['voto'],
-    );
+        idReceita: map['idReceita'],
+        idUsuario: map['idUsuario'],
+        voto: map['voto'],
+        id: map['id']);
   }
 }

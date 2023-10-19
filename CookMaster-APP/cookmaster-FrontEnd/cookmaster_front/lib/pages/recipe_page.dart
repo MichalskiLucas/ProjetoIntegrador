@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers, unnecessary_null_comparison
+import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/repositories/vote_repository.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
+import 'package:cookmaster_front/app/data/store/vote_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/components/DynamicStarRating.dart';
 import 'package:cookmaster_front/components/RowDynamicStar.dart';
@@ -23,6 +26,22 @@ class RecipePage extends StatefulWidget {
 class _RecipePageState extends State<RecipePage> {
   RecipeStore get _store => widget.storeCookingRecipe;
   UserStore get _storeUser => widget.userStore;
+
+  final VoteStore _storeVote = VoteStore(
+    repository: VoteRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  @override
+  void initState() {
+    getVote();
+  }
+
+  getVote() async {
+    await _storeVote.getVote(_storeUser.state.value.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -202,6 +221,7 @@ class _RecipePageState extends State<RecipePage> {
                         DynamicStarRating(
                           idReceita: _store.stateCooking.value.id!,
                           userStore: _storeUser,
+                          voteStore: _storeVote,
                         ),
                       ],
                     ),
