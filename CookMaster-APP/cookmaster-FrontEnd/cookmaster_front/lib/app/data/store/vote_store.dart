@@ -31,10 +31,24 @@ class VoteStore {
     isLoading.value = false;
   }
 
-  Future getVote(int? userId) async {
+  Future<void> putVote(int? id, int voto, int idUsuario, int idReceita) async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.putVote(id, voto, idUsuario, idReceita);
+      state.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
+  Future getVote(int? userId, int? recipeId) async {
     isLoading.value = true;
     try {
-      final result = await repository.getVoteByUser(userId!);
+      final result = await repository.getVoteByUser(userId!, recipeId!);
       stateGet.value = result;
     } on NotFoundException catch (e) {
       null;

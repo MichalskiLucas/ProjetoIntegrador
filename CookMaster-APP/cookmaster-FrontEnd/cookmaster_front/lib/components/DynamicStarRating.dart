@@ -60,13 +60,24 @@ class _DynamicStarRatingState extends State<DynamicStarRating> {
               },
             );
             try {
-              await store.postVote(rating, _user.state.value.id, _idReceita);
-              Get.snackbar(
-                'Voto Contabilizado',
-                'Obrigado por avaliar essa receita!',
-                snackPosition: SnackPosition.BOTTOM,
-                icon: const Icon(Icons.verified),
-              );
+              if (_storeVote?.stateGet.value.id != null) {
+                await store.putVote(_storeVote!.stateGet.value.id, rating,
+                    _user.state.value.id, _idReceita);
+                Get.snackbar(
+                  'Voto Atualizado',
+                  'Obrigado por avaliar essa receita!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.verified),
+                );
+              } else {
+                await store.postVote(rating, _user.state.value.id, _idReceita);
+                Get.snackbar(
+                  'Voto Contabilizado',
+                  'Obrigado por avaliar essa receita!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.verified),
+                );
+              }
             } catch (e) {
               Get.snackbar(
                 'Erro ao fazer Avaliação',

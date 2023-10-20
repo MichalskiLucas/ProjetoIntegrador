@@ -7,7 +7,8 @@ import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IVoteRepository {
   Future<int> postVote(int voto, int idUsuario, int idreceita);
-  Future<VoteModel> getVoteByUser(int userId);
+  Future<int> putVote(int? id, int voto, int idUsuario, int idreceita);
+  Future<VoteModel> getVoteByUser(int userId, int recipeId);
 }
 
 class VoteRepository implements IVoteRepository {
@@ -36,14 +37,43 @@ class VoteRepository implements IVoteRepository {
       case 404:
         throw NotFoundException('Url informada não está válida');
       default:
-        throw Exception('Erro ao realizar cadastro de usuário');
+        throw Exception('Erro ao realizar cadastro de voto');
     }
   }
 
   @override
-  Future<VoteModel> getVoteByUser(int userId) async {
+  Future<int> putVote(int? id, int voto, int idUsuario, int idReceita) async {
+    final response = await client.put(
+      url:
+          '${urlApi}voto' /*'https://run.mocky.io/v3/49344b80-bb98-47cf-a857-0cbed3a2f1c0'*/,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      jsonBody: jsonEncode(
+        {
+          'id': id,
+          'voto': voto,
+          'idUsuario': idUsuario,
+          'idReceita': idReceita,
+        },
+      ),
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        return 200;
+      case 404:
+        throw NotFoundException('Url informada não está válida');
+      default:
+        throw Exception('Erro ao realizar atualizacao de voto');
+    }
+  }
+
+  @override
+  Future<VoteModel> getVoteByUser(int userId, int recipeId) async {
     final response = await client.get(
-      url: '${urlApi}findVotoByUsuario/$userId',
+      url:
+          '${urlApi}/voto/findVotoByUsuario?usuarioId=$userId&receitaId=$recipeId',
     );
 
     switch (response.statusCode) {
