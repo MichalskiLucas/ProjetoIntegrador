@@ -66,8 +66,8 @@ public class VotoService {
         return votoRepository.findVotoByReceitaId(Optional.ofNullable(receitaId));
     }
 
-    public List<Voto> findByUsuarioId(Long usuarioId) {
-        return votoRepository.findVotoByUsuarioId(Optional.ofNullable(usuarioId));
+    public Voto findByUsuarioId(Long usuarioId, Long receitaId) {
+        return votoRepository.findVotoByUsuarioIdAndReceitaId(Optional.ofNullable(usuarioId), Optional.ofNullable(receitaId));
     }
 
     private void validaInsert(Voto voto) throws Exception {
