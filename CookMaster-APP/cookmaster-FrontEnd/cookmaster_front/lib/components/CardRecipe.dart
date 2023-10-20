@@ -1,8 +1,10 @@
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/vote_repository.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
+import 'package:cookmaster_front/app/data/store/vote_store.dart';
 import 'package:cookmaster_front/pages/recipe_page.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,12 @@ class _CardRecipeState extends State<CardRecipe> {
 
   final RecipeStore storeCookingRecipe = RecipeStore(
     repository: RecipeRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  final VoteStore storeVote = VoteStore(
+    repository: VoteRepository(
       client: HttpClient(),
     ),
   );
@@ -67,10 +75,12 @@ class _CardRecipeState extends State<CardRecipe> {
                     child: GestureDetector(
                       onTap: () async {
                         await storeCookingRecipe.getCookingRecipe(item.id);
+                        await storeVote.getVote(_user.state.value.id, item.id);
                         await Get.to(
                           () => RecipePage(
                             storeCookingRecipe: storeCookingRecipe,
                             userStore: _user,
+                            voteStore: storeVote,
                           ),
                         );
                       },

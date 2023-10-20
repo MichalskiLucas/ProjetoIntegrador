@@ -6,6 +6,10 @@ abstract class IHttpClient {
       {required String url,
       Map<String, String>? headers,
       required String jsonBody});
+  Future<http.Response> put(
+      {required String url,
+      Map<String, String>? headers,
+      required String jsonBody});
 }
 
 class HttpClient implements IHttpClient {
@@ -23,6 +27,16 @@ class HttpClient implements IHttpClient {
       required String jsonBody}) async {
     final response =
         await client.post(Uri.parse(url), headers: headers, body: jsonBody);
+    return response;
+  }
+
+  @override
+  Future<http.Response> put(
+      {required String url,
+      Map<String, String>? headers,
+      required String jsonBody}) async {
+    final response =
+        await client.put(Uri.parse(url), headers: headers, body: jsonBody);
     return response;
   }
 }

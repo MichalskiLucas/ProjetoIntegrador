@@ -13,10 +13,12 @@ import 'package:flutter/material.dart';
 class RecipePage extends StatefulWidget {
   final RecipeStore storeCookingRecipe;
   final UserStore userStore;
+  final VoteStore? voteStore;
   const RecipePage({
     super.key,
     required this.storeCookingRecipe,
     required this.userStore,
+    this.voteStore,
   });
 
   @override
@@ -26,21 +28,7 @@ class RecipePage extends StatefulWidget {
 class _RecipePageState extends State<RecipePage> {
   RecipeStore get _store => widget.storeCookingRecipe;
   UserStore get _storeUser => widget.userStore;
-
-  final VoteStore _storeVote = VoteStore(
-    repository: VoteRepository(
-      client: HttpClient(),
-    ),
-  );
-
-  @override
-  void initState() {
-    getVote();
-  }
-
-  getVote() async {
-    await _storeVote.getVote(_storeUser.state.value.id);
-  }
+  VoteStore? get _storeVote => widget.voteStore;
 
   @override
   Widget build(BuildContext context) {
