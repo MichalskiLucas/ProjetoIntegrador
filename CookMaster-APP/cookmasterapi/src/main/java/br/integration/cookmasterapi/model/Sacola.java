@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,6 +31,7 @@ public class Sacola {
     private Usuario usuario;
 
 
-    @OneToMany
-    private List<Ingrediente> ingredientes;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Ingrediente> ingredientes = new ArrayList<>();
+
 }
