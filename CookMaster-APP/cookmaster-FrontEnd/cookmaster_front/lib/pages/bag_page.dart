@@ -3,15 +3,15 @@
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
+import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
 import 'package:cookmaster_front/utils/openFilterDelegate.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BagPage extends StatefulWidget {
-  final User? user;
+  final UserStore user;
   const BagPage({super.key, required this.user});
 
   @override
@@ -25,6 +25,8 @@ class _BagPageState extends State<BagPage> {
     ),
   );
 
+  UserStore get _storeUser => widget.user;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,14 +35,15 @@ class _BagPageState extends State<BagPage> {
           title: 'Cook Master',
           ctx: context,
         ),
-        body: _CookMasterBag(context, store),
+        body: _CookMasterBag(context, store, _storeUser),
       ),
     );
   }
 }
 
 // ignore: non_constant_identifier_names
-Widget _CookMasterBag(BuildContext context, IngredientStore store) {
+Widget _CookMasterBag(
+    BuildContext context, IngredientStore store, UserStore storeUser) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -117,7 +120,8 @@ Widget _CookMasterBag(BuildContext context, IngredientStore store) {
                 ),
                 onPressed: () async {
                   await store.getAllIngredients();
-                  openFilterDelegate(context, store, "Finalizar");
+                  openFilterDelegate(
+                      context, store, "Finalizar", storeUser.state.value.id);
                 },
                 child: const Text(
                   'Criar',
