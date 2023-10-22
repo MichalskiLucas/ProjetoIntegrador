@@ -13,8 +13,8 @@ class BagModel {
 
   factory BagModel.fromMap(Map<String, dynamic> map) {
     List<IngredientModel>? ingredients = <IngredientModel>[];
-    if (map['ingredients'] != null) {
-      for (var ingredientJson in map['ingredients']) {
+    if (map['ingredientes'] != null) {
+      for (var ingredientJson in map['ingredientes']) {
         ingredients.add(IngredientModel.fromMap(ingredientJson));
       }
     }

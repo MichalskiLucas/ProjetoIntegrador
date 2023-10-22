@@ -1,7 +1,9 @@
 // ignore_for_file: file_names, prefer_const_constructors, use_build_context_synchronously
 
 import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
@@ -25,6 +27,12 @@ class _BagPageState extends State<BagPage> {
     ),
   );
 
+  final BagStore storeBag = BagStore(
+    repository: BagRepository(
+      client: HttpClient(),
+    ),
+  );
+
   UserStore get _storeUser => widget.user;
 
   @override
@@ -35,15 +43,15 @@ class _BagPageState extends State<BagPage> {
           title: 'Cook Master',
           ctx: context,
         ),
-        body: _CookMasterBag(context, store, _storeUser),
+        body: _CookMasterBag(context, store, _storeUser, storeBag),
       ),
     );
   }
 }
 
 // ignore: non_constant_identifier_names
-Widget _CookMasterBag(
-    BuildContext context, IngredientStore store, UserStore storeUser) {
+Widget _CookMasterBag(BuildContext context, IngredientStore store,
+    UserStore storeUser, BagStore storeBag) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -90,7 +98,12 @@ Widget _CookMasterBag(
                   ),
                 ),
                 onPressed: () async {
-                  await Get.to(BagViewPage());
+                  await storeBag.getBag(storeUser.state.value.id);
+                  await Get.to(
+                    () => BagViewPage(
+                      bagStore: storeBag,
+                    ),
+                  );
                 },
                 child: const Text(
                   'Visualizar',
