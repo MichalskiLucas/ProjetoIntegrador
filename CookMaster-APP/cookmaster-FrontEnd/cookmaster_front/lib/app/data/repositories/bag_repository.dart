@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IBagRepository {
   Future<int> postBag(int userId, List<IngredientModel> list);
@@ -29,8 +30,7 @@ class BagRepository implements IBagRepository {
     print(json);
 
     final response = await client.post(
-        url: /*'${urlApi}sacola'*/
-            'https://run.mocky.io/v3/978d3ecf-309a-411c-9153-05755e8de3db',
+        url: '${urlApi}sacola',
         headers: {'Content-Type': 'application/json'},
         jsonBody: json);
 
