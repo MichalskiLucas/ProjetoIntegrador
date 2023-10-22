@@ -22,8 +22,8 @@ class BagRepository implements IBagRepository {
 
     final json = jsonEncode(
       {
-        'usuarioId': '$userId',
-        'ingredients': ingredients,
+        'idUsuario': userId,
+        'idIngredientes': ingredients,
       },
     );
 

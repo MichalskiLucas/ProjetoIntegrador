@@ -21,12 +21,22 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
   void postBag(List<IngredientModel> selectedIngredients) async {
     try {
       await storeBag.postBag(userId, selectedIngredients);
-      Get.snackbar(
-        'Sacola Criada',
-        'Obrigado por criar a sacola!',
-        snackPosition: SnackPosition.BOTTOM,
-        icon: const Icon(Icons.verified),
-      );
+      if (storeBag.error.value != "") {
+        Get.snackbar(
+          'Erro Sacola',
+          'Ocorreu um erro ao salvar sacola!',
+          snackPosition: SnackPosition.BOTTOM,
+          icon: const Icon(Icons.error),
+        );
+        print(storeBag.error.toString());
+      } else {
+        Get.snackbar(
+          'Sacola Criada',
+          'Obrigado por criar a sacola!',
+          snackPosition: SnackPosition.BOTTOM,
+          icon: const Icon(Icons.verified),
+        );
+      }
     } catch (e) {
       Get.snackbar(
         'Erro Sacola',
