@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api(description = "Controlador Rest responsável pelas operações que representam a o objeto usuario")
 @RestController
-@RequestMapping(path = "/voto")
+@RequestMapping(path = "/sacola")
 public class SacolaController {
 
     @Autowired
