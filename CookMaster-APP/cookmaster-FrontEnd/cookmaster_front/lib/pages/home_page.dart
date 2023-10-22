@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(() => BagPage(user: _user))
+                      ? await Get.to(() => BagPage(user: storeUser))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para usar a sacola.',
                           snackPosition: SnackPosition.BOTTOM,
@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   await store.getAllIngredients();
                   // ignore: use_build_context_synchronously
-                  openFilterDelegate(context, store, "Filtrar");
+                  openFilterDelegate(context, store, "Filtrar", storeUser.state.value.id);
                 }
               },
             )
