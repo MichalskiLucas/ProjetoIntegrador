@@ -7,7 +7,7 @@ import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IBagRepository {
-  Future<int> postBag(int userId, List<IngredientModel> list);
+  Future<int> postBag(int userId, List<IngredientModel>? list);
   Future<BagModel> getBag(int userId);
 }
 
@@ -17,8 +17,8 @@ class BagRepository implements IBagRepository {
   BagRepository({required this.client});
 
   @override
-  Future<int> postBag(int userId, List<IngredientModel> list) async {
-    final List<int?> ingredients = list.map((ingredient) {
+  Future<int> postBag(int userId, List<IngredientModel>? list) async {
+    final List<int?> ingredients = list!.map((ingredient) {
       return ingredient.id;
     }).toList();
 

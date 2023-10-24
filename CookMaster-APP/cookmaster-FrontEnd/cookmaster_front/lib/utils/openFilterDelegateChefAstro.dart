@@ -5,12 +5,11 @@ import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
-import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void openFilterDelegate(BuildContext context, IngredientStore store,
+Future<String> openFilterDelegateChefAstro(BuildContext context, IngredientStore store,
     String applyButtonText, int userId) async {
   List<IngredientModel> ingredientList = store.state.value;
   List<IngredientModel> selectedIngredients = [];
@@ -20,6 +19,8 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
       client: HttpClient(),
     ),
   );
+
+  String _messageIngredient = "";
 
   void postBag(List<IngredientModel>? selectedIngredients) async {
     try {
@@ -52,10 +53,10 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
 
   String _message(List<IngredientModel> list) {
     var ingredienteMessage =
-        "Eu gostaria que voce me retornasse 3 opções de receita com os seguintes ingredientes: ";
+        "Eu gostaria de 1 opção de receita somente com os seguintes ingredientes: \n";
     if (list != null) {
       ingredienteMessage = ingredienteMessage +
-          list.map((ingredient) => ingredient.descricao).join(', ');
+          list.map((ingredient) => ingredient.descricao).join(', \n');
 
       return ingredienteMessage;
     }
@@ -86,20 +87,10 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
           postBag(selectedIngredients);
         }
 
-        if (applyButtonText == "Filtrar") {
-          final String? _messageIngredient = _message(selectedIngredients);
-          if (_messageIngredient != "") {
-            null;
-          } else {
-            Get.snackbar(
-              'Erro ao consultar',
-              'Não foi selecionado nenhum ingrediente',
-              snackPosition: SnackPosition.BOTTOM,
-              icon: const Icon(Icons.error),
-            );
-          }
-        }
+        _messageIngredient = _message(selectedIngredients);
       }
     },
   );
+
+  return _messageIngredient;
 }

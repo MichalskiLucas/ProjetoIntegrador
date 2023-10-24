@@ -9,9 +9,9 @@ import '../widgets/chat_bubble.dart';
 import '../widgets/chat_field.dart';
 
 class PageAstro extends StatefulWidget {
-  const PageAstro({super.key});
+  const PageAstro({super.key, this.message});
+  final String? message;
 
-  
   @override
   State<PageAstro> createState() => _PageAstroState();
 }
@@ -19,6 +19,15 @@ class PageAstro extends StatefulWidget {
 class _PageAstroState extends State<PageAstro> {
   void _sendMessage(String message) {
     sendMessageAction.value = message;
+  }
+
+  String? get _message => widget.message;
+
+  @override
+  void initState() {
+    if (_message != null) {
+      _sendMessage(_message ?? "");
+    }
   }
 
   @override

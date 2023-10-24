@@ -17,7 +17,7 @@ class BagStore {
 
   BagStore({required this.repository});
 
-  Future<void> postBag(int userId, List<IngredientModel> list) async {
+  Future<void> postBag(int userId, List<IngredientModel>? list) async {
     isLoading.value = true;
 
     try {
