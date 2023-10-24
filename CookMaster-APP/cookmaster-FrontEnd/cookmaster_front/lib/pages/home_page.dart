@@ -164,6 +164,7 @@ class _HomePageState extends State<HomePage> {
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.',
                           snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
                           icon: const Icon(Icons.login));
                 },
               ),
@@ -184,12 +185,14 @@ class _HomePageState extends State<HomePage> {
                           storeUser: storeUser,
                           listIngredient: storeBag.stateBag.value.ingredients,
                           users: _user,
+                          idBag: storeBag.stateBag.value.id,
                         ),
                       );
                     } else {
                       Get.snackbar('Cook Master',
                           'Necessário realizar login para usar a sacola.',
                           snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
                           icon: const Icon(Icons.login));
                     }
                   }),

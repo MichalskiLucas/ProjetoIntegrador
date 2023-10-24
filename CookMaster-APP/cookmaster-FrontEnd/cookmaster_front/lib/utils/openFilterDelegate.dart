@@ -14,41 +14,6 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
   List<IngredientModel> ingredientList = store.state.value;
   List<IngredientModel> selectedIngredients = [];
 
-  final BagStore storeBag = BagStore(
-    repository: BagRepository(
-      client: HttpClient(),
-    ),
-  );
-
-  void postBag(List<IngredientModel>? selectedIngredients) async {
-    try {
-      await storeBag.postBag(userId, selectedIngredients);
-      if (storeBag.error.value != "") {
-        Get.snackbar(
-          'Erro Sacola',
-          'Ocorreu um erro ao salvar sacola!',
-          snackPosition: SnackPosition.BOTTOM,
-          icon: const Icon(Icons.error),
-        );
-        print(storeBag.error.toString());
-      } else {
-        Get.snackbar(
-          'Sacola Criada',
-          'Obrigado por criar a sacola!',
-          snackPosition: SnackPosition.BOTTOM,
-          icon: const Icon(Icons.verified),
-        );
-      }
-    } catch (e) {
-      Get.snackbar(
-        'Erro Sacola',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        icon: const Icon(Icons.verified),
-      );
-    }
-  }
-
   String _message(List<IngredientModel> list) {
     var ingredienteMessage =
         "Eu gostaria que voce me retornasse 3 opções de receita com os seguintes ingredientes: ";
@@ -80,10 +45,6 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
     onApplyButtonClick: (List<IngredientModel>? list) {
       if (list != null) {
         selectedIngredients = list;
-
-        if (applyButtonText == "Finalizar") {
-          postBag(selectedIngredients);
-        }
       }
     },
   );

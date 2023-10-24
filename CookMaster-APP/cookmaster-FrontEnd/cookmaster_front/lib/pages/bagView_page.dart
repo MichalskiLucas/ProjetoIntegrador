@@ -20,11 +20,13 @@ class BagViewPage extends StatefulWidget {
       required this.storeUser,
       required UserStore user,
       required this.listIngredient,
-      this.users})
+      this.users,
+      this.idBag})
       : super(key: key);
   final UserStore storeUser;
   final User? users;
   List<IngredientModel>? listIngredient;
+  final int? idBag;
 
   @override
   State<BagViewPage> createState() => _BagViewPageState();
@@ -35,6 +37,7 @@ class _BagViewPageState extends State<BagViewPage> {
   List<IngredientModel>? get _listIngredient => widget.listIngredient;
   User? get _users => widget.users;
   List<IngredientModel>? listIngredient;
+  int? get _idBag => widget.idBag;
 
   final BagStore storeBag = BagStore(
     repository: BagRepository(
@@ -77,13 +80,10 @@ class _BagViewPageState extends State<BagViewPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final filter = await openFilterDelegateBag(
-            context,
-            store,
-            "Finalizar",
-            _storeUser.state.value.id,
-          );
+              context, store, "Finalizar", _storeUser.state.value.id, _idBag);
           if (filter) {
-            Get.snackbar('Sacola Criada', 'Sua sacola foi criada. Verifique!',
+            Get.snackbar(
+                'Sacola Criada/Atualizada', 'Sua sacola foi criada. Verifique!',
                 snackPosition: SnackPosition.BOTTOM,
                 icon: const Icon(Icons.verified),
                 backgroundColor: Colors.green);

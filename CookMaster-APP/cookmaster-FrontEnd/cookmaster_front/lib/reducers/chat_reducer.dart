@@ -50,6 +50,7 @@ class ChatReducer extends RxReducer {
         "Erro ao consultar Chef",
         "Ocorreu um erro ao tentar consultar o chef",
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
         icon: const Icon(Icons.error),
       );
     }
