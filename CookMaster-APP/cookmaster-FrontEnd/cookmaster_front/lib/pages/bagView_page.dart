@@ -1,32 +1,81 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
 import 'package:cookmaster_front/app/data/store/bag_store.dart';
+import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
+import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
+import 'package:cookmaster_front/pages/home_page.dart';
+import 'package:cookmaster_front/utils/openFilterDelegate.dart';
+import 'package:cookmaster_front/utils/openFilterDelegateBag.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BagViewPage extends StatefulWidget {
-  const BagViewPage({Key? key, required this.bagStore}) : super(key: key);
-  final BagStore bagStore;
+  const BagViewPage(
+      {Key? key,
+      required this.storeUser,
+      required UserStore user,
+      required this.storeBag})
+      : super(key: key);
+  final UserStore storeUser;
+  final BagStore storeBag;
 
   @override
   State<BagViewPage> createState() => _BagViewPageState();
 }
 
 class _BagViewPageState extends State<BagViewPage> {
-  BagStore get _storeBag => widget.bagStore;
+  UserStore get _storeUser => widget.storeUser;
+  BagStore get _storeBag => widget.storeBag;
+
+  List<IngredientModel> selectedIngredients = [];
+  @override
+  void initState() {
+    super.initState();
+    _returnIngredients();
+  }
+
+  void _returnIngredients() async {
+    await store.getAllIngredients();
+  }
+
+  final IngredientStore store = IngredientStore(
+    repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return _CookMasterBagView(context, _storeBag);
+    return Scaffold(
+        appBar: AppBarSimple(
+          ctx: context,
+          title: 'Sacola Cook Master',
+        ),
+        body: _buildIngredientList(_storeBag),
+        floatingActionButton: floatingActionButton(
+          context,
+          store,
+          _storeUser,
+        ));
   }
 }
 
-Widget _CookMasterBagView(BuildContext context, BagStore storeBag) {
-  return Scaffold(
-    appBar: AppBarSimple(
-      ctx: context,
-      title: 'Sacola Cook Master',
-    ),
-    body: _buildIngredientList(storeBag),
+FloatingActionButton floatingActionButton(
+    BuildContext context, IngredientStore store, UserStore storeUser) {
+  return FloatingActionButton(
+    onPressed: () async {
+      String teste = await openFilterDelegateBag(
+        context,
+        store,
+        "Finalizar",
+        storeUser.state.value.id,
+      );
+    },
   );
 }
 
@@ -44,8 +93,8 @@ Widget _buildIngredientList(BagStore storeBag) {
       },
     );
   } else {
-    return Center(
-      child: const Text("Você não possui sacola disponível!"),
+    return const Center(
+      child: Text("Você não possui ingredientes na sacola. Adicione!!"),
     );
   }
 }
