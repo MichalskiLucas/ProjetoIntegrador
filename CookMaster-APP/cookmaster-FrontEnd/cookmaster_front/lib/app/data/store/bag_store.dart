@@ -31,6 +31,20 @@ class BagStore {
     isLoading.value = false;
   }
 
+   Future<void> putBag(int userId, List<IngredientModel>? list, int bagId) async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.putBag(userId, list, bagId);
+      state.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
   Future getBag(int userId) async {
     isLoading.value = true;
     try {

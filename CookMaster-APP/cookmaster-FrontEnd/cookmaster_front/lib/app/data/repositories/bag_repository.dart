@@ -8,6 +8,7 @@ import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IBagRepository {
   Future<int> postBag(int userId, List<IngredientModel>? list);
+  Future<int> putBag(int userId, List<IngredientModel>? list, int bagId);
   Future<BagModel> getBag(int userId);
 }
 
@@ -41,6 +42,35 @@ class BagRepository implements IBagRepository {
         throw NotFoundException('Url informada não está válida');
       default:
         throw Exception('Erro ao realizar cadastro de sacola');
+    }
+  }
+
+  @override
+  Future<int> putBag(int userId, List<IngredientModel>? list, int bagId) async {
+    final List<int?> ingredients = list!.map((ingredient) {
+      return ingredient.id;
+    }).toList();
+
+    final json = jsonEncode(
+      {
+        'id': bagId,
+        'idUsuario': userId,
+        'idIngredientes': ingredients,
+      },
+    );
+
+    final response = await client.put(
+        url: '${urlApi}sacola',
+        headers: {'Content-Type': 'application/json'},
+        jsonBody: json);
+
+    switch (response.statusCode) {
+      case 200:
+        return 200;
+      case 404:
+        throw NotFoundException('Url informada não está válida');
+      default:
+        throw Exception('Erro ao realizar atualizacao de sacola');
     }
   }
 

@@ -9,7 +9,7 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> openFilterDelegateBag(BuildContext context, IngredientStore store,
-    String applyButtonText, int userId) async {
+    String applyButtonText, int userId, int? bagId) async {
   List<IngredientModel> ingredientList = store.state.value;
   List<IngredientModel> selectedIngredients = [];
 
@@ -24,7 +24,23 @@ Future<bool> openFilterDelegateBag(BuildContext context, IngredientStore store,
   Future<bool> postBag(List<IngredientModel>? selectedIngredients) async {
     bool post;
     try {
+      storeBag.error.value = "";
       await storeBag.postBag(userId, selectedIngredients);
+      if (storeBag.error.value != "") {
+        post = true;
+      } else {
+        post = false;
+      }
+    } catch (e) {
+      post = false;
+    }
+    return post;
+  }
+
+  Future<bool> putBag(List<IngredientModel>? selectedIngredients) async {
+    bool post;
+    try {
+      await storeBag.putBag(userId, selectedIngredients, bagId ?? 0);
       post = true;
     } catch (e) {
       post = false;
@@ -51,7 +67,11 @@ Future<bool> openFilterDelegateBag(BuildContext context, IngredientStore store,
     onApplyButtonClick: (List<IngredientModel>? list) async {
       if (list != null) {
         selectedIngredients = list;
-        finish = await postBag(selectedIngredients);
+        if (bagId != null) {
+          finish = await putBag(selectedIngredients);
+        } else {
+          finish = await postBag(selectedIngredients);
+        }
       }
     },
   );

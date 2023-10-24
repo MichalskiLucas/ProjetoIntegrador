@@ -89,7 +89,7 @@ public class SacolaService {
         }
 
         if (!sacolaDto.getIdIngredientes().isEmpty()) {
-            for (int i = 0; i <= sacolaDto.getIdIngredientes().size(); i++) {
+            for (int i = 0; i < sacolaDto.getIdIngredientes().size(); i++) {
                 ingredientes.add(ingredienteService.findById(sacolaDto.getIdIngredientes().get(i)));
             }
         }
