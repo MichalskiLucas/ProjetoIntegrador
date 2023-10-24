@@ -7,12 +7,13 @@ import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-Future<String> openFilterDelegateBag(BuildContext context,
-    IngredientStore store, String applyButtonText, int userId) async {
+Future<bool> openFilterDelegateBag(BuildContext context, IngredientStore store,
+    String applyButtonText, int userId) async {
   List<IngredientModel> ingredientList = store.state.value;
   List<IngredientModel> selectedIngredients = [];
+
+  bool finish = true;
 
   final BagStore storeBag = BagStore(
     repository: BagRepository(
@@ -20,14 +21,15 @@ Future<String> openFilterDelegateBag(BuildContext context,
     ),
   );
 
-  String _messageIngredient = "";
-
-  void postBag(List<IngredientModel>? selectedIngredients) async {
+  Future<bool> postBag(List<IngredientModel>? selectedIngredients) async {
+    bool post;
     try {
       await storeBag.postBag(userId, selectedIngredients);
+      post = true;
     } catch (e) {
-      _messageIngredient = 'Ocorreu um erro ao salvar sacola!';
+      post = false;
     }
+    return post;
   }
 
   await FilterListDelegate.show(
@@ -46,17 +48,13 @@ Future<String> openFilterDelegateBag(BuildContext context,
     onItemSearch: (IngredientModel item, String query) {
       return item.descricao!.toLowerCase().contains(query.toLowerCase());
     },
-    onApplyButtonClick: (List<IngredientModel>? list) {
+    onApplyButtonClick: (List<IngredientModel>? list) async {
       if (list != null) {
         selectedIngredients = list;
-
-        if (applyButtonText == "Finalizar") {
-          postBag(selectedIngredients);
-          _messageIngredient = 'Obrigado por criar a sacola!';
-        }
+        finish = await postBag(selectedIngredients);
       }
     },
   );
 
-  return _messageIngredient;
+  return finish;
 }

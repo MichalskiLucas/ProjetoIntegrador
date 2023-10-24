@@ -98,7 +98,7 @@ Widget _CookMasterBag(BuildContext context, IngredientStore store,
                   ),
                 ),
                 onPressed: () async {
-                  await storeBag.getBag(storeUser.state.value.id);
+                  //await storeBag.getBag(storeUser.state.value.id);
                   // await Get.to(
                   //   () => BagViewPage(
                   //     bagStore: storeBag,
