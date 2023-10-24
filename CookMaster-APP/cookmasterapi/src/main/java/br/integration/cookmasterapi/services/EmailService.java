@@ -14,15 +14,19 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendMail(String dest, String assunto, String corpo) throws MessagingException {
+    public void sendMail(String dest, String assunto, String corpo) throws Exception {
         MimeMessage mensagem = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mensagem, true);
 
         helper.setTo(dest);
         helper.setSubject(assunto);
         helper.setText(corpo, false);
+        try {
+            javaMailSender.send(mensagem);
+        }catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
 
-       javaMailSender.send(mensagem);
     }
 
 }

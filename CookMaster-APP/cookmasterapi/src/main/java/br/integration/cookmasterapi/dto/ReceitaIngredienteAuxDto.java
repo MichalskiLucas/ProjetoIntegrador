@@ -28,10 +28,15 @@ public class ReceitaIngredienteAuxDto {
             ReceitaIngredienteAuxDto dto = new ReceitaIngredienteAuxDto();
             if(entity.getReceita() != null){
                 dto.setIdReceita(entity.getReceita().getId());
+
                 if(entity.getReceita().getImagem() != null)
                    dto.setImgReceita(Util.decompress(entity.getReceita().getImagem()));
-            }
 
+                if(entity.getReceita().getUsuario() != null)
+                    dto.setIdUsuario(entity.getReceita().getUsuario().getId());
+
+                dto.setVoto(entity.getReceita().getVoto());
+            }
 
           /*
 

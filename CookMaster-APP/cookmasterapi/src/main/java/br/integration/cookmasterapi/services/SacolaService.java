@@ -96,7 +96,7 @@ public class SacolaService {
 
         if (sacolaDto.getId() != null)
             sacola.setId(sacolaDto.getId());
-
+            sacola.setIngredientes(ingredientes);
         return sacola;
     }
 }

@@ -14,7 +14,7 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/email")
-    public void enviarEmail() throws MessagingException {
+    public void enviarEmail() throws Exception {
         emailService.sendMail("kedssy533779@gmail.com", "Assunto do e-mail", "Corpo do e-mail");
     }
 }

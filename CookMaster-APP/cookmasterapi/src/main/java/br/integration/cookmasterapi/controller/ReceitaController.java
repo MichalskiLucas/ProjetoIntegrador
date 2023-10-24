@@ -65,6 +65,11 @@ public class ReceitaController {
 		return new ReceitaDto().getListInstance(receitaService.findByFilters(descricao));
 
 	}
+ /*
+	- Receita por id de categoria
+	- Receita por list de ingredientes
+ */
+
 
 //	@GetMapping(path = "/topFive")
 //	public List<ReceitaDto> findTopFive() throws Exception {
