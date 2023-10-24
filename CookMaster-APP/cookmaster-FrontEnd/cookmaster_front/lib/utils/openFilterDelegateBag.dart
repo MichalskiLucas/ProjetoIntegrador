@@ -9,8 +9,8 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void openFilterDelegate(BuildContext context, IngredientStore store,
-    String applyButtonText, int userId) async {
+Future<String> openFilterDelegateBag(BuildContext context,
+    IngredientStore store, String applyButtonText, int userId) async {
   List<IngredientModel> ingredientList = store.state.value;
   List<IngredientModel> selectedIngredients = [];
 
@@ -20,45 +20,14 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
     ),
   );
 
+  String _messageIngredient = "";
+
   void postBag(List<IngredientModel>? selectedIngredients) async {
     try {
       await storeBag.postBag(userId, selectedIngredients);
-      if (storeBag.error.value != "") {
-        Get.snackbar(
-          'Erro Sacola',
-          'Ocorreu um erro ao salvar sacola!',
-          snackPosition: SnackPosition.BOTTOM,
-          icon: const Icon(Icons.error),
-        );
-        print(storeBag.error.toString());
-      } else {
-        Get.snackbar(
-          'Sacola Criada',
-          'Obrigado por criar a sacola!',
-          snackPosition: SnackPosition.BOTTOM,
-          icon: const Icon(Icons.verified),
-        );
-      }
     } catch (e) {
-      Get.snackbar(
-        'Erro Sacola',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        icon: const Icon(Icons.verified),
-      );
+      _messageIngredient = 'Ocorreu um erro ao salvar sacola!';
     }
-  }
-
-  String _message(List<IngredientModel> list) {
-    var ingredienteMessage =
-        "Eu gostaria que voce me retornasse 3 opções de receita com os seguintes ingredientes: ";
-    if (list != null) {
-      ingredienteMessage = ingredienteMessage +
-          list.map((ingredient) => ingredient.descricao).join(', ');
-
-      return ingredienteMessage;
-    }
-    return "";
   }
 
   await FilterListDelegate.show(
@@ -83,8 +52,11 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
 
         if (applyButtonText == "Finalizar") {
           postBag(selectedIngredients);
+          _messageIngredient = 'Obrigado por criar a sacola!';
         }
       }
     },
   );
+
+  return _messageIngredient;
 }
