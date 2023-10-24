@@ -1,14 +1,17 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cookmaster_front/app/data/models/user_model.dart';
+import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/user_repository.dart';
+import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
+import 'package:cookmaster_front/pages/bagView_page.dart';
 import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
@@ -57,6 +60,12 @@ class _HomePageState extends State<HomePage> {
 
   final RecipeStore storeRecipe = RecipeStore(
     repository: RecipeRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  final BagStore storeBag = BagStore(
+    repository: BagRepository(
       client: HttpClient(),
     ),
   );
@@ -153,21 +162,29 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                leading: Image.asset('assets/images/iconBag.png'),
-                title: const Text('Sacola'),
-                titleTextStyle: const TextStyle(
-                  fontFamily: 'JacquesFrancois',
-                  color: Colors.black,
-                ),
-                onTap: () async {
-                  _userValidate()
-                      ? await Get.to(() => BagPage(user: storeUser))
-                      : Get.snackbar('Cook Master',
+                  leading: Image.asset('assets/images/iconBag.png'),
+                  title: const Text('Sacola'),
+                  titleTextStyle: const TextStyle(
+                    fontFamily: 'JacquesFrancois',
+                    color: Colors.black,
+                  ),
+                  onTap: () async {
+                    if (_userValidate()) {
+                      await storeBag.getBag(storeUser.state.value.id);
+                      await Get.to(
+                        () => BagViewPage(
+                          user: storeUser,
+                          storeUser: storeUser,
+                          storeBag: storeBag,
+                        ),
+                      );
+                    } else {
+                      Get.snackbar('Cook Master',
                           'Necessário realizar login para usar a sacola.',
                           snackPosition: SnackPosition.BOTTOM,
                           icon: const Icon(Icons.login));
-                },
-              ),
+                    }
+                  }),
               ListTile(
                 leading: Image.asset('assets/images/iconChef.png'),
                 title: const Text('Chef Astro'),
