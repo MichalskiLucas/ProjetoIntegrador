@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
+import 'package:cookmaster_front/app/data/models/bag_model.dart';
 import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
@@ -82,6 +83,11 @@ class _HomePageState extends State<HomePage> {
 
   _userGet() async {
     await storeUser.getUser(_user?.email!);
+  }
+
+  _startStore() {
+    storeBag.stateBag.value = BagModel();
+    storeBag.state.value = 0;
   }
 
   _userValidate() {
@@ -170,12 +176,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onTap: () async {
                     if (_userValidate()) {
+                      _startStore();
                       await storeBag.getBag(storeUser.state.value.id);
                       await Get.to(
                         () => BagViewPage(
                           user: storeUser,
                           storeUser: storeUser,
-                          storeBag: storeBag,
+                          listIngredient: storeBag.stateBag.value.ingredients,
+                          users: _user,
                         ),
                       );
                     } else {

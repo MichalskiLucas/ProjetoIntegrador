@@ -9,20 +9,22 @@ import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/home_page.dart';
-import 'package:cookmaster_front/utils/openFilterDelegate.dart';
 import 'package:cookmaster_front/utils/openFilterDelegateBag.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BagViewPage extends StatefulWidget {
-  const BagViewPage(
+  BagViewPage(
       {Key? key,
       required this.storeUser,
       required UserStore user,
-      required this.storeBag})
+      required this.listIngredient,
+      this.users})
       : super(key: key);
   final UserStore storeUser;
-  final BagStore storeBag;
+  final User? users;
+  List<IngredientModel>? listIngredient;
 
   @override
   State<BagViewPage> createState() => _BagViewPageState();
@@ -30,13 +32,28 @@ class BagViewPage extends StatefulWidget {
 
 class _BagViewPageState extends State<BagViewPage> {
   UserStore get _storeUser => widget.storeUser;
-  BagStore get _storeBag => widget.storeBag;
+  List<IngredientModel>? get _listIngredient => widget.listIngredient;
+  User? get _users => widget.users;
+  List<IngredientModel>? listIngredient;
+
+  final BagStore storeBag = BagStore(
+    repository: BagRepository(
+      client: HttpClient(),
+    ),
+  );
 
   List<IngredientModel> selectedIngredients = [];
   @override
   void initState() {
     super.initState();
     _returnIngredients();
+    preencheLista();
+  }
+
+  void preencheLista() async {
+    setState(() {
+      listIngredient = _listIngredient;
+    });
   }
 
   void _returnIngredients() async {
@@ -52,36 +69,45 @@ class _BagViewPageState extends State<BagViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarSimple(
-          ctx: context,
-          title: 'Sacola Cook Master',
-        ),
-        body: _buildIngredientList(_storeBag),
-        floatingActionButton: floatingActionButton(
-          context,
-          store,
-          _storeUser,
-        ));
+      appBar: AppBarSimple(
+        ctx: context,
+        title: 'Sacola Cook Master',
+      ),
+      body: _buildIngredientList(listIngredient),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final filter = await openFilterDelegateBag(
+            context,
+            store,
+            "Finalizar",
+            _storeUser.state.value.id,
+          );
+          if (filter) {
+            Get.snackbar('Sacola Criada', 'Sua sacola foi criada. Verifique!',
+                snackPosition: SnackPosition.BOTTOM,
+                icon: const Icon(Icons.verified),
+                backgroundColor: Colors.green);
+          } else {
+            Get.snackbar('Erro Sacola',
+                'Sua sacola não foi criada. Tente novamente mais tarde!',
+                snackPosition: SnackPosition.BOTTOM,
+                icon: const Icon(Icons.error),
+                backgroundColor: Colors.red);
+          }
+          Get.to(() => HomePage(_users));
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
 
-FloatingActionButton floatingActionButton(
-    BuildContext context, IngredientStore store, UserStore storeUser) {
-  return FloatingActionButton(
-    onPressed: () async {
-      String teste = await openFilterDelegateBag(
-        context,
-        store,
-        "Finalizar",
-        storeUser.state.value.id,
-      );
-    },
-  );
-}
+// FloatingActionButton floatingActionButton(
+//     BuildContext context, IngredientStore store, UserStore storeUser) {
+//   return
+// }
 
-Widget _buildIngredientList(BagStore storeBag) {
-  final ingredients = storeBag.stateBag.value.ingredients;
-
+Widget _buildIngredientList(List<IngredientModel>? ingredients) {
   if (ingredients != null) {
     return ListView.builder(
       itemCount: ingredients.length,
@@ -98,6 +124,26 @@ Widget _buildIngredientList(BagStore storeBag) {
     );
   }
 }
+
+// Widget _buildIngredientList(BagStore storeBag) {
+//   final ingredients = storeBag.stateBag.value.ingredients;
+
+//   if (ingredients != null) {
+//     return ListView.builder(
+//       itemCount: ingredients.length,
+//       itemBuilder: (context, index) {
+//         final ingredient = ingredients[index];
+//         return IngredientCheckbox(
+//           ingredient: ingredient,
+//         );
+//       },
+//     );
+//   } else {
+//     return const Center(
+//       child: Text("Você não possui ingredientes na sacola. Adicione!!"),
+//     );
+//   }
+// }
 
 class IngredientCheckbox extends StatefulWidget {
   final IngredientModel ingredient;

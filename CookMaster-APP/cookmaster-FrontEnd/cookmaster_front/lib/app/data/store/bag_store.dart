@@ -11,7 +11,7 @@ class BagStore {
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   final ValueNotifier<int> state = ValueNotifier<int>(0);
-  final ValueNotifier<BagModel> stateBag = ValueNotifier(BagModel());
+  final ValueNotifier<BagModel> stateBag = ValueNotifier<BagModel>(BagModel());
 
   final ValueNotifier<String> error = ValueNotifier<String>('');
 
