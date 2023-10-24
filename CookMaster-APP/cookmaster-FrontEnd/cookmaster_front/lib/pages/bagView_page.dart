@@ -39,10 +39,6 @@ class _BagViewPageState extends State<BagViewPage> {
     _returnIngredients();
   }
 
-  void _returnBag() async {
-    await storeBag.getBag(_storeUser.state.value.id);
-  }
-
   void _returnIngredients() async {
     await store.getAllIngredients();
   }
@@ -53,34 +49,38 @@ class _BagViewPageState extends State<BagViewPage> {
     ),
   );
 
-  final BagStore storeBag = BagStore(
-    repository: BagRepository(
-      client: HttpClient(),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarSimple(
-        ctx: context,
-        title: 'Sacola Cook Master',
-      ),
-      body: _buildIngredientList(_storeBag, storeBag),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          openFilterDelegate(
-              context, store, "Finalizar", _storeUser.state.value.id);
-        },
-      ),
-    );
+        appBar: AppBarSimple(
+          ctx: context,
+          title: 'Sacola Cook Master',
+        ),
+        body: _buildIngredientList(_storeBag),
+        floatingActionButton: floatingActionButton(
+          context,
+          store,
+          _storeUser,
+        ));
   }
 }
 
-Widget _buildIngredientList(BagStore storeBag, BagStore storeBagInt) {
-  final ingredients = storeBag.stateBag.value.ingredients ??
-      storeBagInt.stateBag.value.ingredients;
+FloatingActionButton floatingActionButton(
+    BuildContext context, IngredientStore store, UserStore storeUser) {
+  return FloatingActionButton(
+    onPressed: () async {
+      String teste = await openFilterDelegateBag(
+        context,
+        store,
+        "Finalizar",
+        storeUser.state.value.id,
+      );
+    },
+  );
+}
+
+Widget _buildIngredientList(BagStore storeBag) {
+  final ingredients = storeBag.stateBag.value.ingredients;
 
   if (ingredients != null) {
     return ListView.builder(
