@@ -20,5 +20,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Long>{
 	
 	@Query
 	public Usuario findUsuarioByNome(String nome);
-	
+
+	@Query
+	public List<Usuario> findUsuariosByAdminIsTrue();
 }

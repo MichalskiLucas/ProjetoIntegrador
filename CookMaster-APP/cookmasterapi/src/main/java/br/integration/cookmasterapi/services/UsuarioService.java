@@ -47,6 +47,10 @@ public class UsuarioService {
         return usuarioRepository.findByNomeContainingAllIgnoringCase(nome);
     }
 
+    public List<Usuario> findAdmin() {
+        return usuarioRepository.findUsuariosByAdminIsTrue();
+    }
+
     public Usuario findByNome(String nome) {
         return usuarioRepository.findUsuarioByNome(nome);
     }

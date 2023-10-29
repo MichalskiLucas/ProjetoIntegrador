@@ -41,15 +41,17 @@ public class ContabilizaVoto {
                 try {
                     votos = votoService.findByReceitaId(receita);
                     votoReceita = 0;
-                    for (Voto voto : votos) {
-                        if (voto.getVoto() > 0) {
-                            votoReceita = votoReceita + voto.getVoto();
+                    if (!votos.isEmpty()) {
+                        for (Voto voto : votos) {
+                            if (voto.getVoto() > 0) {
+                                votoReceita = votoReceita + voto.getVoto();
+                            }
                         }
-                    }
-                    if (!votos.isEmpty())
+
                         votoReceita = votoReceita / votos.size();
 
-                    receitaService.updateVoto(receita, votoReceita);
+                        receitaService.updateVoto(receita, votoReceita);
+                    }
                 } catch (Exception ex) {
                     throw new Exception("Erro ao processar a task: ContabilizaVoto. Erro: " + ex.getMessage());
                 }

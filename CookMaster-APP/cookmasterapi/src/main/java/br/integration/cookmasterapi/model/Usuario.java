@@ -33,4 +33,6 @@ public class Usuario {
     @NotEmpty
     @NotNull
     private String email;
+
+    private boolean admin = false;
 }

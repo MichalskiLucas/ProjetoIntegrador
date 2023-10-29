@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.integration.cookmasterapi.dto.ReceitaDto;
+import br.integration.cookmasterapi.model.Usuario;
 import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,28 @@ public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private EmailService emailService;
+
 
     public Receita insert(ReceitaDto dto) throws Exception {
+        Receita r = receitaRepository.saveAndFlush(validaInsert(dto));
+        sendEmailForAdmin(r);
+        return r;
 
-        return receitaRepository.saveAndFlush(validaInsert(dto));
+    }
 
+    public void sendEmailForAdmin(Receita r) throws Exception {
+        String corpo = "Receita com id: " + r.getId() +" encontra-se pendente de aprovação.";
+        String assunto = "Receita pendente de aprovação";
+        List<Usuario> usuarios = usuarioService.findAdmin();
+
+        for (int i = 0; i < usuarios.size(); i++) {
+            emailService.sendMail(usuarios.get(i).getEmail(),corpo,assunto);
+        }
     }
 
     public Receita edit(ReceitaDto dto) throws Exception {
@@ -59,16 +77,17 @@ public class ReceitaService {
 
         if (dto.getId() != null)
             throw new Exception("Para inserir uma nova receita, não deve-se informar o ID");
-        if (findByFilters(dto.getDescricao()) != null) {
-            throw new Exception("Receita com a mesma descrição já inserida");
-        }
-        r.setId(dto.getId());
+//        if (findByFilters(dto.getDescricao()) != null) {
+//            throw new Exception("Receita com a mesma descrição já inserida");
+//        }
         r.setDescricao(dto.getDescricao());
-        r.setImagem(Util.compressData(dto.getImagem()));
+        if(dto.getImagem()!= null)
+            r.setImagem(Util.compressData(dto.getImagem()));
         r.setAtivo(dto.isAtivo());
         r.setCategoria(dto.getCategoria());
         r.setUsuario(dto.getUsuario());
         r.setVoto(dto.getVoto());
+
         return r;
 
     }

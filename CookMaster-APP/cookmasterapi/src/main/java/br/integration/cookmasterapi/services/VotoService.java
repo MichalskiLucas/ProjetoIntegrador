@@ -8,6 +8,7 @@ import br.integration.cookmasterapi.repository.VotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +64,12 @@ public class VotoService {
     }
 
     public List<Voto> findByReceitaId(Long receitaId) {
-        return votoRepository.findVotoByReceitaId(Optional.ofNullable(receitaId));
+        try{
+            return votoRepository.findVotoByReceitaId(Optional.ofNullable(receitaId));
+        }catch (NoResultException ex){
+            return null;
+        }
+
     }
 
     public Voto findByUsuarioId(Long usuarioId, Long receitaId) {

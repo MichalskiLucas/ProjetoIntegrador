@@ -23,13 +23,7 @@ public interface ReceitaRepository extends JpaRepository<Receita,Long>{
 	List<Long> findIdReceitaWithVoto ();
 
 
-
-//	public List<Receita> findTop5ReceitasByVoto() {
-//		String hql = "SELECT r FROM Receita r ORDER BY r.voto DESC";
-//		Query query = entityManager.createQuery(hql);
-//		query.setMaxResults(5); // Defina o limite aqui
-//
-//		return query.getResultList();
-//	}
+	@Query("select r from Receita r order by r.voto desc")
+	List<Receita> findTopFiveReceitasByVoto();
 }
 
