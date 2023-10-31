@@ -160,7 +160,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(() => SendRecipeSearchPage(user: _user))
+                      ? await Get.to(() => SendRecipeSearchPage(
+                            user: _user,
+                            idUser: storeUser.state.value.id,
+                          ))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.',
                           snackPosition: SnackPosition.BOTTOM,
