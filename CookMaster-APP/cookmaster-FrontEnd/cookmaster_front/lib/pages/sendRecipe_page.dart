@@ -1,18 +1,25 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cookmaster_front/app/data/models/category_model.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/app/data/models/preparation_model.dart';
+import 'package:cookmaster_front/app/data/models/recipeSend_model.dart';
 import 'package:cookmaster_front/app/data/models/unitMeansure_model.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
+import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/unitMeansure_repository.dart';
 import 'package:cookmaster_front/app/data/store/category_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
+import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/app/data/store/unitMeasure_store.dart';
 import 'package:cookmaster_front/components/DropdownButtonIngredients.dart';
 import 'package:cookmaster_front/components/DropdownButtonUnit.dart';
+import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -20,7 +27,10 @@ import '../app/data/http/http_client.dart';
 
 class SendRecipeSearchPage extends StatefulWidget {
   final User? user;
-  const SendRecipeSearchPage({Key? key, required this.user}) : super(key: key);
+  final int idUser;
+  const SendRecipeSearchPage(
+      {Key? key, required this.user, required this.idUser})
+      : super(key: key);
 
   @override
   State<SendRecipeSearchPage> createState() => _SendRecipeSearchPageState();
@@ -29,14 +39,18 @@ class SendRecipeSearchPage extends StatefulWidget {
 class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   List<CameraDescription> cameras = [];
   String? selectedImagePath;
+  String? imageSendBase64;
   CategoryModel? selectedCategory;
-  List<Ingredient> ingredients = [];
-  List<Preparation> preparations = [];
+  List<IngredientModel>? ingredients = [];
+  List<PreparationModel>? preparations = [];
   List<CategoryModel> categoryList = [];
   List<IngredientModel> ingredientList = [];
   List<UnitMeansureModel> listUnitMeansure = [];
   late Map<int, String> categoryMap = {};
   int count = 0;
+
+  int get _idUser => widget.idUser;
+  User? get _user => widget.user;
 
   final UnitMeansureStore storeUnitMeansure = UnitMeansureStore(
     repository: UnitMeansureRepository(
@@ -51,9 +65,16 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   );
 
   final IngredientStore storeIngredient = IngredientStore(
-      repository: IngredientRepository(
-    client: HttpClient(),
-  ));
+    repository: IngredientRepository(
+      client: HttpClient(),
+    ),
+  );
+
+  final RecipeStore storeRecipe = RecipeStore(
+    repository: RecipeRepository(
+      client: HttpClient(),
+    ),
+  );
 
   @override
   void initState() {
@@ -80,7 +101,6 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
         return [];
       }
     } catch (error) {
-      print("Erro ao carregar unidades de medida: $error");
       return [];
     }
   }
@@ -124,7 +144,11 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      final file = File(pickedFile.path);
+      final bytes = await file.readAsBytes();
+      final base64String = base64Encode(bytes);
       setState(() {
+        imageSendBase64 = base64String;
         selectedImagePath = pickedFile.path;
       });
     }
@@ -266,15 +290,19 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        ingredients.add(
-                          Ingredient(
-                            name: ingredientName!.descricao.toString(),
-                            quantity: ingredientQuantity,
-                            unit: ingredientUnit!.descricao.toString(),
-                          ),
-                        );
-                      });
+                      setState(
+                        () {
+                          ingredients?.add(
+                            IngredientModel(
+                              id: ingredientName!.id,
+                              descricao: ingredientName!.descricao.toString(),
+                              quantidade: ingredientQuantity,
+                              unMedida: ingredientUnit!.descricao.toString(),
+                              unMedidaStr: ingredientUnit!.value.toString(),
+                            ),
+                          );
+                        },
+                      );
                       Navigator.pop(context);
                     },
                     child: const Text("Adicionar"),
@@ -326,9 +354,11 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        preparations.add(
-                          Preparation(
-                              dsPreparation: dsPreparation, step: ++count),
+                        preparations?.add(
+                          PreparationModel(
+                            descricao: dsPreparation,
+                            id: ++count,
+                          ),
                         );
                       });
                       Navigator.pop(context);
@@ -343,6 +373,8 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
       },
     );
   }
+
+  TextEditingController tituloController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -415,8 +447,9 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                     ],
                   ),
                 const SizedBox(height: 10),
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  controller: tituloController,
+                  decoration: const InputDecoration(
                     labelText: "Título da Receita",
                     border: UnderlineInputBorder(),
                   ),
@@ -483,11 +516,11 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      for (var ingredient in ingredients)
+                      for (var ingredient in ingredients!)
                         ListTile(
-                          title: Text(ingredient.name),
-                          subtitle:
-                              Text('${ingredient.quantity} ${ingredient.unit}'),
+                          title: Text(ingredient.descricao.toString()),
+                          subtitle: Text(
+                              '${ingredient.quantidade} ${ingredient.unMedida}'),
                         ),
                       ElevatedButton(
                         onPressed: _addIngredient,
@@ -552,10 +585,10 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      for (var preparation in preparations)
+                      for (var preparation in preparations!)
                         ListTile(
-                          title: Text("Passo: ${preparation.step}"),
-                          subtitle: Text('${preparation.dsPreparation}'),
+                          title: Text("Passo: ${preparation.id}"),
+                          subtitle: Text('${preparation.descricao}'),
                         ),
                       ElevatedButton(
                         onPressed: _addPreparation,
@@ -596,8 +629,47 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 90,
                   child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Enviar Receita"),
+                    onPressed: () async {
+                      RecipeSendModel recipeSendModel = RecipeSendModel(
+                          ativo: false,
+                          descricao: tituloController.text,
+                          image: imageSendBase64,
+                          voto: 0,
+                          categoriaId: selectedCategory!.id,
+                          usuarioId: _idUser,
+                          ingredientes: ingredients,
+                          preparos: preparations);
+                      try {
+                        await storeRecipe.postRecipe(recipeSendModel);
+
+                        if (storeRecipe.statePost.value == 0) {
+                          Get.snackbar(
+                            'Receita Cadastrada',
+                            'Obrigado por enviar sua receita!',
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.verified),
+                            backgroundColor: Colors.green,
+                          );
+                          Get.to(() => HomePage(_user));
+                        } else {
+                          Get.snackbar(
+                            'Erro',
+                            'Ocorreu um erro ao cadastrar sua receita',
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.error),
+                            backgroundColor: Colors.red,
+                          );
+                        }
+                      } catch (e) {
+                        Get.snackbar(
+                          'Erro',
+                          'Ocorreu um erro ao cadastrar sua receita',
+                          snackPosition: SnackPosition.BOTTOM,
+                          icon: const Icon(Icons.error),
+                          backgroundColor: Colors.red,
+                        );
+                      }
+                    },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
@@ -605,6 +677,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                         ),
                       ),
                     ),
+                    child: const Text("Enviar Receita"),
                   ),
                 ),
               ],
