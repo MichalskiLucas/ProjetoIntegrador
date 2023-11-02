@@ -279,12 +279,17 @@ class _HomePageState extends State<HomePage> {
               ),
               ListTileCategory(
                 store: storeCategory,
+                storeUser: storeUser,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width - 150,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => const CategoryPage());
+                    Get.to(
+                      () => CategoryPage(
+                        storeUser: storeUser,
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
