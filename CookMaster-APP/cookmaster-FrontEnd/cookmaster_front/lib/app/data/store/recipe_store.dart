@@ -36,6 +36,20 @@ class RecipeStore {
     isLoading.value = false;
   }
 
+  Future getRecipeByCategory(int categoryId) async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.getRecipeByCategory(categoryId);
+      state.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
   Future getRecipeSearch() async {
     isLoading.value = true;
 

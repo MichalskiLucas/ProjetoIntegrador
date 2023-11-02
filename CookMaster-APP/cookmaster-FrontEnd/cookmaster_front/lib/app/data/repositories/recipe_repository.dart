@@ -8,6 +8,7 @@ import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 
 abstract class IRecipeRepository {
   Future<List<RecipeModel>> getAllRecipe();
+  Future<List<RecipeModel>> getRecipeByCategory(int categoryId);
   Future<List<RecipeModel>> getAllRecipeSearch();
   Future<CookingRecipeModel> getCookingRecipe(int id);
   Future<int> postRecipe(RecipeSendModel recipeSendModel);
@@ -44,6 +45,36 @@ class RecipeRepository implements IRecipeRepository {
         throw NotFoundException('Url informada não esta válida');
       default:
         throw Exception('Erro ao realizar consulta de receitas');
+    }
+  }
+
+  @override
+  Future<List<RecipeModel>> getRecipeByCategory(int categoryId) async {
+    final response = await client.get(
+        //url: '${urlApi}receita/${categoryId}',
+        url: 'https://run.mocky.io/v3/20ee96f6-f127-4eca-8ed1-42181243b7a0');
+
+    switch (response.statusCode) {
+      case 200:
+        final List<RecipeModel> recipes = [];
+
+        try {
+          final body = jsonDecode(response.body);
+
+          if (body is List) {
+            for (var item in body) {
+              final RecipeModel recipe = RecipeModel.fromMap(item);
+              recipes.add(recipe);
+            }
+          }
+        } catch (e) {
+          throw Exception('Erro ao fazer parsing do JSON');
+        }
+        return recipes;
+      case 404:
+        throw NotFoundException('Url informada não esta válida');
+      default:
+        throw Exception('Erro ao realizar consulta de receitas por categoria');
     }
   }
 
