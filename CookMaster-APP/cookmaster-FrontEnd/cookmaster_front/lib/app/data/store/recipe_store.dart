@@ -3,6 +3,7 @@ import 'package:cookmaster_front/app/data/models/recipeSend_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../http/exceptions.dart';
 
@@ -27,6 +28,20 @@ class RecipeStore {
 
     try {
       final result = await repository.getAllRecipe();
+      state.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
+  Future getRecipeSearch() async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.getAllRecipeSearch();
       state.value = result;
     } on NotFoundException catch (e) {
       error.value = e.message;
@@ -61,5 +76,23 @@ class RecipeStore {
       error.value = e.toString();
     }
     isLoading.value = false;
+  }
+
+  List<RecipeModel> _originalList = [];
+
+  void filterList({String? filter}) {
+    if (_originalList.isEmpty) {
+      _originalList = state.value.toList();
+    }
+
+    if (filter != null && filter.isNotEmpty) {
+      final filteredList = _originalList
+          .where((element) =>
+              element.descricao.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+      state.value = filteredList;
+    } else {
+      state.value = _originalList;
+    }
   }
 }

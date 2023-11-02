@@ -56,7 +56,7 @@ class _ListTileCategoryState extends State<ListTileCategory> {
                 child: ListTile(
                   onTap: () async {
                     //implementar chamada e filtro da receita
-                    await Get.to(const RecipeSearchPage());
+                    //await Get.to(const RecipeSearchPage());
                   },
                   leading: Base64ImageConverter(
                     base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),

@@ -236,7 +236,9 @@ class _HomePageState extends State<HomePage> {
               onSelected: (value) async {
                 if (value.toString() == '/RecipeSearchPage') {
                   await Get.to(
-                    () => const RecipeSearchPage(),
+                    () => RecipeSearchPage(
+                      storeUser: storeUser,
+                    ),
                   );
                 } else if (value.toString() == '/ingredientPage') {
                   await store.getAllIngredients();
