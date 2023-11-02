@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, file_names
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -116,7 +118,6 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
         return [];
       }
     } catch (error) {
-      print("Erro ao carregar ingredientes: $error");
       return [];
     }
   }
@@ -134,7 +135,6 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
         return [];
       }
     } catch (error) {
-      print("Erro ao carregar categorias: $error");
       return [];
     }
   }
@@ -156,7 +156,6 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
 
   Future<void> openCamera() async {
     if (cameras.isEmpty) {
-      print("Nenhuma câmera disponível.");
       return;
     }
     final result = await Navigator.push(
@@ -384,7 +383,6 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
           "Envio Receita",
           style: TextStyle(fontFamily: 'JacquesFrancois'),
         ),
-        actions: [],
       ),
       body: ListView(
         children: [
@@ -459,7 +457,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   width: double.infinity,
                   child: DropdownButton<CategoryModel>(
                     hint: selectedCategory != null
-                        ? Text(selectedCategory.toString()!)
+                        ? Text(selectedCategory.toString())
                         : const Text("Selecione uma categoria"),
                     value: selectedCategory,
                     onChanged: (newValue) {
@@ -742,7 +740,7 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Câmera"),
+        title: const Text("Câmera"),
       ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,

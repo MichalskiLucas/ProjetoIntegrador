@@ -50,7 +50,7 @@ class VoteStore {
     try {
       final result = await repository.getVoteByUser(userId!, recipeId!);
       stateGet.value = result;
-    } on NotFoundException catch (e) {
+    } on NotFoundException {
       null;
     } catch (e) {
       error.value = e.toString();

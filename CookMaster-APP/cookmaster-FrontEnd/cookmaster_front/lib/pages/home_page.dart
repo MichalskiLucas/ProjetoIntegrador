@@ -1,7 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cookmaster_front/app/data/models/bag_model.dart';
-import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
@@ -13,7 +12,6 @@ import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
-import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/recipeSearch_page.dart';
@@ -306,22 +304,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-Widget _listCookMasterHomePage() {
-  return ListView(
-    scrollDirection: Axis.vertical,
-    children: [
-      ElevatedButton(
-        onPressed: () async {
-          await Get.to(
-            const CategoryPage(),
-          );
-        },
-        child: const Text('Categorias'),
-      ),
-    ],
-  );
 }
 
 PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {

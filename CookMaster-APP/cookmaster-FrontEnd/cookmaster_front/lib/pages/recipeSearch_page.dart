@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unused_import
+// ignore_for_file: non_constant_identifier_names, unused_import, file_names
 
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
@@ -26,6 +26,7 @@ final RecipeStore storeRecipe = RecipeStore(
 class _RecipeSearchPageState extends State<RecipeSearchPage> {
   @override
   void initState() {
+    super.initState();
     getRecipe();
   }
 

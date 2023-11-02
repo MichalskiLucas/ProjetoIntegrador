@@ -24,7 +24,7 @@ class _DropdownMenuIngredientState extends State<DropdownMenuIngredient> {
   Widget build(BuildContext context) {
     return DropdownButton<IngredientModel>(
       hint: selectedIngredient != null
-          ? Text(selectedIngredient.toString()!)
+          ? Text(selectedIngredient.toString())
           : const Text("Selecione um Ingrediente"),
       value: selectedIngredient,
       onChanged: (newValue) {

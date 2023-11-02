@@ -3,7 +3,6 @@ import 'package:cookmaster_front/app/data/models/recipeSend_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../http/exceptions.dart';
 
