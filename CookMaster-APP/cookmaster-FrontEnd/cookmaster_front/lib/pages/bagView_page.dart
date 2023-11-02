@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, library_private_types_in_public_api, file_names
 
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
@@ -125,30 +125,10 @@ Widget _buildIngredientList(List<IngredientModel>? ingredients) {
   }
 }
 
-// Widget _buildIngredientList(BagStore storeBag) {
-//   final ingredients = storeBag.stateBag.value.ingredients;
-
-//   if (ingredients != null) {
-//     return ListView.builder(
-//       itemCount: ingredients.length,
-//       itemBuilder: (context, index) {
-//         final ingredient = ingredients[index];
-//         return IngredientCheckbox(
-//           ingredient: ingredient,
-//         );
-//       },
-//     );
-//   } else {
-//     return const Center(
-//       child: Text("Você não possui ingredientes na sacola. Adicione!!"),
-//     );
-//   }
-// }
-
 class IngredientCheckbox extends StatefulWidget {
   final IngredientModel ingredient;
 
-  IngredientCheckbox({required this.ingredient});
+  const IngredientCheckbox({super.key, required this.ingredient});
 
   @override
   _IngredientCheckboxState createState() => _IngredientCheckboxState();

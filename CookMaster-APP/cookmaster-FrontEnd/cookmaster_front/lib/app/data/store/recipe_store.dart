@@ -36,6 +36,20 @@ class RecipeStore {
     isLoading.value = false;
   }
 
+  Future getRecipeSearch() async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.getAllRecipeSearch();
+      state.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
   Future getCookingRecipe(int id) async {
     isLoading.value = true;
 
@@ -61,5 +75,23 @@ class RecipeStore {
       error.value = e.toString();
     }
     isLoading.value = false;
+  }
+
+  List<RecipeModel> _originalList = [];
+
+  void filterList({String? filter}) {
+    if (_originalList.isEmpty) {
+      _originalList = state.value.toList();
+    }
+
+    if (filter != null && filter.isNotEmpty) {
+      final filteredList = _originalList
+          .where((element) =>
+              element.descricao.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+      state.value = filteredList;
+    } else {
+      state.value = _originalList;
+    }
   }
 }

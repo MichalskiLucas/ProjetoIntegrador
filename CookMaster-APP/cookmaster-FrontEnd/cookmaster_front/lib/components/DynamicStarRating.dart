@@ -1,7 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, file_names
 
 import 'package:cookmaster_front/app/data/http/http_client.dart';
-import 'package:cookmaster_front/app/data/models/vote_model.dart';
 import 'package:cookmaster_front/app/data/repositories/vote_repository.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/app/data/store/vote_store.dart';
@@ -43,6 +42,7 @@ class _DynamicStarRatingState extends State<DynamicStarRating> {
 
   @override
   void initState() {
+    super.initState();
     setState(() {
       loadingStars();
     });

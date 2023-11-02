@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:cookmaster_front/app/data/models/bag_model.dart';
-import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:flutter/material.dart';
 

@@ -36,7 +36,7 @@ class UserStore {
     try {
       final result = await repository.getUser(email!);
       state.value = result;
-    } on NotFoundException catch (e) {
+    } on NotFoundException {
       null;
     } catch (e) {
       error.value = e.toString();

@@ -1,8 +1,8 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
 import 'package:cookmaster_front/app/data/store/category_store.dart';
-import 'package:cookmaster_front/pages/recipeSearch_page.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ListTileCategory extends StatefulWidget {
   const ListTileCategory({Key? key, required this.store}) : super(key: key);
@@ -28,7 +28,10 @@ class _ListTileCategoryState extends State<ListTileCategory> {
       builder: (context, child) {
         if (_store.isLoading.value) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: LinearProgressIndicator(
+              color: Colors.deepOrange,
+              backgroundColor: Colors.orange,
+            ),
           );
         }
 
@@ -56,7 +59,7 @@ class _ListTileCategoryState extends State<ListTileCategory> {
                 child: ListTile(
                   onTap: () async {
                     //implementar chamada e filtro da receita
-                    await Get.to(const RecipeSearchPage());
+                    //await Get.to(const RecipeSearchPage());
                   },
                   leading: Base64ImageConverter(
                     base64Image: item.image.replaceAll(RegExp(r'\s+'), ''),
