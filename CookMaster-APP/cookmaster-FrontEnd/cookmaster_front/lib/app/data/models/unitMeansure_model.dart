@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class UnitMeansureModel {
   final String value;
   final String descricao;

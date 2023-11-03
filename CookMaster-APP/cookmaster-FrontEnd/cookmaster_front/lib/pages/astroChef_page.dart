@@ -25,6 +25,7 @@ class _PageAstroState extends State<PageAstro> {
 
   @override
   void initState() {
+    super.initState();
     if (_message != null) {
       _sendMessage(_message ?? "");
     }

@@ -1,6 +1,4 @@
 // ignore_for_file: avoid_unnecessary_containers, unnecessary_null_comparison
-import 'package:cookmaster_front/app/data/http/http_client.dart';
-import 'package:cookmaster_front/app/data/repositories/vote_repository.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/app/data/store/vote_store.dart';
@@ -54,7 +52,7 @@ class _RecipePageState extends State<RecipePage> {
                                         .stateCooking.value.image!
                                         .replaceAll(RegExp(r'\s+'), ''),
                                   )
-                                : Text("Imagem não disponível"),
+                                : const Text("Imagem não disponível"),
                             const Divider(
                               color: Colors.black,
                             ),

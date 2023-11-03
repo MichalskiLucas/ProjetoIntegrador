@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,23 +38,35 @@ class AppBarSimple extends StatelessWidget implements PreferredSizeWidget {
 class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
   final String labelText;
   final BuildContext ctx;
-
-  const AppBarSearch({super.key, required this.labelText, required this.ctx});
+  final RecipeStore storeRecipe;
+  const AppBarSearch(
+      {super.key,
+      required this.labelText,
+      required this.ctx,
+      required this.storeRecipe});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      title: TextField(
+      title: TextFormField(
+        onChanged: (value) {
+          storeRecipe.filterList(filter: value);
+        },
+        style: const TextStyle(
+          fontFamily: 'JacquesFrancois',
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
-            labelText: labelText.isNotEmpty ? labelText : 'Consultar',
-            prefixIcon: const Icon(Icons.search),
-            prefixIconColor: Colors.white,
-            labelStyle: const TextStyle(
-              color: Colors.white,
-              fontFamily: 'JacquesFrancois',
-            ),
-            border: const UnderlineInputBorder()),
+          labelText: labelText.isNotEmpty ? labelText : 'Consultar',
+          prefixIcon: const Icon(Icons.search),
+          prefixIconColor: Colors.white,
+          labelStyle: const TextStyle(
+            color: Colors.white,
+            fontFamily: 'JacquesFrancois',
+          ),
+          border: const UnderlineInputBorder(),
+        ),
       ),
       titleTextStyle: const TextStyle(
         fontFamily: 'JacquesFrancois',

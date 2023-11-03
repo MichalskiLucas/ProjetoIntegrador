@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/models/preparation_model.dart';
 

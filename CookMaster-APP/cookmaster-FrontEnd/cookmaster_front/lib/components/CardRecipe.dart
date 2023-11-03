@@ -1,5 +1,6 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
 import 'package:cookmaster_front/app/data/http/http_client.dart';
-import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/vote_repository.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
@@ -48,8 +49,15 @@ class _CardRecipeState extends State<CardRecipe> {
       ),
       builder: (context, child) {
         if (_store.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const Stack(
+            children: [
+              Center(
+                child: LinearProgressIndicator(
+                  color: Colors.deepOrange,
+                  backgroundColor: Colors.orange,
+                ),
+              ),
+            ],
           );
         }
 

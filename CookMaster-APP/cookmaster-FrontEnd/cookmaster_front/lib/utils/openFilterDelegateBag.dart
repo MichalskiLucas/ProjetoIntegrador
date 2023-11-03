@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, unnecessary_null_comparison
+// ignore_for_file: unused_local_variable, unnecessary_null_comparison, file_names
 
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';

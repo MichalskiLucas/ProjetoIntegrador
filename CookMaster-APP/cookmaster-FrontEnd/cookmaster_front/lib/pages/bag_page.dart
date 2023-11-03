@@ -7,10 +7,8 @@ import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
-import 'package:cookmaster_front/pages/bagView_page.dart';
 import 'package:cookmaster_front/utils/openFilterDelegate.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class BagPage extends StatefulWidget {
   final UserStore user;

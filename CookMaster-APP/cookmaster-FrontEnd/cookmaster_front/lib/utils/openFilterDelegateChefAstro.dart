@@ -1,13 +1,9 @@
-// ignore_for_file: unused_local_variable, unnecessary_null_comparison
+// ignore_for_file: unused_local_variable, unnecessary_null_comparison, no_leading_underscores_for_local_identifiers, file_names
 
-import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
-import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
-import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 Future<String> openFilterDelegateChefAstro(BuildContext context,
     IngredientStore store, String applyButtonText, int userId) async {

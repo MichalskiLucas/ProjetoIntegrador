@@ -1,7 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cookmaster_front/app/data/models/bag_model.dart';
-import 'package:cookmaster_front/app/data/models/user_model.dart';
 import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/category_repository.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
@@ -13,7 +12,6 @@ import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
-import 'package:cookmaster_front/pages/bag_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
 import 'package:cookmaster_front/pages/recipeSearch_page.dart';
@@ -160,7 +158,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: () async {
                   _userValidate()
-                      ? await Get.to(() => SendRecipeSearchPage(user: _user))
+                      ? await Get.to(() => SendRecipeSearchPage(
+                            user: _user,
+                            idUser: storeUser.state.value.id,
+                          ))
                       : Get.snackbar('Cook Master',
                           'Necessário realizar login para enviar uma receita.',
                           snackPosition: SnackPosition.BOTTOM,
@@ -233,7 +234,9 @@ class _HomePageState extends State<HomePage> {
               onSelected: (value) async {
                 if (value.toString() == '/RecipeSearchPage') {
                   await Get.to(
-                    () => const RecipeSearchPage(),
+                    () => RecipeSearchPage(
+                      storeUser: storeUser,
+                    ),
                   );
                 } else if (value.toString() == '/ingredientPage') {
                   await store.getAllIngredients();
@@ -276,12 +279,17 @@ class _HomePageState extends State<HomePage> {
               ),
               ListTileCategory(
                 store: storeCategory,
+                storeUser: storeUser,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width - 150,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => const CategoryPage());
+                    Get.to(
+                      () => CategoryPage(
+                        storeUser: storeUser,
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
@@ -301,22 +309,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-Widget _listCookMasterHomePage() {
-  return ListView(
-    scrollDirection: Axis.vertical,
-    children: [
-      ElevatedButton(
-        onPressed: () async {
-          await Get.to(
-            const CategoryPage(),
-          );
-        },
-        child: const Text('Categorias'),
-      ),
-    ],
-  );
 }
 
 PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
