@@ -20,7 +20,7 @@ public class ReceitaDto extends BaseDto<Receita, ReceitaDto> {
     private String imagem;
     private Usuario usuario;
     private int voto;
-    private Categoria categoria;
+    private Long categoriaId;
 
     @Override
     public ReceitaDto getInstance(Receita entity) throws IOException, DataFormatException {
@@ -35,7 +35,8 @@ public class ReceitaDto extends BaseDto<Receita, ReceitaDto> {
 
             dto.setUsuario(entity.getUsuario());
             dto.setVoto(entity.getVoto());
-            dto.setCategoria(entity.getCategoria());
+            if(entity.getCategoria() != null)
+                dto.setCategoriaId(entity.getCategoria().getId());
             return dto;
         } else
             return null;

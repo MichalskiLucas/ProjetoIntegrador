@@ -17,13 +17,13 @@ public interface ReceitaRepository extends JpaRepository<Receita,Long>{
 	public List<Receita> findByDescricaoContainingAllIgnoringCase(String descricao);
 	
 	@Query
-	public List<Receita> findReceitaByCategoria(Categoria categoria);
+	public List<Receita> findByCategoriaId(Long categoriaId);
 
 	@Query("select r.id from Receita r where r.voto != null")
 	List<Long> findIdReceitaWithVoto ();
 
 
-	@Query("select r from Receita r order by r.voto desc")
-	List<Receita> findTopFiveReceitasByVoto();
+	//@Query("select r from Receita r order by r.voto desc")
+	List<Receita> findTop5ByOrderByVotoDesc();
 }
 

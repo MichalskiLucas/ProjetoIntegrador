@@ -65,16 +65,18 @@ public class ReceitaController {
 		return new ReceitaDto().getListInstance(receitaService.findByFilters(descricao));
 
 	}
- /*
-	- Receita por id de categoria
+
+	@GetMapping(path = "/findByCategoria")
+	public List<ReceitaDto> findByCategoria(@RequestParam Long categoriaId) throws Exception {
+		return new ReceitaDto().getListInstance(receitaService.findByCategoria(categoriaId));
+	}
+
+	@GetMapping(path = "/findTop")
+	public List<ReceitaDto> findTopFive() {
+		return new ReceitaDto().getListInstance(receitaService.findTopFive());
+	}
+
+	 /*
 	- Receita por list de ingredientes
  */
-
-
-//	@GetMapping(path = "/topFive")
-//	public List<ReceitaDto> findTopFive() throws Exception {
-//
-//		return new ReceitaDto().getListInstance(receitaService.findTopFive());
-//
-//	}
 }
