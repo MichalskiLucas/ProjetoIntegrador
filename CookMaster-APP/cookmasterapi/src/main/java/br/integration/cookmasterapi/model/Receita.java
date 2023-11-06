@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "receita")
@@ -38,5 +41,8 @@ public class Receita {
 
     @OneToOne
     private Categoria categoria;
+
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<ReceitaIngrediente> receitaIngredientes = new ArrayList<>();
 
 }

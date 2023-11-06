@@ -26,10 +26,7 @@ public class ReceitaIngrediente {
     @OneToOne
     private Ingrediente ingrediente;
 
-    @OneToOne
-    private Preparo preparo;
-
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Receita receita;
 
     @NotBlank

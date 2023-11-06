@@ -52,7 +52,7 @@ public class IngredienteService {
 	}
 	
 	public void validaInsert(Ingrediente ingrediente) throws Exception{
-        if (ingrediente.getId() != 0){
+        if (ingrediente.getId() != null){
             throw new Exception("Não deve informar o ID para inserir o ingrediente");
         }
         if(findByDescricao(ingrediente.getDescricao()) != null){
