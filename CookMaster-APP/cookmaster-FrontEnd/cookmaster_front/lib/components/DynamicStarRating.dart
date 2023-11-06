@@ -63,40 +63,48 @@ class _DynamicStarRatingState extends State<DynamicStarRating> {
               if (_storeVote?.stateGet.value.id != null) {
                 await store.putVote(_storeVote!.stateGet.value.id, rating,
                     _user.state.value.id, _idReceita);
-                Get.snackbar(
-                  'Voto Atualizado',
-                  'Obrigado por avaliar essa receita!',
-                  snackPosition: SnackPosition.BOTTOM,
-                  icon: const Icon(Icons.verified),
-                  backgroundColor: Colors.green,
-                );
+                if (!Get.isSnackbarOpen) {
+                  Get.snackbar(
+                    'Voto Atualizado',
+                    'Obrigado por avaliar essa receita!',
+                    snackPosition: SnackPosition.BOTTOM,
+                    icon: const Icon(Icons.verified),
+                    backgroundColor: Colors.green,
+                  );
+                }
               } else {
                 await store.postVote(rating, _user.state.value.id, _idReceita);
-                Get.snackbar(
-                  'Voto Contabilizado',
-                  'Obrigado por avaliar essa receita!',
-                  snackPosition: SnackPosition.BOTTOM,
-                  icon: const Icon(Icons.verified),
-                  backgroundColor: Colors.green,
-                );
+                if (!Get.isSnackbarOpen) {
+                  Get.snackbar(
+                    'Voto Contabilizado',
+                    'Obrigado por avaliar essa receita!',
+                    snackPosition: SnackPosition.BOTTOM,
+                    icon: const Icon(Icons.verified),
+                    backgroundColor: Colors.green,
+                  );
+                }
               }
             } catch (e) {
+              if (!Get.isSnackbarOpen) {
+                Get.snackbar(
+                  'Erro ao fazer Avaliação',
+                  'Não foi possivel realizar o seu voto',
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.error),
+                  backgroundColor: Colors.red,
+                );
+              }
+            }
+          } else {
+            if (!Get.isSnackbarOpen) {
               Get.snackbar(
-                'Erro ao fazer Avaliação',
-                'Não foi possivel realizar o seu voto',
+                'Não realizado o voto',
+                'É necessário realizar o login para votar',
                 snackPosition: SnackPosition.BOTTOM,
                 icon: const Icon(Icons.error),
                 backgroundColor: Colors.red,
               );
             }
-          } else {
-            Get.snackbar(
-              'Não realizado o voto',
-              'É necessário realizar o login para votar',
-              snackPosition: SnackPosition.BOTTOM,
-              icon: const Icon(Icons.error),
-              backgroundColor: Colors.red,
-            );
           }
         },
         icon: Icon(

@@ -190,11 +190,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     } else {
-                      Get.snackbar('Cook Master',
-                          'Necessário realizar login para usar a sacola.',
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Colors.red,
-                          icon: const Icon(Icons.login));
+                      if (!Get.isSnackbarOpen) {
+                        Get.snackbar('Cook Master',
+                            'Necessário realizar login para usar a sacola.',
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            icon: const Icon(Icons.login));
+                      }
                     }
                   }),
               ListTile(
@@ -320,7 +322,13 @@ PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
           icon,
           color: Colors.black,
         ),
-        Text(title),
+        Text(
+          title,
+          style: const TextStyle(
+            fontFamily: 'JacquesFrancois',
+            color: Colors.black,
+          ),
+        ),
       ],
     ),
   );

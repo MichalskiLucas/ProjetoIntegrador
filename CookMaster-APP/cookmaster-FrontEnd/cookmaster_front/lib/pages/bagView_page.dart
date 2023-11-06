@@ -82,17 +82,21 @@ class _BagViewPageState extends State<BagViewPage> {
           final filter = await openFilterDelegateBag(
               context, store, "Finalizar", _storeUser.state.value.id, _idBag);
           if (filter) {
-            Get.snackbar(
-                'Sacola Criada/Atualizada', 'Sua sacola foi criada. Verifique!',
-                snackPosition: SnackPosition.BOTTOM,
-                icon: const Icon(Icons.verified),
-                backgroundColor: Colors.green);
+            if (!Get.isSnackbarOpen) {
+              Get.snackbar('Sacola Criada/Atualizada',
+                  'Sua sacola foi criada. Verifique!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.verified),
+                  backgroundColor: Colors.green);
+            }
           } else {
-            Get.snackbar('Erro Sacola',
-                'Sua sacola não foi criada. Tente novamente mais tarde!',
-                snackPosition: SnackPosition.BOTTOM,
-                icon: const Icon(Icons.error),
-                backgroundColor: Colors.red);
+            if (!Get.isSnackbarOpen) {
+              Get.snackbar('Erro Sacola',
+                  'Sua sacola não foi criada. Tente novamente mais tarde!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.error),
+                  backgroundColor: Colors.red);
+            }
           }
           Get.to(() => HomePage(_users));
         },
