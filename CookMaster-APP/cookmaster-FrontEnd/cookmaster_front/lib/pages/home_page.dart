@@ -74,10 +74,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     setState(() {
-      storeRecipe.getRecipe();
-      storeCategory.getCategory();
+      viewHomePage();
     });
     _userGet();
+  }
+
+  void viewHomePage() async {
+    await storeRecipe.getRecipe();
+    await storeCategory.getCategory();
   }
 
   _userGet() async {

@@ -62,10 +62,22 @@ class _CardRecipeState extends State<CardRecipe> {
         }
 
         if (_store.error.value.isNotEmpty) {
-          return Center(
-            child: Text(
-              _store.error.value,
-            ),
+          return Column(
+            children: [
+              Opacity(
+                opacity: 0.5,
+                child: Image.asset('assets/images/logo.png'),
+              ),
+              const Center(
+                child: Text(
+                  'Cook Master está Offline',
+                  style: TextStyle(
+                    fontFamily: 'JacquesFrancois',
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
           );
         }
 

@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ListTileCategory extends StatefulWidget {
-  const ListTileCategory({Key? key, required this.store, required this.storeUser}) : super(key: key);
+  const ListTileCategory(
+      {Key? key, required this.store, required this.storeUser})
+      : super(key: key);
   final CategoryStore store;
   final UserStore storeUser;
 
@@ -50,9 +52,13 @@ class _ListTileCategoryState extends State<ListTileCategory> {
         }
 
         if (_store.error.value.isNotEmpty) {
-          return Center(
+          return const Center(
             child: Text(
-              _store.error.value,
+              'Categorias indísponiveis!',
+              style: TextStyle(
+                fontFamily: 'JacquesFrancois',
+                fontSize: 15,
+              ),
             ),
           );
         }
