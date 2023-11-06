@@ -46,13 +46,15 @@ class ChatReducer extends RxReducer {
     try {
       stream = await chatGpt.createChatCompletionStream(request);
     } catch (e) {
-      Get.snackbar(
-        "Erro ao consultar Chef",
-        "Ocorreu um erro ao tentar consultar o chef",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        icon: const Icon(Icons.error),
-      );
+      if (!Get.isSnackbarOpen) {
+        Get.snackbar(
+          "Erro ao consultar Chef",
+          "Ocorreu um erro ao tentar consultar o chef",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          icon: const Icon(Icons.error),
+        );
+      }
     }
 
     if (stream == null) {

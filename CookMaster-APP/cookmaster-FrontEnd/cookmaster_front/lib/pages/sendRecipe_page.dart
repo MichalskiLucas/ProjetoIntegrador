@@ -643,15 +643,29 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                         await storeRecipe.postRecipe(recipeSendModel);
 
                         if (storeRecipe.statePost.value == 0) {
-                          Get.snackbar(
-                            'Receita Cadastrada',
-                            'Obrigado por enviar sua receita!',
-                            snackPosition: SnackPosition.BOTTOM,
-                            icon: const Icon(Icons.verified),
-                            backgroundColor: Colors.green,
-                          );
+                          if (!Get.isSnackbarOpen) {
+                            Get.snackbar(
+                              'Receita Cadastrada',
+                              'Obrigado por enviar sua receita!',
+                              snackPosition: SnackPosition.BOTTOM,
+                              icon: const Icon(Icons.verified),
+                              backgroundColor: Colors.green,
+                            );
+                          }
                           Get.to(() => HomePage(_user));
                         } else {
+                          if (!Get.isSnackbarOpen) {
+                            Get.snackbar(
+                              'Erro',
+                              'Ocorreu um erro ao cadastrar sua receita',
+                              snackPosition: SnackPosition.BOTTOM,
+                              icon: const Icon(Icons.error),
+                              backgroundColor: Colors.red,
+                            );
+                          }
+                        }
+                      } catch (e) {
+                        if (!Get.isSnackbarOpen) {
                           Get.snackbar(
                             'Erro',
                             'Ocorreu um erro ao cadastrar sua receita',
@@ -660,14 +674,6 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                             backgroundColor: Colors.red,
                           );
                         }
-                      } catch (e) {
-                        Get.snackbar(
-                          'Erro',
-                          'Ocorreu um erro ao cadastrar sua receita',
-                          snackPosition: SnackPosition.BOTTOM,
-                          icon: const Icon(Icons.error),
-                          backgroundColor: Colors.red,
-                        );
                       }
                     },
                     style: ButtonStyle(

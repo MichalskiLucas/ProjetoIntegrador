@@ -21,8 +21,7 @@ class VoteRepository implements IVoteRepository {
   @override
   Future<int> postVote(int voto, int idUsuario, int idReceita) async {
     final response = await client.post(
-      url:
-          '${urlApi}voto' /*'https://run.mocky.io/v3/49344b80-bb98-47cf-a857-0cbed3a2f1c0'*/,
+      url: '${urlApi}voto',
       headers: {'Content-Type': 'application/json'},
       jsonBody: jsonEncode(
         {
@@ -46,8 +45,7 @@ class VoteRepository implements IVoteRepository {
   @override
   Future<int> putVote(int? id, int voto, int idUsuario, int idReceita) async {
     final response = await client.put(
-      url:
-          '${urlApi}voto' /*'https://run.mocky.io/v3/49344b80-bb98-47cf-a857-0cbed3a2f1c0'*/,
+      url: '${urlApi}voto',
       headers: {
         'Content-Type': 'application/json',
       },
