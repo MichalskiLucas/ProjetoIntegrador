@@ -67,7 +67,22 @@ class CategoryPageState extends State<CategoryPage> {
 
           if (store.state.value.isEmpty) {
             return const Center(
-              child: Text('lista vazia'),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.mood_bad,
+                    size: 50,
+                    color: Colors.deepOrange,
+                  ),
+                  Text(
+                    'Não temos categorias disponiveis',
+                    style: TextStyle(
+                      fontFamily: "JacquesFrancois",
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
             );
           } else {
             return ListView.builder(

@@ -5,6 +5,7 @@ import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
 import 'package:cookmaster_front/app/data/models/recipeSend_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
+import 'package:cookmaster_front/common/constants.dart';
 
 abstract class IRecipeRepository {
   Future<List<RecipeModel>> getAllRecipe();
@@ -20,9 +21,7 @@ class RecipeRepository implements IRecipeRepository {
 
   @override
   Future<List<RecipeModel>> getAllRecipe() async {
-    final response = await client.get(
-        //url: '${urlApi}receita',
-        url: 'https://run.mocky.io/v3/20ee96f6-f127-4eca-8ed1-42181243b7a0');
+    final response = await client.get(url: '${urlApi}receita/findTop');
 
     switch (response.statusCode) {
       case 200:
@@ -51,8 +50,8 @@ class RecipeRepository implements IRecipeRepository {
   @override
   Future<List<RecipeModel>> getRecipeByCategory(int categoryId) async {
     final response = await client.get(
-        //url: '${urlApi}receita/${categoryId}',
-        url: 'https://run.mocky.io/v3/20ee96f6-f127-4eca-8ed1-42181243b7a0');
+      url: '${urlApi}receita/findByCategoria?categoriaId=$categoryId',
+    );
 
     switch (response.statusCode) {
       case 200:
@@ -111,7 +110,7 @@ class RecipeRepository implements IRecipeRepository {
   @override
   Future<CookingRecipeModel> getCookingRecipe(int id) async {
     final response = await client.get(
-        //url: '${urlApi}receita/${id}',
+        //url: '${urlApi}receita/$id');
         url: 'https://run.mocky.io/v3/70d315db-fcce-4612-9200-56af267c0933');
 
     switch (response.statusCode) {

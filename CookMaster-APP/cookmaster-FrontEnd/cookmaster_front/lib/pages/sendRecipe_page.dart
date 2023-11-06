@@ -450,7 +450,9 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   decoration: const InputDecoration(
                     labelText: "Título da Receita",
                     border: UnderlineInputBorder(),
+                    counterText: '',
                   ),
+                  maxLength: 50,
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
