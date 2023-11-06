@@ -106,11 +106,6 @@ class _BagViewPageState extends State<BagViewPage> {
   }
 }
 
-// FloatingActionButton floatingActionButton(
-//     BuildContext context, IngredientStore store, UserStore storeUser) {
-//   return
-// }
-
 Widget _buildIngredientList(List<IngredientModel>? ingredients) {
   if (ingredients != null) {
     return ListView.builder(
