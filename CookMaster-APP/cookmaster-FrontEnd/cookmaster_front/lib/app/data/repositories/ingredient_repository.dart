@@ -10,6 +10,7 @@ import 'package:filter_list/filter_list.dart';
 
 abstract class IIngredientRepository {
   Future<List<IngredientModel>> getAllIngredients();
+  Future<int> postIngredients(String description);
 }
 
 class IngredientRepository implements IIngredientRepository {
@@ -43,6 +44,28 @@ class IngredientRepository implements IIngredientRepository {
         throw NotFoundException('Url informada não está válida');
       default:
         throw Exception('Erro ao realizar consulta de ingredientes');
+    }
+  }
+
+  @override
+  Future<int> postIngredients(String description) async {
+    final response = await client.post(
+      url: '${urlApi}ingredient',
+      headers: {'Content-Type': 'application/json'},
+      jsonBody: jsonEncode(
+        {
+          'descricao': description,
+        },
+      ),
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        return 200;
+      case 404:
+        throw NotFoundException('Url informada não está válida');
+      default:
+        throw Exception('Erro ao realizar cadastro de ingrediente');
     }
   }
 }

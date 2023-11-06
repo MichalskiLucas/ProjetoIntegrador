@@ -18,6 +18,7 @@ import 'package:cookmaster_front/pages/recipeSearch_page.dart';
 import 'package:cookmaster_front/app/data/services/auth_service.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/pages/sendRecipe_page.dart';
+import 'package:cookmaster_front/pages/suggestIngredient_page.dart';
 import 'package:cookmaster_front/utils/openFilterDelegate.dart';
 import 'package:cookmaster_front/utils/openFilterDelegateChefAstro.dart';
 import 'package:cookmaster_front/widgets/auth_check.dart';
@@ -231,7 +232,9 @@ class _HomePageState extends State<HomePage> {
                 _buildPopUpMenuItem('  Ingredientes Chef Astro', Icons.coffee,
                     '/ingredientPageChef'),
                 _buildPopUpMenuItem('  Buscar por Ingredientes',
-                    Icons.fastfood_outlined, '/ingredientPage')
+                    Icons.fastfood_outlined, '/ingredientPage'),
+                _buildPopUpMenuItem('  Sugerir Ingredientes', Icons.edit,
+                    '/suggestIngredientPage')
               ],
               onSelected: (value) async {
                 if (value.toString() == '/RecipeSearchPage') {
@@ -251,6 +254,8 @@ class _HomePageState extends State<HomePage> {
                   if (_messageChef != "") {
                     Get.to(() => PageAstro(message: _messageChef));
                   }
+                } else if (value.toString() == '/suggestIngredientPage') {
+                  Get.to(() => const SuggestIngredientPage());
                 }
               },
             )

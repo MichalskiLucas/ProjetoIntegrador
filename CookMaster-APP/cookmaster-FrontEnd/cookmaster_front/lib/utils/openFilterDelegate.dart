@@ -4,6 +4,7 @@ import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void openFilterDelegate(BuildContext context, IngredientStore store,
     String applyButtonText, int userId) async {
@@ -27,8 +28,18 @@ void openFilterDelegate(BuildContext context, IngredientStore store,
       return item.descricao!.toLowerCase().contains(query.toLowerCase());
     },
     onApplyButtonClick: (List<IngredientModel>? list) {
-      if (list != null) {
+      if (list != null && list.isNotEmpty) {
         selectedIngredients = list;
+      } else {
+        if (!Get.isSnackbarOpen) {
+          Get.snackbar(
+            'Cook Master',
+            'Não foi selecionado nenhum ingrediente!',
+            snackPosition: SnackPosition.BOTTOM,
+            icon: const Icon(Icons.warning),
+            backgroundColor: Colors.yellow,
+          );
+        }
       }
     },
   );
