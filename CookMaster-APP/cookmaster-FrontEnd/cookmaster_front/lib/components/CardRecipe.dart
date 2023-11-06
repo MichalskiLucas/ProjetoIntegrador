@@ -71,7 +71,23 @@ class _CardRecipeState extends State<CardRecipe> {
 
         if (_store.state.value.isEmpty) {
           return const Center(
-            child: Text('lista vazia'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.mood_bad,
+                  size: 50,
+                  color: Colors.deepOrange,
+                ),
+                Text(
+                  'Ainda não temos essa receita!',
+                  style: TextStyle(
+                    fontFamily: "JacquesFrancois",
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
           );
         } else {
           return SingleChildScrollView(
@@ -109,10 +125,12 @@ class _CardRecipeState extends State<CardRecipe> {
                               ),
                               Text(
                                 item.descricao,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.visible,
                                 style: const TextStyle(
-                                    fontFamily: 'JacquesFrancois',
-                                    fontSize: 20),
+                                  fontFamily: 'JacquesFrancois',
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
                               )
                             ],
                           ),
