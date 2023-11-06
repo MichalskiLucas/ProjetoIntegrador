@@ -255,7 +255,11 @@ class _HomePageState extends State<HomePage> {
                     Get.to(() => PageAstro(message: _messageChef));
                   }
                 } else if (value.toString() == '/suggestIngredientPage') {
-                  Get.to(() => const SuggestIngredientPage());
+                  Get.to(
+                    () => SuggestIngredientPage(
+                      users: _user,
+                    ),
+                  );
                 }
               },
             )
