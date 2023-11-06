@@ -50,7 +50,7 @@ class IngredientRepository implements IIngredientRepository {
   @override
   Future<int> postIngredients(String description) async {
     final response = await client.post(
-      url: '${urlApi}ingredient',
+      url: '${urlApi}ingrediente',
       headers: {'Content-Type': 'application/json'},
       jsonBody: jsonEncode(
         {
