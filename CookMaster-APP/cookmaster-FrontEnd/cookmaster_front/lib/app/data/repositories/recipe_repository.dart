@@ -28,10 +28,12 @@ class RecipeRepository implements IRecipeRepository {
         final List<RecipeModel> recipes = [];
 
         try {
-          final body = jsonDecode(response.body);
+          const utf8decoder = Utf8Decoder();
+          final body = utf8decoder.convert(response.bodyBytes);
+          final parsedBody = jsonDecode(body);
 
-          if (body is List) {
-            for (var item in body) {
+          if (parsedBody is List) {
+            for (var item in parsedBody) {
               final RecipeModel recipe = RecipeModel.fromMap(item);
               recipes.add(recipe);
             }
@@ -58,10 +60,12 @@ class RecipeRepository implements IRecipeRepository {
         final List<RecipeModel> recipes = [];
 
         try {
-          final body = jsonDecode(response.body);
+          const utf8decoder = Utf8Decoder();
+          final body = utf8decoder.convert(response.bodyBytes);
+          final parsedBody = jsonDecode(body);
 
-          if (body is List) {
-            for (var item in body) {
+          if (parsedBody is List) {
+            for (var item in parsedBody) {
               final RecipeModel recipe = RecipeModel.fromMap(item);
               recipes.add(recipe);
             }
@@ -80,18 +84,20 @@ class RecipeRepository implements IRecipeRepository {
   @override
   Future<List<RecipeModel>> getAllRecipeSearch() async {
     final response = await client.get(
-        //url: '${urlApi}receita',
-        url: 'https://run.mocky.io/v3/0687b4d1-3cef-4f89-ad57-49f41ddf6414');
+      url: '${urlApi}receita',
+    );
 
     switch (response.statusCode) {
       case 200:
         final List<RecipeModel> recipes = [];
 
         try {
-          final body = jsonDecode(response.body);
+          const utf8decoder = Utf8Decoder();
+          final body = utf8decoder.convert(response.bodyBytes);
+          final parsedBody = jsonDecode(body);
 
-          if (body is List) {
-            for (var item in body) {
+          if (parsedBody is List) {
+            for (var item in parsedBody) {
               final RecipeModel recipe = RecipeModel.fromMap(item);
               recipes.add(recipe);
             }
@@ -101,7 +107,7 @@ class RecipeRepository implements IRecipeRepository {
         }
         return recipes;
       case 404:
-        throw NotFoundException('Url informada não esta válida');
+        throw NotFoundException('Url informada não está válida');
       default:
         throw Exception('Erro ao realizar consulta de receitas');
     }

@@ -4,6 +4,7 @@ import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Future<String> openFilterDelegateChefAstro(BuildContext context,
     IngredientStore store, String applyButtonText, int userId) async {
@@ -41,10 +42,19 @@ Future<String> openFilterDelegateChefAstro(BuildContext context,
       return item.descricao!.toLowerCase().contains(query.toLowerCase());
     },
     onApplyButtonClick: (List<IngredientModel>? list) {
-      if (list != null) {
+      if (list != null && list.isNotEmpty) {
         selectedIngredients = list;
-
         _messageIngredient = _message(selectedIngredients);
+      } else {
+        if (!Get.isSnackbarOpen) {
+          Get.snackbar(
+            'Chef Astro',
+            'Não foi selecionado nenhum ingrediente!',
+            snackPosition: SnackPosition.BOTTOM,
+            icon: const Icon(Icons.warning),
+            backgroundColor: Colors.yellow,
+          );
+        }
       }
     },
   );

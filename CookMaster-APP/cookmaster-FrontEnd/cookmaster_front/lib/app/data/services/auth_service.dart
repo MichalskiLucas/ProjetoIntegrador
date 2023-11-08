@@ -47,8 +47,9 @@ class AuthService extends ChangeNotifier {
       );
 
       if (firebaseUser!.email != null) {
-        final UserModel? userModel = await store.getUser(firebaseUser.email);
-        if (userModel == null) {
+        await store.getUser(firebaseUser.email);
+        final UserModel userModel = store.state.value;
+        if (userModel.id == 0) {
           store.postUser(firebaseUser);
         }
       }

@@ -60,7 +60,6 @@ class UserRepository implements IUserRepository {
         try {
           final body = utf8.decode(response.bodyBytes);
           final dynamic decodedBody = jsonDecode(body);
-
           return UserModel.fromMap(decodedBody);
         } catch (e) {
           throw Exception('Erro ao fazer parsing do JSON');
