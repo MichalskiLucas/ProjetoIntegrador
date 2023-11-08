@@ -26,7 +26,7 @@ public class ReceitaIngrediente {
     @OneToOne
     private Ingrediente ingrediente;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Receita receita;
 
     @NotBlank

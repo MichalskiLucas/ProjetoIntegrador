@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import br.integration.cookmasterapi.dto.ReceitaDto;
+import br.integration.cookmasterapi.dto.ReceitaIngredienteAuxDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,10 +33,10 @@ public class ReceitaController {
 		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
 
 	}
-	@PostMapping(path = "/receitaIgredienteComplete")
-	public ReceitaDto receitaIgredienteComplete(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
+	@PostMapping(path = "/recipeComplete")
+	public ReceitaIngredienteAuxDto receitaIgredienteComplete(@RequestBody @Valid ReceitaIngredienteAuxDto receitaAuxDto) throws Exception {
 
-		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
+		return receitaService.insertRecipeComplete(receitaAuxDto);
 
 	}
 

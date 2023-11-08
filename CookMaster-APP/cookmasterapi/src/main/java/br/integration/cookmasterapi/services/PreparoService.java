@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.services;
 
+import br.integration.cookmasterapi.dto.PreparoDto;
 import br.integration.cookmasterapi.model.Preparo;
 import br.integration.cookmasterapi.repository.PreparoRepository;
 import br.integration.cookmasterapi.util.Util;
@@ -15,12 +16,13 @@ public class PreparoService {
     @Autowired
     private PreparoRepository preparoRepository;
 
+    @Autowired
+    private ReceitaService receitaService;
 
-    public Preparo insert(Preparo preparo) throws Exception {
 
-        validarInsert(preparo);
-        preparoRepository.saveAndFlush(preparo);
-        return preparo;
+    public Preparo insert(PreparoDto dto) throws Exception {
+
+        return preparoRepository.saveAndFlush(validarInsert(dto));
 
     }
 
@@ -46,9 +48,14 @@ public class PreparoService {
         return preparoRepository.findByDescricaoContainingAllIgnoringCase(descricao);
     }
 
-    private void validarInsert(Preparo preparo) throws Exception {
-        if (preparo.getId() != null) {
+    private Preparo validarInsert(PreparoDto dto) throws Exception {
+        Preparo p = new Preparo();
+        if (dto.getId() != null) {
             throw new Exception("Não deve informar o ID para inserir o preparo");
         }
+
+        p.setReceita(receitaService.findById(dto.getReceitaId()));
+        p.setDescricao(dto.getDescricao());
+        return p;
     }
 }

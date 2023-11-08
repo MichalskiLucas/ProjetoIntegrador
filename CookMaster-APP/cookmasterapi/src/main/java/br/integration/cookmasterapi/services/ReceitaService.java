@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import br.integration.cookmasterapi.dto.PreparoDto;
 import br.integration.cookmasterapi.dto.ReceitaDto;
+import br.integration.cookmasterapi.dto.ReceitaIngredienteAuxDto;
+import br.integration.cookmasterapi.dto.ReceitaIngredienteDto;
+import br.integration.cookmasterapi.model.ReceitaIngrediente;
 import br.integration.cookmasterapi.model.Usuario;
 import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,10 @@ public class ReceitaService {
     private EmailService emailService;
 
     @Autowired
+    private PreparoService preparoService;
+
+
+    @Autowired
     private CategoriaService categoriaService;
 
 
@@ -34,6 +42,42 @@ public class ReceitaService {
         Receita r = receitaRepository.saveAndFlush(validaInsert(dto));
         sendEmailForAdmin(r);
         return r;
+
+    }
+
+    public ReceitaIngredienteAuxDto insertRecipeComplete(ReceitaIngredienteAuxDto dto) throws Exception {
+
+        ReceitaDto receitaDto = new ReceitaDto();
+
+        Usuario usuario = usuarioService.findById(dto.getUsuarioId());
+
+        receitaDto.setUsuario(usuario);
+        receitaDto.setDescricao(dto.getDsReceita());
+        receitaDto.setImagem(dto.getImgReceita());
+        receitaDto.setVoto(0);
+        receitaDto.setCategoriaId(dto.getCategoriaId());
+        Receita r = insert(receitaDto);
+
+        if (!dto.getPreparos().isEmpty()) {
+            for (int i = 0; i < dto.getPreparos().size(); i++) {
+                PreparoDto preparoDto = new PreparoDto();
+                preparoDto.setReceitaId(r.getId());
+                preparoDto.setDescricao(dto.getPreparos().get(i).getDescricao());
+                preparoService.insert(preparoDto);
+            }
+        }
+
+
+        for (int i = 0; i < dto.getIngredientes().size(); i++) {
+            ReceitaIngredienteDto receitaIngredienteDto = new ReceitaIngredienteDto();
+            receitaIngredienteDto.setReceitaId(r.getId());
+            receitaIngredienteDto.setIngredienteId(dto.getIngredientes().get(i).getIngredienteId());
+            receitaIngredienteDto.setQtdIngrediente(dto.getIngredientes().get(i).getQtdIngrediente());
+            receitaIngredienteDto.setUnMedida(dto.getIngredientes().get(i).getUnMedida());
+
+
+        }
+        return dto;
 
     }
 

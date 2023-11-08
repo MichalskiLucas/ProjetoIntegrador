@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.services;
 
+import br.integration.cookmasterapi.dto.ReceitaIngredienteDto;
 import br.integration.cookmasterapi.model.ReceitaIngrediente;
 import br.integration.cookmasterapi.repository.ReceitaIngredienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,10 @@ public class ReceitaIngredienteService {
     private ReceitaIngredienteRepository receitaIngredienteRepository;
 
 
-    public ReceitaIngrediente insert(ReceitaIngrediente receitaIngrediente) throws Exception {
+    public ReceitaIngrediente insert(ReceitaIngredienteDto receitaIngredienteDto) throws Exception {
 
-        validarInsert(receitaIngrediente);
-        receitaIngredienteRepository.saveAndFlush(receitaIngrediente);
-        return receitaIngrediente;
+
+        return receitaIngredienteRepository.saveAndFlush(validarInsert(receitaIngredienteDto));
 
     }
 
@@ -47,9 +47,11 @@ public class ReceitaIngredienteService {
         //return receitaIngredienteRepository.findByDescricaoContainingAllIgnoringCase(descricao);
     }
 
-    private void validarInsert(ReceitaIngrediente receitaIngrediente) throws Exception {
+    private ReceitaIngrediente validarInsert(ReceitaIngredienteDto receitaIngredienteDto) throws Exception {
+        ReceitaIngrediente r = new ReceitaIngrediente();
 //        if (preparo.getId() != null) {
 //            throw new Exception("Não deve informar o ID para inserir o preparo");
 //        }
+        return r;
     }
 }

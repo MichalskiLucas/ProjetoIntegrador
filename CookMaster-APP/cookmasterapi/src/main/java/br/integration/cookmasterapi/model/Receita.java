@@ -42,7 +42,4 @@ public class Receita {
     @OneToOne
     private Categoria categoria;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<ReceitaIngrediente> receitaIngredientes = new ArrayList<>();
-
 }
