@@ -1,30 +1,33 @@
 class IngredientModel {
   int? id;
   String? descricao;
-  int? quantidade;
+  double? qtdIngrediente;
   String? unMedida;
   String? unMedidaStr;
+  int? idIngredient;
 
   IngredientModel(
       {this.id,
       this.descricao,
-      this.quantidade,
+      this.qtdIngrediente,
       this.unMedida,
-      this.unMedidaStr});
+      this.unMedidaStr,
+      this.idIngredient});
 
   factory IngredientModel.fromMap(Map<String, dynamic> map) {
     return IngredientModel(
       id: map['id'],
       descricao: map['descricao'],
-      quantidade: map['quantidade'],
+      qtdIngrediente: map['qtdIngrediente'],
       unMedida: map['unMedida'],
       unMedidaStr: map['unMedidaStr'],
+      idIngredient: map['idIngredient'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "qtdIngrediente": quantidade,
+      "qtdIngrediente": qtdIngrediente,
       "unMedida": unMedidaStr,
       "idIngrediente": id,
     };
