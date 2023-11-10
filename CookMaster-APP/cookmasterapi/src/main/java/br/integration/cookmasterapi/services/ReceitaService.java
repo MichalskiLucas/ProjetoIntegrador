@@ -165,7 +165,6 @@ public class ReceitaService {
     public ReceitaCompletaDto findReceitaCompleteById(Long idReceita) throws Exception {
         ReceitaCompletaDto rcDto = new ReceitaCompletaDto();
         ReceitaDto rDto = new ReceitaDto();
-        PreparoAuxDto preparoAuxDto = new PreparoAuxDto();
 
         Receita receita = findById(idReceita);
         List<ReceitaIngrediente> receitaIngredienteList = receitaIngredienteService.findByReceitaId(idReceita);
@@ -179,13 +178,13 @@ public class ReceitaService {
         rcDto.setVoto(receita.getVoto());
 
         for (int i = 0; i < preparoList.size(); i++) {
+            PreparoAuxDto preparoAuxDto = new PreparoAuxDto();
             preparoAuxDto.setDescricao(preparoList.get(i).getDescricao());
             rcDto.getPreparo().add(preparoAuxDto);
         }
 
         for (int i = 0; i < receitaIngredienteList.size(); i++) {
             IngredienteCompostoDto icDto = new IngredienteCompostoDto();
-
             icDto.setIdIngrediente(receitaIngredienteList.get(i).getIngrediente().getId());
             icDto.setDescricao(receitaIngredienteList.get(i).getIngrediente().getDescricao());
             icDto.setQtdIngrediente(receitaIngredienteList.get(i).getQtdIngrediente());
