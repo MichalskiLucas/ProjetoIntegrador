@@ -233,7 +233,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   }
 
   void _addIngredient() {
-    int ingredientQuantity = 0;
+    double ingredientQuantity = 0;
     IngredientModel? ingredientName;
     UnitMeansureModel? ingredientUnit = null;
 
@@ -288,7 +288,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
               const SizedBox(height: 10),
               TextField(
                 onChanged: (value) {
-                  ingredientQuantity = int.tryParse(value) ?? 0;
+                  ingredientQuantity = 0;
                 },
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -317,7 +317,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                               IngredientModel(
                                 id: ingredientName!.id,
                                 descricao: ingredientName!.descricao.toString(),
-                                quantidade: ingredientQuantity,
+                                qtdIngrediente: ingredientQuantity,
                                 unMedida: ingredientUnit!.descricao.toString(),
                                 unMedidaStr: ingredientUnit!.value.toString(),
                               ),
@@ -578,7 +578,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                         ListTile(
                           title: Text(ingredient.descricao.toString()),
                           subtitle: Text(
-                              '${ingredient.quantidade} ${ingredient.unMedida}'),
+                              '${ingredient.qtdIngrediente} ${ingredient.unMedida}'),
                         ),
                       ElevatedButton(
                         onPressed: _addIngredient,
