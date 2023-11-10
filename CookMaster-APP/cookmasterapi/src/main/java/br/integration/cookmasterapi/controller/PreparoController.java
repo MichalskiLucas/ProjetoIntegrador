@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.controller;
 
+import br.integration.cookmasterapi.dto.PreparoDto;
 import br.integration.cookmasterapi.model.Preparo;
 import br.integration.cookmasterapi.services.PreparoService;
 import io.swagger.annotations.Api;
@@ -18,9 +19,9 @@ public class PreparoController {
     private PreparoService preparoService;
 
     @PostMapping
-    public Preparo insert(@RequestBody @Valid Preparo preparo) throws Exception {
+    public Preparo insert(@RequestBody @Valid PreparoDto preparoDto) throws Exception {
 
-        return preparoService.insert(preparo);
+        return preparoService.insert(preparoDto);
 
     }
 

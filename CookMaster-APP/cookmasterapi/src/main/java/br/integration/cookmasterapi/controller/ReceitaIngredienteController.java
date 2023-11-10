@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.controller;
 
+import br.integration.cookmasterapi.dto.ReceitaIngredienteDto;
 import br.integration.cookmasterapi.model.ReceitaIngrediente;
 import br.integration.cookmasterapi.services.ReceitaIngredienteService;
 import io.swagger.annotations.Api;
@@ -18,9 +19,9 @@ public class ReceitaIngredienteController {
     private ReceitaIngredienteService receitaIngredienteService;
 
     @PostMapping
-    public ReceitaIngrediente insert(@RequestBody @Valid ReceitaIngrediente receitaIngrediente) throws Exception {
+    public ReceitaIngrediente insert(@RequestBody @Valid ReceitaIngredienteDto receitaIngredienteDto) throws Exception {
 
-        return receitaIngredienteService.insert(receitaIngrediente);
+        return receitaIngredienteService.insert(receitaIngredienteDto);
 
     }
 

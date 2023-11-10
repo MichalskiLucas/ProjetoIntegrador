@@ -2,7 +2,9 @@ package br.integration.cookmasterapi.services;
 
 import br.integration.cookmasterapi.dto.PreparoDto;
 import br.integration.cookmasterapi.model.Preparo;
+import br.integration.cookmasterapi.model.Receita;
 import br.integration.cookmasterapi.repository.PreparoRepository;
+import br.integration.cookmasterapi.repository.ReceitaRepository;
 import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,6 @@ public class PreparoService {
 
     @Autowired
     private PreparoRepository preparoRepository;
-
-    @Autowired
-    private ReceitaService receitaService;
 
 
     public Preparo insert(PreparoDto dto) throws Exception {
@@ -36,6 +35,10 @@ public class PreparoService {
         return preparoRepository.findAll();
     }
 
+    public List<Preparo> findByReceitaId(Long idReceita) {
+        return preparoRepository.findByReceitaId(idReceita);
+    }
+
     public Preparo findById(Long id) throws Exception {
         Optional<Preparo> retorno = preparoRepository.findById(id);
         if (retorno.isPresent())
@@ -49,12 +52,13 @@ public class PreparoService {
     }
 
     private Preparo validarInsert(PreparoDto dto) throws Exception {
+
         Preparo p = new Preparo();
         if (dto.getId() != null) {
             throw new Exception("Não deve informar o ID para inserir o preparo");
         }
 
-        p.setReceita(receitaService.findById(dto.getReceitaId()));
+        p.setReceita(dto.getReceita());
         p.setDescricao(dto.getDescricao());
         return p;
     }

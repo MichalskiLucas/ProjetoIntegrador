@@ -24,8 +24,6 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @NotEmpty
     @NotNull
     private String descricao;
 

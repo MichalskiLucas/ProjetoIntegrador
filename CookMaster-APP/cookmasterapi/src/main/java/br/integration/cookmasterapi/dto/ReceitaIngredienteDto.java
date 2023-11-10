@@ -16,7 +16,7 @@ public class ReceitaIngredienteDto extends BaseDto<ReceitaIngrediente, ReceitaIn
 
     private Long id;
     private Long ingredienteId;
-    private Long receitaId;
+    private Receita receita;
     private Double qtdIngrediente;
     private EnumUnitMeasure unMedida;
 
@@ -27,7 +27,7 @@ public class ReceitaIngredienteDto extends BaseDto<ReceitaIngrediente, ReceitaIn
             ReceitaIngredienteDto dto = new ReceitaIngredienteDto();
 
             if(entity.getReceita() != null)
-                dto.setReceitaId(entity.getReceita().getId());
+                dto.setReceita(entity.getReceita());
 
             if(entity.getIngrediente() != null)
                 dto.setIngredienteId(entity.getIngrediente().getId());

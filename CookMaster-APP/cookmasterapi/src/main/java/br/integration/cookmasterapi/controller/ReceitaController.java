@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.integration.cookmasterapi.dto.ReceitaCompletaDto;
 import br.integration.cookmasterapi.dto.ReceitaDto;
 import br.integration.cookmasterapi.dto.ReceitaIngredienteAuxDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,60 +25,62 @@ import io.swagger.annotations.Api;
 @RequestMapping(path = "/receita")
 public class ReceitaController {
 
-	@Autowired
-	private ReceitaService receitaService;
+    @Autowired
+    private ReceitaService receitaService;
 
-	@PostMapping
-	public ReceitaDto insert(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
+    @PostMapping
+    public ReceitaDto insert(@RequestBody @Valid ReceitaDto receitaDto) throws Exception {
 
-		return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
+        return new ReceitaDto().getInstance(receitaService.insert(receitaDto));
 
-	}
-	@PostMapping(path = "/recipeComplete")
-	public ReceitaIngredienteAuxDto receitaIgredienteComplete(@RequestBody @Valid ReceitaIngredienteAuxDto receitaAuxDto) throws Exception {
+    }
 
-		return receitaService.insertRecipeComplete(receitaAuxDto);
+    @PostMapping(path = "/recipeComplete")
+    public ReceitaIngredienteAuxDto receitaIgredienteComplete(@RequestBody @Valid ReceitaIngredienteAuxDto receitaAuxDto) throws Exception {
 
-	}
+        return receitaService.insertRecipeComplete(receitaAuxDto);
 
-	@PutMapping
-	public ReceitaDto edit(@RequestBody ReceitaDto receitaDto) throws Exception {
+    }
 
-		return new ReceitaDto().getInstance(receitaService.edit(receitaDto));
+    @PutMapping
+    public ReceitaDto edit(@RequestBody ReceitaDto receitaDto) throws Exception {
 
-	}
+        return new ReceitaDto().getInstance(receitaService.edit(receitaDto));
 
-	@GetMapping
-	public List<ReceitaDto> findAll() throws Exception {
+    }
 
-		return new ReceitaDto().getListInstance(receitaService.findAll());
+    @GetMapping
+    public List<ReceitaDto> findAll() throws Exception {
 
-	}
-	
-	@GetMapping(path = "/{id}")
-	public ReceitaDto findById(@PathVariable Long id) throws Exception {
-		return new ReceitaDto().getInstance(receitaService.findById(id));
+        return new ReceitaDto().getListInstance(receitaService.findAll());
 
-	}
-	
-	@GetMapping(path = "/filter")
-	public List<ReceitaDto> findByFilters(@RequestParam("descricao") String descricao) {
+    }
 
-		return new ReceitaDto().getListInstance(receitaService.findByFilters(descricao));
+    @GetMapping(path = "/{id}")
+    public ReceitaDto findById(@PathVariable Long id) throws Exception {
+        return new ReceitaDto().getInstance(receitaService.findById(id));
 
-	}
+    }
 
-	@GetMapping(path = "/findByCategoria")
-	public List<ReceitaDto> findByCategoria(@RequestParam Long categoriaId) throws Exception {
-		return new ReceitaDto().getListInstance(receitaService.findByCategoria(categoriaId));
-	}
+    @GetMapping(path = "/filter")
+    public List<ReceitaDto> findByFilters(@RequestParam("descricao") String descricao) {
 
-	@GetMapping(path = "/findTop")
-	public List<ReceitaDto> findTopFive() {
-		return new ReceitaDto().getListInstance(receitaService.findTopFive());
-	}
+        return new ReceitaDto().getListInstance(receitaService.findByFilters(descricao));
 
-	 /*
-	- Receita por list de ingredientes
- */
+    }
+
+    @GetMapping(path = "/findByCategoria")
+    public List<ReceitaDto> findByCategoria(@RequestParam Long categoriaId) throws Exception {
+        return new ReceitaDto().getListInstance(receitaService.findByCategoria(categoriaId));
+    }
+
+    @GetMapping(path = "/findReceitaCompleteById")
+    public ReceitaCompletaDto findReceitaCompleteById(@RequestParam Long idReceita) throws Exception {
+        return receitaService.findReceitaCompleteById(idReceita);
+    }
+
+    @GetMapping(path = "/findTop")
+    public List<ReceitaDto> findTopFive() {
+        return new ReceitaDto().getListInstance(receitaService.findTopFive());
+    }
 }

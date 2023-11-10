@@ -1,5 +1,6 @@
 package br.integration.cookmasterapi.dto;
 
+import br.integration.cookmasterapi.model.Receita;
 import lombok.Data;
 
 @Data
@@ -7,5 +8,5 @@ public class PreparoDto {
 
     private Long id;
     private String descricao;
-    private Long receitaId;
+    private Receita receita;
 }

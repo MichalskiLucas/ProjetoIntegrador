@@ -1,6 +1,7 @@
 package br.integration.cookmasterapi.services;
 
 import br.integration.cookmasterapi.dto.ReceitaIngredienteDto;
+import br.integration.cookmasterapi.model.Receita;
 import br.integration.cookmasterapi.model.ReceitaIngrediente;
 import br.integration.cookmasterapi.repository.ReceitaIngredienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +16,16 @@ public class ReceitaIngredienteService {
     @Autowired
     private ReceitaIngredienteRepository receitaIngredienteRepository;
 
+    @Autowired
+    private IngredienteService ingredienteService;
 
     public ReceitaIngrediente insert(ReceitaIngredienteDto receitaIngredienteDto) throws Exception {
-
-
         return receitaIngredienteRepository.saveAndFlush(validarInsert(receitaIngredienteDto));
-
     }
 
     public ReceitaIngrediente edit(ReceitaIngrediente receitaIngrediente) throws Exception {
-
         receitaIngredienteRepository.saveAndFlush(receitaIngrediente);
         return receitaIngrediente;
-
     }
 
     public List<ReceitaIngrediente> findAll() {
@@ -47,11 +45,22 @@ public class ReceitaIngredienteService {
         //return receitaIngredienteRepository.findByDescricaoContainingAllIgnoringCase(descricao);
     }
 
-    private ReceitaIngrediente validarInsert(ReceitaIngredienteDto receitaIngredienteDto) throws Exception {
+    public List<ReceitaIngrediente> findByReceitaId(Long idReceita) {
+        return receitaIngredienteRepository.findByReceitaId(idReceita);
+    }
+
+    private ReceitaIngrediente validarInsert(ReceitaIngredienteDto dto) throws Exception {
+        ReceitaService receitaService = new ReceitaService();
         ReceitaIngrediente r = new ReceitaIngrediente();
-//        if (preparo.getId() != null) {
-//            throw new Exception("Não deve informar o ID para inserir o preparo");
-//        }
+
+        if (dto.getId() != null) {
+            throw new Exception("Não deve informar o ID para inserir o preparo");
+        }
+
+        r.setIngrediente(ingredienteService.findById(dto.getIngredienteId()));
+        r.setReceita(dto.getReceita());
+        r.setQtdIngrediente(dto.getQtdIngrediente());
+        r.setUnMedida(dto.getUnMedida());
         return r;
     }
 }

@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 public class IngredienteCompostoDto {
-    private Long ingredienteId;
+    private Long idIngrediente;
+    private String descricao;
     private Double qtdIngrediente;
     private EnumUnitMeasure unMedida;
 

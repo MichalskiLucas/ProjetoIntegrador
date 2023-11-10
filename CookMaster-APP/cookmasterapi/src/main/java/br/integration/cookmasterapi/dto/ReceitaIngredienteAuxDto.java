@@ -21,34 +21,28 @@ public class ReceitaIngredienteAuxDto {
     private Long idReceita;
 
     @NotNull
-    @NotBlank
     private String imgReceita;
 
     @NotNull
-    @NotBlank
     private String dsReceita;
 
     @NotNull
-    @NotBlank
-    private Long usuarioId;
+    private Long idUsuario;
 
     @NotNull
-    @NotBlank
-    private Long categoriaId;
-
-    @NotNull
-    @NotBlank
-    @NotEmpty
-    private List<Preparo> preparos = new ArrayList<>();
+    private Long idCategoria;
 
     private int voto;
-    @NotNull
-    @NotBlank
-    @NotEmpty
 
+    @NotNull
+    @NotEmpty
+    private List<PreparoDto> preparos = new ArrayList<>();
+
+
+    @NotNull
+    @NotEmpty
     private List<IngredienteCompostoDto> ingredientes = new ArrayList<>();
 
-    private ReceitaIngrediente receitaIngrediente;
 
     public ReceitaIngredienteAuxDto getInstance(ReceitaIngrediente entity) throws IOException, DataFormatException {
         if (entity != null) {
@@ -60,7 +54,7 @@ public class ReceitaIngredienteAuxDto {
                    dto.setImgReceita(Util.decompress(entity.getReceita().getImagem()));
 
                 if(entity.getReceita().getUsuario() != null)
-                    dto.setUsuarioId(entity.getReceita().getUsuario().getId());
+                    dto.setIdUsuario(entity.getReceita().getUsuario().getId());
 
                 dto.setVoto(entity.getReceita().getVoto());
             }

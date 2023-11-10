@@ -29,13 +29,9 @@ public class ReceitaIngrediente {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Receita receita;
 
-    @NotBlank
-    @NotEmpty
     @NotNull
     private Double qtdIngrediente;
 
-    @NotBlank
-    @NotEmpty
     @NotNull
     @Enumerated(EnumType.STRING)
     private EnumUnitMeasure unMedida;
