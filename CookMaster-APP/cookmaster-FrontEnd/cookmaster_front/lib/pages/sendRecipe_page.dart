@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, file_names
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, file_names, avoid_init_to_null
 
 import 'dart:convert';
 import 'dart:io';
@@ -233,12 +233,29 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   }
 
   void _addIngredient() {
+    int ingredientQuantity = 0;
+    IngredientModel? ingredientName;
+    UnitMeansureModel? ingredientUnit = null;
+
+    String validaIngrediente() {
+      if (ingredientName?.id == null) {
+        return "Selecione um ingrediente";
+      }
+
+      if (ingredientQuantity.isEqual(0)) {
+        return "Digite a quantidade";
+      }
+
+      if (ingredientUnit == null) {
+        return "Selecione uma unidade de medida";
+      }
+
+      return "";
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        int ingredientQuantity = 0;
-        IngredientModel? ingredientName;
-        UnitMeansureModel? ingredientUnit;
         return AlertDialog(
           title: const Center(
             child: Text(
@@ -261,9 +278,11 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
               DropdownMenuUnitMeansure(
                 listUnitMeansure: listUnitMeansure,
                 onSelected: (newValue) {
-                  setState(() {
-                    ingredientUnit = newValue;
-                  });
+                  setState(
+                    () {
+                      ingredientUnit = newValue;
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 10),
@@ -289,20 +308,34 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      setState(
-                        () {
-                          ingredients?.add(
-                            IngredientModel(
-                              id: ingredientName!.id,
-                              descricao: ingredientName!.descricao.toString(),
-                              quantidade: ingredientQuantity,
-                              unMedida: ingredientUnit!.descricao.toString(),
-                              unMedidaStr: ingredientUnit!.value.toString(),
-                            ),
+                      final String validaIngredient = validaIngrediente();
+
+                      if (validaIngredient == "") {
+                        setState(
+                          () {
+                            ingredients?.add(
+                              IngredientModel(
+                                id: ingredientName!.id,
+                                descricao: ingredientName!.descricao.toString(),
+                                quantidade: ingredientQuantity,
+                                unMedida: ingredientUnit!.descricao.toString(),
+                                unMedidaStr: ingredientUnit!.value.toString(),
+                              ),
+                            );
+                          },
+                        );
+                        Navigator.pop(context);
+                      } else {
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            'Atenção',
+                            validaIngredient,
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.warning),
+                            backgroundColor: Colors.amber,
                           );
-                        },
-                      );
-                      Navigator.pop(context);
+                        }
+                      }
                     },
                     child: const Text("Adicionar"),
                   ),
@@ -316,10 +349,19 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   }
 
   void _addPreparation() {
+    String dsPreparation = '';
+
+    String validaPreparation() {
+      if (dsPreparation == '') {
+        return "Digite o passo";
+      }
+
+      return "";
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String dsPreparation = '';
         return AlertDialog(
           title: const Center(
             child: Text(
@@ -352,15 +394,31 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        preparations?.add(
-                          PreparationModel(
-                            descricao: dsPreparation,
-                            id: ++count,
-                          ),
+                      final String valida = validaPreparation();
+
+                      if (valida == "") {
+                        setState(
+                          () {
+                            preparations?.add(
+                              PreparationModel(
+                                descricao: dsPreparation,
+                                id: ++count,
+                              ),
+                            );
+                          },
                         );
-                      });
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                      } else {
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            'Atenção',
+                            valida,
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.warning),
+                            backgroundColor: Colors.amber,
+                          );
+                        }
+                      }
                     },
                     child: const Text("Adicionar"),
                   ),
@@ -630,7 +688,10 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                   width: MediaQuery.of(context).size.width - 90,
                   child: ElevatedButton(
                     onPressed: () async {
-                      RecipeSendModel recipeSendModel = RecipeSendModel(
+                      final String valida = validaPost();
+
+                      if (valida == "") {
+                        RecipeSendModel recipeSendModel = RecipeSendModel(
                           ativo: false,
                           descricao: tituloController.text,
                           image: imageSendBase64,
@@ -638,33 +699,34 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                           categoriaId: selectedCategory!.id,
                           usuarioId: _idUser,
                           ingredientes: ingredients,
-                          preparos: preparations);
-                      try {
-                        await storeRecipe.postRecipe(recipeSendModel);
+                          preparos: preparations,
+                        );
 
-                        if (storeRecipe.statePost.value == 0) {
-                          if (!Get.isSnackbarOpen) {
-                            Get.snackbar(
-                              'Receita Cadastrada',
-                              'Obrigado por enviar sua receita!',
-                              snackPosition: SnackPosition.BOTTOM,
-                              icon: const Icon(Icons.verified),
-                              backgroundColor: Colors.green,
-                            );
-                          }
-                          Get.to(() => HomePage(_user));
-                        } else {
-                          if (!Get.isSnackbarOpen) {
-                            Get.snackbar(
-                              'Erro',
-                              'Ocorreu um erro ao cadastrar sua receita',
-                              snackPosition: SnackPosition.BOTTOM,
-                              icon: const Icon(Icons.error),
-                              backgroundColor: Colors.red,
-                            );
-                          }
+                        await storeRecipe.postRecipe(recipeSendModel);
+                      } else {
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            'Atenção',
+                            valida,
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.warning),
+                            backgroundColor: Colors.amber,
+                          );
                         }
-                      } catch (e) {
+                      }
+
+                      if (storeRecipe.statePost.value == 200) {
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            'Receita Cadastrada',
+                            'Obrigado por enviar sua receita!',
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.verified),
+                            backgroundColor: Colors.green,
+                          );
+                        }
+                        Get.to(() => HomePage(_user));
+                      } else {
                         if (!Get.isSnackbarOpen) {
                           Get.snackbar(
                             'Erro',
@@ -692,6 +754,30 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
         ],
       ),
     );
+  }
+
+  String validaPost() {
+    if (selectedCategory?.id == null) {
+      return "É necessário informar uma categoria";
+    }
+
+    if (tituloController.text.isEmpty) {
+      return "É necessário informar o titulo da receita";
+    }
+
+    if (imageSendBase64 == null) {
+      return "É necessário informar uma imagem";
+    }
+
+    if (ingredients!.isEmpty) {
+      return "É necessário informar ao menos um ingrediente";
+    }
+
+    if (preparations!.isEmpty) {
+      return "É necessário informar ao menos um preparo";
+    }
+
+    return "";
   }
 }
 

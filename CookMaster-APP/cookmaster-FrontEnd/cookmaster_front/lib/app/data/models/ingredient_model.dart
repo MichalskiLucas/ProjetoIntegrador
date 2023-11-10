@@ -26,7 +26,7 @@ class IngredientModel {
     return {
       "qtdIngrediente": quantidade,
       "unMedida": unMedidaStr,
-      "ingredientId": id,
+      "idIngrediente": id,
     };
   }
 }

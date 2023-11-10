@@ -1,7 +1,6 @@
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/repositories/ingredient_repository.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
-import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
 import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
