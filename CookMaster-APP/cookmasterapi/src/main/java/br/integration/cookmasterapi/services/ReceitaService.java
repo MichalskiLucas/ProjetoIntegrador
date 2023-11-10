@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.integration.cookmasterapi.dto.*;
+import br.integration.cookmasterapi.enums.EnumUnitMeasure;
 import br.integration.cookmasterapi.model.*;
 import br.integration.cookmasterapi.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class ReceitaService {
             receitaIngredienteDto.setReceita(r);
             receitaIngredienteDto.setIngredienteId(dto.getIngredientes().get(i).getIdIngrediente());
             receitaIngredienteDto.setQtdIngrediente(dto.getIngredientes().get(i).getQtdIngrediente());
-            receitaIngredienteDto.setUnMedida(dto.getIngredientes().get(i).getUnMedida());
+            receitaIngredienteDto.setUnMedida(EnumUnitMeasure.valueOf(dto.getIngredientes().get(i).getUnMedida()));
             receitaIngredienteService.insert(receitaIngredienteDto);
         }
 
@@ -188,7 +189,7 @@ public class ReceitaService {
             icDto.setIdIngrediente(receitaIngredienteList.get(i).getIngrediente().getId());
             icDto.setDescricao(receitaIngredienteList.get(i).getIngrediente().getDescricao());
             icDto.setQtdIngrediente(receitaIngredienteList.get(i).getQtdIngrediente());
-            icDto.setUnMedida(receitaIngredienteList.get(i).getUnMedida());
+            icDto.setUnMedida(receitaIngredienteList.get(i).getUnMedida().getValue());
 
             rcDto.getIngredientes().add(icDto);
         }
