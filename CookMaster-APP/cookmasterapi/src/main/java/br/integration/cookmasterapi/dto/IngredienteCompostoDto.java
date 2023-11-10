@@ -8,7 +8,7 @@ public class IngredienteCompostoDto {
     private Long idIngrediente;
     private String descricao;
     private Double qtdIngrediente;
-    private EnumUnitMeasure unMedida;
+    private String unMedida;
 
     /*
 
