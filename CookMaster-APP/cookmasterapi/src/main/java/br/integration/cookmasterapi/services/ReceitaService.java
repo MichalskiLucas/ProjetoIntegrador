@@ -125,10 +125,6 @@ public class ReceitaService {
         if (dto.getId() != null)
             throw new Exception("Para inserir uma nova receita, não deve-se informar o ID");
 
-        if (findByFilters(dto.getDescricao()) != null) {
-            throw new Exception("Receita com a mesma descrição já inserida");
-        }
-
         r.setDescricao(dto.getDescricao());
         if (dto.getImagem() != null)
             r.setImagem(Util.compressData(dto.getImagem()));
@@ -147,9 +143,6 @@ public class ReceitaService {
             throw new Exception("Para atualizar uma receita, deve-se informar o ID");
 
         Receita r = findById(dto.getId());
-
-        if (findByFilters(dto.getDescricao()) != null)
-            throw new Exception("Receita com a mesma descrição já inserida");
 
         r.setId(dto.getId());
         r.setDescricao(dto.getDescricao());
