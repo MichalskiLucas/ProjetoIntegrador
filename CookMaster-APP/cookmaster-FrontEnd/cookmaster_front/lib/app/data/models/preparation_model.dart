@@ -13,7 +13,7 @@ class PreparationModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "dsPreparo": descricao,
+      "descricao": descricao,
     };
   }
 }

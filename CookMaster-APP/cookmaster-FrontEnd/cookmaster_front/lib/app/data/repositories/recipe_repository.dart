@@ -150,19 +150,17 @@ class RecipeRepository implements IRecipeRepository {
 
     final json = jsonEncode(
       {
-        'ativo': recipeSendModel.ativo,
-        'descricao': recipeSendModel.descricao,
-        'imagem': recipeSendModel.image,
-        'voto': recipeSendModel.voto,
+        'dsReceita': recipeSendModel.descricao,
+        'imgReceita': recipeSendModel.image,
         'idCategoria': recipeSendModel.categoriaId,
         'idUsuario': recipeSendModel.usuarioId,
         'ingredientes': ingredientJsonList,
         'preparos': preparationJsonList
       },
     );
+
     final response = await client.post(
-        url:
-            'https://run.mocky.io/v3/ac6c6d2b-8494-4f67-bcc8-d2982eea7add', //'${urlApi}receita',
+        url: '${urlApi}receita/recipeComplete',
         headers: {'Content-Type': 'application/json'},
         jsonBody: json);
 
