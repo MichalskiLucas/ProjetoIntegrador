@@ -4,7 +4,7 @@ class IngredientModel {
   double? qtdIngrediente;
   String? unMedida;
   String? unMedidaStr;
-  int? idIngredient;
+  int? idIngrediente;
 
   IngredientModel(
       {this.id,
@@ -12,7 +12,7 @@ class IngredientModel {
       this.qtdIngrediente,
       this.unMedida,
       this.unMedidaStr,
-      this.idIngredient});
+      this.idIngrediente});
 
   factory IngredientModel.fromMap(Map<String, dynamic> map) {
     return IngredientModel(
@@ -21,7 +21,7 @@ class IngredientModel {
       qtdIngrediente: map['qtdIngrediente'],
       unMedida: map['unMedida'],
       unMedidaStr: map['unMedidaStr'],
-      idIngredient: map['idIngredient'],
+      idIngrediente: map['idIngrediente'],
     );
   }
 
