@@ -158,13 +158,27 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
     if (cameras.isEmpty) {
       return;
     }
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => CameraScreen(camera: cameras.first)),
-    );
-    if (result != null) {
-      // Fazer tratamento da imagem tirada
+
+    try {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CameraScreen(camera: cameras.first),
+        ),
+      );
+
+      if (result != null) {
+        final file = File(result);
+        final bytes = await file.readAsBytes();
+        final base64String = base64Encode(bytes);
+
+        setState(() {
+          imageSendBase64 = base64String;
+          selectedImagePath = result;
+        });
+      }
+    } catch (e) {
+      print('Erro ao abrir a câmera: $e');
     }
   }
 
@@ -850,11 +864,14 @@ class _CameraScreenState extends State<CameraScreen> {
                   print(e);
                 }
               },
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
                 child: CameraPreview(_controller),
               ),
             );
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Erro ao inicializar a câmera.'));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
