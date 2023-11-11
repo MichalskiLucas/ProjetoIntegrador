@@ -249,8 +249,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else if (value.toString() == '/ingredientPage') {
                   await store.getAllIngredients();
-                  openFilterDelegate(
-                      context, store, "Filtrar", storeUser.state.value.id);
+                  openFilterDelegate(context, store, "Filtrar",
+                      storeUser.state.value.id, storeUser);
                 } else if (value.toString() == '/ingredientPageChef') {
                   await store.getAllIngredients();
                   final String _messageChef = await openFilterDelegateChefAstro(

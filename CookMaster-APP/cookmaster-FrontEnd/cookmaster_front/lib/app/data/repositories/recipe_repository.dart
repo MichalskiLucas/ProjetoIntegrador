@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cookmaster_front/app/data/http/exceptions.dart';
 import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
+import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/models/recipeSend_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/common/constants.dart';
@@ -13,6 +14,7 @@ abstract class IRecipeRepository {
   Future<List<RecipeModel>> getAllRecipeSearch();
   Future<CookingRecipeModel> getCookingRecipe(int id);
   Future<int> postRecipe(RecipeSendModel recipeSendModel);
+  Future<List<RecipeModel>> getRecipeIngredient(List<IngredientModel> list);
 }
 
 class RecipeRepository implements IRecipeRepository {
@@ -170,6 +172,48 @@ class RecipeRepository implements IRecipeRepository {
         throw NotFoundException('Url informada não está válida');
       default:
         throw Exception('Erro ao realizar gravação de receita');
+    }
+  }
+
+  @override
+  Future<List<RecipeModel>> getRecipeIngredient(
+      List<IngredientModel> list) async {
+    final List<int?> ingredients = list.map((ingredient) {
+      return ingredient.id ?? ingredient.idIngrediente;
+    }).toList();
+
+    final json = jsonEncode(
+      {'ingredientes': ingredients},
+    );
+
+    final response = await client.post(
+        url: '${urlApi}receita/findByIngredientes',
+        headers: {'Content-Type': 'application/json'},
+        jsonBody: json);
+
+    switch (response.statusCode) {
+      case 200:
+        final List<RecipeModel> recipes = [];
+
+        try {
+          const utf8decoder = Utf8Decoder();
+          final body = utf8decoder.convert(response.bodyBytes);
+          final parsedBody = jsonDecode(body);
+
+          if (parsedBody is List) {
+            for (var item in parsedBody) {
+              final RecipeModel recipe = RecipeModel.fromMap(item);
+              recipes.add(recipe);
+            }
+          }
+        } catch (e) {
+          throw Exception('Erro ao fazer parsing do JSON');
+        }
+        return recipes;
+      case 404:
+        throw NotFoundException('Url informada não esta válida');
+      default:
+        throw Exception('Erro ao realizar consulta de receitas');
     }
   }
 }
