@@ -32,6 +32,9 @@ public class ReceitaService {
     private CategoriaService categoriaService;
 
     @Autowired
+    private IngredienteService ingredienteService;
+
+    @Autowired
     private ReceitaIngredienteService receitaIngredienteService;
 
     public Receita insert(ReceitaDto dto) throws Exception {
@@ -195,5 +198,11 @@ public class ReceitaService {
         }
 
         return rcDto;
+    }
+
+    public List<ReceitaDto> findByIngredientes(IngredienteIdDto ingredientes) throws Exception {
+
+
+        return new ReceitaDto().getListInstance(receitaRepository.findByIngredienteId(ingredientes.getIngredientes()));
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.integration.cookmasterapi.dto.IngredienteIdDto;
 import br.integration.cookmasterapi.dto.ReceitaCompletaDto;
 import br.integration.cookmasterapi.dto.ReceitaDto;
 import br.integration.cookmasterapi.dto.ReceitaIngredienteAuxDto;
