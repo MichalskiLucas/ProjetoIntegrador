@@ -48,7 +48,7 @@ class BagRepository implements IBagRepository {
   @override
   Future<int> putBag(int userId, List<IngredientModel>? list, int bagId) async {
     final List<int?> ingredients = list!.map((ingredient) {
-      return ingredient.id;
+      return ingredient.id ?? ingredient.idIngrediente;
     }).toList();
 
     final json = jsonEncode(

@@ -158,13 +158,27 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
     if (cameras.isEmpty) {
       return;
     }
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => CameraScreen(camera: cameras.first)),
-    );
-    if (result != null) {
-      // Fazer tratamento da imagem tirada
+
+    try {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CameraScreen(camera: cameras.first),
+        ),
+      );
+
+      if (result != null) {
+        final file = File(result);
+        final bytes = await file.readAsBytes();
+        final base64String = base64Encode(bytes);
+
+        setState(() {
+          imageSendBase64 = base64String;
+          selectedImagePath = result;
+        });
+      }
+    } catch (e) {
+      print('Erro ao abrir a câmera: $e');
     }
   }
 
@@ -233,7 +247,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
   }
 
   void _addIngredient() {
-    int ingredientQuantity = 0;
+    double ingredientQuantity = 0.0;
     IngredientModel? ingredientName;
     UnitMeansureModel? ingredientUnit = null;
 
@@ -242,7 +256,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
         return "Selecione um ingrediente";
       }
 
-      if (ingredientQuantity.isEqual(0)) {
+      if (ingredientQuantity.isEqual(0.0)) {
         return "Digite a quantidade";
       }
 
@@ -288,7 +302,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
               const SizedBox(height: 10),
               TextField(
                 onChanged: (value) {
-                  ingredientQuantity = int.tryParse(value) ?? 0;
+                  ingredientQuantity = double.parse(value);
                 },
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -317,7 +331,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                               IngredientModel(
                                 id: ingredientName!.id,
                                 descricao: ingredientName!.descricao.toString(),
-                                quantidade: ingredientQuantity,
+                                qtdIngrediente: ingredientQuantity,
                                 unMedida: ingredientUnit!.descricao.toString(),
                                 unMedidaStr: ingredientUnit!.value.toString(),
                               ),
@@ -578,7 +592,7 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
                         ListTile(
                           title: Text(ingredient.descricao.toString()),
                           subtitle: Text(
-                              '${ingredient.quantidade} ${ingredient.unMedida}'),
+                              '${ingredient.qtdIngrediente?.toStringAsFixed(0) ?? '0'} ${ingredient.unMedida}'),
                         ),
                       ElevatedButton(
                         onPressed: _addIngredient,
@@ -850,11 +864,14 @@ class _CameraScreenState extends State<CameraScreen> {
                   print(e);
                 }
               },
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
                 child: CameraPreview(_controller),
               ),
             );
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Erro ao inicializar a câmera.'));
           } else {
             return const Center(child: CircularProgressIndicator());
           }

@@ -71,7 +71,7 @@ public class ReceitaService {
         for (int i = 0; i < dto.getIngredientes().size(); i++) {
             ReceitaIngredienteDto receitaIngredienteDto = new ReceitaIngredienteDto();
             receitaIngredienteDto.setReceita(r);
-            receitaIngredienteDto.setIngredienteId(dto.getIngredientes().get(i).getIdIngrediente());
+            receitaIngredienteDto.setIngredienteId(dto.getIngredientes().get(i).getId());
             receitaIngredienteDto.setQtdIngrediente(dto.getIngredientes().get(i).getQtdIngrediente());
             receitaIngredienteDto.setUnMedida(EnumUnitMeasure.valueOf(dto.getIngredientes().get(i).getUnMedida()));
             receitaIngredienteService.insert(receitaIngredienteDto);
@@ -189,7 +189,7 @@ public class ReceitaService {
 
         for (int i = 0; i < receitaIngredienteList.size(); i++) {
             IngredienteCompostoDto icDto = new IngredienteCompostoDto();
-            icDto.setIdIngrediente(receitaIngredienteList.get(i).getIngrediente().getId());
+            icDto.setId(receitaIngredienteList.get(i).getIngrediente().getId());
             icDto.setDescricao(receitaIngredienteList.get(i).getIngrediente().getDescricao());
             icDto.setQtdIngrediente(receitaIngredienteList.get(i).getQtdIngrediente());
             icDto.setUnMedida(receitaIngredienteList.get(i).getUnMedida().getValue());

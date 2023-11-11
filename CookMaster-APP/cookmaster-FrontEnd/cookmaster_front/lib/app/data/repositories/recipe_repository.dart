@@ -116,8 +116,7 @@ class RecipeRepository implements IRecipeRepository {
   @override
   Future<CookingRecipeModel> getCookingRecipe(int id) async {
     final response = await client.get(
-        //url: '${urlApi}receita/$id');
-        url: 'https://run.mocky.io/v3/70d315db-fcce-4612-9200-56af267c0933');
+        url: '${urlApi}receita/findReceitaCompleteById?idReceita=$id');
 
     switch (response.statusCode) {
       case 200:

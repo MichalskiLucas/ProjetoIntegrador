@@ -1,4 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers, unnecessary_null_comparison
+import 'package:cookmaster_front/app/data/http/http_client.dart';
+import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
+import 'package:cookmaster_front/app/data/repositories/bag_repository.dart';
+import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/recipe_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/app/data/store/vote_store.dart';
@@ -7,6 +11,7 @@ import 'package:cookmaster_front/components/DynamicStarRating.dart';
 import 'package:cookmaster_front/components/RowDynamicStar.dart';
 import 'package:cookmaster_front/utils/decodeImageBase64.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RecipePage extends StatefulWidget {
   final RecipeStore storeCookingRecipe;
@@ -27,6 +32,12 @@ class _RecipePageState extends State<RecipePage> {
   RecipeStore get _store => widget.storeCookingRecipe;
   UserStore get _storeUser => widget.userStore;
   VoteStore? get _storeVote => widget.voteStore;
+
+  final BagStore storeBag = BagStore(
+    repository: BagRepository(
+      client: HttpClient(),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +116,7 @@ class _RecipePageState extends State<RecipePage> {
                           children: _store.stateCooking.value.ingredientes!.map(
                             (ingrediente) {
                               final descricaoComPontos =
-                                  '• ${ingrediente.quantidade}${ingrediente.unMedida!.toLowerCase()} ${ingrediente.descricao};';
+                                  '• ${ingrediente.qtdIngrediente?.toStringAsFixed(0) ?? '0'} ${ingrediente.unMedida?.toLowerCase() ?? ''} - ${ingrediente.descricao};';
                               return Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Text(
@@ -122,6 +133,76 @@ class _RecipePageState extends State<RecipePage> {
                         )
                       ],
                     ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 5,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    int? userId = _storeUser.state.value.id;
+                    List<IngredientModel>? list =
+                        _store.stateCooking.value.ingredientes;
+                    int? bagId;
+                    if (_storeUser.state.value.id != null) {
+                      await storeBag.getBag(_storeUser.state.value.id);
+                      bagId = storeBag.stateBag.value.id ?? 0;
+
+                      if (bagId == 0) {
+                        await storeBag.postBag(userId, list);
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            'Sacola Criada',
+                            'Sacola criada com sucesso',
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.verified),
+                            backgroundColor: Colors.green,
+                          );
+                        }
+                      } else {
+                        await storeBag.putBag(userId, list, bagId);
+
+                        if (!Get.isSnackbarOpen) {
+                          Get.snackbar(
+                            'Sacola Atualizada',
+                            'Sacola atualizada com sucesso',
+                            snackPosition: SnackPosition.BOTTOM,
+                            icon: const Icon(Icons.verified),
+                            backgroundColor: Colors.green,
+                          );
+                        }
+                      }
+                    } else {
+                      if (!Get.isSnackbarOpen) {
+                        Get.snackbar(
+                          'Sacola',
+                          'É necessário realizar o login',
+                          snackPosition: SnackPosition.BOTTOM,
+                          icon: const Icon(Icons.warning),
+                          backgroundColor: Colors.amber,
+                        );
+                      }
+                    }
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.deepOrange),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Criar Sacola',
+                        style: TextStyle(
+                            fontFamily: 'JacquesFrancois',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Icon(Icons.shopping_bag_outlined)
+                    ],
                   ),
                 ),
               ),
