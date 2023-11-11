@@ -84,4 +84,9 @@ public class ReceitaController {
     public List<ReceitaDto> findTopFive() {
         return new ReceitaDto().getListInstance(receitaService.findTopFive());
     }
+
+    @PostMapping(path = "/findByIngredientes")
+    public List<ReceitaDto> findByIngredientes(@RequestBody IngredienteIdDto ingredientes) throws Exception {
+        return receitaService.findByIngredientes(ingredientes);
+    }
 }
