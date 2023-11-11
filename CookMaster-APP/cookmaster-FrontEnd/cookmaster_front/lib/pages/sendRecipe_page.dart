@@ -178,7 +178,15 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
         });
       }
     } catch (e) {
-      print('Erro ao abrir a câmera: $e');
+      if (!Get.isSnackbarOpen) {
+        Get.snackbar(
+          'Erro',
+          'Erro ao abrir a câmera: $e',
+          snackPosition: SnackPosition.BOTTOM,
+          icon: const Icon(Icons.error),
+          backgroundColor: Colors.red,
+        );
+      }
     }
   }
 
@@ -861,10 +869,18 @@ class _CameraScreenState extends State<CameraScreen> {
                   final image = await _controller.takePicture();
                   Navigator.pop(context, image.path);
                 } catch (e) {
-                  print(e);
+                  if (!Get.isSnackbarOpen) {
+                    Get.snackbar(
+                      'Erro',
+                      e.toString(),
+                      snackPosition: SnackPosition.BOTTOM,
+                      icon: const Icon(Icons.error),
+                      backgroundColor: Colors.red,
+                    );
+                  }
                 }
               },
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
                 child: CameraPreview(_controller),
