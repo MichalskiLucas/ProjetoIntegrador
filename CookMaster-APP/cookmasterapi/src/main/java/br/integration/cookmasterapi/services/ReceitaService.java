@@ -95,7 +95,7 @@ public class ReceitaService {
     }
 
     public List<Receita> findAll() {
-        return receitaRepository.findAll();
+        return receitaRepository.findByAtivoIsTrue();
     }
 
     public List<Receita> findTopFive() {
@@ -115,7 +115,7 @@ public class ReceitaService {
     }
 
     public List<Receita> findByCategoria(Long categoriaId) {
-        return receitaRepository.findByCategoriaId(categoriaId);
+        return receitaRepository.findByCategoriaIdAndAndAtivoIsTrue(categoriaId);
     }
 
     public List<Long> findIdReceitaWithVoto() {
@@ -201,8 +201,6 @@ public class ReceitaService {
     }
 
     public List<ReceitaDto> findByIngredientes(IngredienteIdDto ingredientes) throws Exception {
-
-
         return new ReceitaDto().getListInstance(receitaRepository.findByIngredienteId(ingredientes.getIngredientes()));
     }
 }

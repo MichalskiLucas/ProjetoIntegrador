@@ -13,12 +13,15 @@ import java.util.List;
 public interface ReceitaRepository extends JpaRepository<Receita,Long>{
 
 	@Query
+	public List<Receita> findByAtivoIsTrue();
+
+	@Query
 	public List<Receita> findByDescricaoContainingAllIgnoringCase(String descricao);
 	
 	@Query
-	public List<Receita> findByCategoriaId(Long categoriaId);
+	public List<Receita> findByCategoriaIdAndAndAtivoIsTrue(Long categoriaId);
 
-	@Query("select r.id from Receita r where r.voto != null")
+	@Query("select r.id from Receita r where r.voto != null and r.ativo is true")
 	List<Long> findIdReceitaWithVoto ();
 
 	List<Receita> findTop5ByOrderByVotoDesc();
@@ -28,6 +31,7 @@ public interface ReceitaRepository extends JpaRepository<Receita,Long>{
 			       "       receitaingrediente\n" +
 			       " where receita.id = receitaingrediente.receita_id\n" +
 			       "   and receitaingrediente.ingrediente_id in (:ingredientes)" +
+			       "   and receita.ativo is true" +
 			       " group by receita.id",
 	nativeQuery = true)
 
