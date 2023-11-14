@@ -70,6 +70,12 @@ class _HomePageState extends State<HomePage> {
     ),
   );
 
+  final RecipeStore storeRecipeSearch = RecipeStore(
+    repository: RecipeRepository(
+      client: HttpClient(),
+    ),
+  );
+
   @override
   void initState() {
     super.initState();
@@ -82,6 +88,7 @@ class _HomePageState extends State<HomePage> {
   void viewHomePage() async {
     await storeRecipe.getRecipe();
     await storeCategory.getCategory();
+    await storeRecipeSearch.getRecipeSearch();
   }
 
   _userGet() async {
@@ -245,6 +252,7 @@ class _HomePageState extends State<HomePage> {
                   await Get.to(
                     () => RecipeSearchPage(
                       storeUser: storeUser,
+                      storeRecipe: storeRecipeSearch,
                     ),
                   );
                 } else if (value.toString() == '/ingredientPage') {
