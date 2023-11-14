@@ -11,7 +11,7 @@ import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
-import 'package:cookmaster_front/components/popUpMenuItem.dart';
+import 'package:cookmaster_front/components/PopUpMenuItem.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
