@@ -11,6 +11,7 @@ import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/atoms/chat_atom.dart';
 import 'package:cookmaster_front/components/CardRecipe.dart';
 import 'package:cookmaster_front/components/ListTileCategory.dart';
+import 'package:cookmaster_front/components/popUpMenuItem.dart';
 import 'package:cookmaster_front/pages/bagView_page.dart';
 import 'package:cookmaster_front/pages/category_page.dart';
 import 'package:cookmaster_front/pages/astroChef_page.dart';
@@ -238,13 +239,13 @@ class _HomePageState extends State<HomePage> {
             PopupMenuButton(
               icon: const Icon(Icons.search),
               itemBuilder: (context) => [
-                _buildPopUpMenuItem(
+                buildPopUpMenuItem(
                     '  Buscar por Receitas', Icons.search, '/RecipeSearchPage'),
-                _buildPopUpMenuItem('  Ingredientes Chef Astro', Icons.coffee,
+                buildPopUpMenuItem('  Ingredientes Chef Astro', Icons.coffee,
                     '/ingredientPageChef'),
-                _buildPopUpMenuItem('  Buscar por Ingredientes',
+                buildPopUpMenuItem('  Buscar por Ingredientes',
                     Icons.fastfood_outlined, '/ingredientPage'),
-                _buildPopUpMenuItem('  Sugerir Ingredientes', Icons.edit,
+                buildPopUpMenuItem('  Sugerir Ingredientes', Icons.edit,
                     '/suggestIngredientPage')
               ],
               onSelected: (value) async {
@@ -332,25 +333,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-PopupMenuItem _buildPopUpMenuItem(String title, IconData icon, String value) {
-  return PopupMenuItem(
-    value: value,
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          color: Colors.black,
-        ),
-        Text(
-          title,
-          style: const TextStyle(
-            fontFamily: 'JacquesFrancois',
-            color: Colors.black,
-          ),
-        ),
-      ],
-    ),
-  );
 }
