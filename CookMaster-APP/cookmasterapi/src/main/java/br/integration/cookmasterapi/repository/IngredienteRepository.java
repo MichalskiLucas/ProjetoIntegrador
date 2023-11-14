@@ -11,6 +11,9 @@ import br.integration.cookmasterapi.model.Ingrediente;
 @Repository
 public interface IngredienteRepository extends JpaRepository<Ingrediente,Long>{
 
+
+	@Query
+	public List<Ingrediente> findByAtivoIsTrue();
 	@Query
 	public List<Ingrediente> findByDescricaoContainingAllIgnoringCase(String descricao);
 	

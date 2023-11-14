@@ -32,7 +32,7 @@ public class IngredienteService {
 	}
 	
 	public List<Ingrediente> findAll(){
-		return ingredienteRepository.findAll();
+		return ingredienteRepository.findByAtivoIsTrue();
 	}
 	
 	public Ingrediente findById(Long id) throws Exception{
