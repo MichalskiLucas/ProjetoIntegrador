@@ -10,28 +10,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RecipeSearchPage extends StatefulWidget {
-  const RecipeSearchPage({super.key, required this.storeUser});
+  const RecipeSearchPage(
+      {super.key, required this.storeUser, required this.storeRecipe});
   final UserStore storeUser;
-
+  final RecipeStore storeRecipe;
   @override
   State<RecipeSearchPage> createState() => _RecipeSearchPageState();
 }
 
-final RecipeStore storeRecipe = RecipeStore(
-  repository: RecipeRepository(
-    client: HttpClient(),
-  ),
-);
-
 class _RecipeSearchPageState extends State<RecipeSearchPage> {
+  RecipeStore get _storeRecipe => widget.storeRecipe;
+
   @override
   void initState() {
     super.initState();
-    getRecipe();
-  }
-
-  void getRecipe() async {
-    await storeRecipe.getRecipeSearch();
   }
 
   UserStore get _storeUser => widget.storeUser;
@@ -43,22 +35,23 @@ class _RecipeSearchPageState extends State<RecipeSearchPage> {
         appBar: AppBarSearch(
           ctx: context,
           labelText: 'Buscar Receita',
-          storeRecipe: storeRecipe,
+          storeRecipe: _storeRecipe,
         ),
-        body: _CookMasterSearchRecipe(context, _storeUser),
+        body: _CookMasterSearchRecipe(context, _storeUser, _storeRecipe),
       ),
     );
   }
 }
 
-Widget _CookMasterSearchRecipe(BuildContext context, UserStore storeUser) {
+Widget _CookMasterSearchRecipe(
+    BuildContext context, UserStore storeUser, RecipeStore recipeStore) {
   return Scaffold(
     body: SingleChildScrollView(
       child: Column(
         children: [
           CardRecipe(
             userStore: storeUser,
-            store: storeRecipe,
+            store: recipeStore,
           ),
         ],
       ),
