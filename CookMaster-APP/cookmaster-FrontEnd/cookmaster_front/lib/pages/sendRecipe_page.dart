@@ -148,10 +148,12 @@ class _SendRecipeSearchPageState extends State<SendRecipeSearchPage> {
       final file = File(pickedFile.path);
       final bytes = await file.readAsBytes();
       final base64String = base64Encode(bytes);
-      setState(() {
-        imageSendBase64 = base64String;
-        selectedImagePath = pickedFile.path;
-      });
+      setState(
+        () {
+          imageSendBase64 = base64String;
+          selectedImagePath = pickedFile.path;
+        },
+      );
     }
   }
 
