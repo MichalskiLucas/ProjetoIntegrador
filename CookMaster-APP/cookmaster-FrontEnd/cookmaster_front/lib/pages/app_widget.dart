@@ -1,5 +1,5 @@
 import 'package:cookmaster_front/app/data/controller/app_controller.dart';
-import 'package:cookmaster_front/widgets/auth_check.dart';
+import 'package:cookmaster_front/app/data/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -16,7 +16,7 @@ class AppWidget extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.deepOrange,
           ),
-          home: const AuthCheck(),
+          home: const SplashPage(),
         );
       },
     );

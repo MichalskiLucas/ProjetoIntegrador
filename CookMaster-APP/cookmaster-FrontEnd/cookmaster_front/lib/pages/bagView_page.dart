@@ -8,6 +8,7 @@ import 'package:cookmaster_front/app/data/store/bag_store.dart';
 import 'package:cookmaster_front/app/data/store/ingredient_store.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:cookmaster_front/components/AppBar.dart';
+import 'package:cookmaster_front/components/BuildIngredientList.dart';
 import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:cookmaster_front/utils/openFilterDelegateBag.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,7 +77,7 @@ class _BagViewPageState extends State<BagViewPage> {
         ctx: context,
         title: 'Sacola Cook Master',
       ),
-      body: _buildIngredientList(listIngredient),
+      body: buildIngredientList(listIngredient),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final filter = await openFilterDelegateBag(
@@ -102,50 +103,6 @@ class _BagViewPageState extends State<BagViewPage> {
         },
         child: const Icon(Icons.add),
       ),
-    );
-  }
-}
-
-Widget _buildIngredientList(List<IngredientModel>? ingredients) {
-  if (ingredients != null) {
-    return ListView.builder(
-      itemCount: ingredients.length,
-      itemBuilder: (context, index) {
-        final ingredient = ingredients[index];
-        return IngredientCheckbox(
-          ingredient: ingredient,
-        );
-      },
-    );
-  } else {
-    return const Center(
-      child: Text("Você não possui ingredientes na sacola. Adicione!!"),
-    );
-  }
-}
-
-class IngredientCheckbox extends StatefulWidget {
-  final IngredientModel ingredient;
-
-  const IngredientCheckbox({super.key, required this.ingredient});
-
-  @override
-  _IngredientCheckboxState createState() => _IngredientCheckboxState();
-}
-
-class _IngredientCheckboxState extends State<IngredientCheckbox> {
-  bool isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return CheckboxListTile(
-      title: Text(widget.ingredient.descricao ?? ''),
-      value: isSelected,
-      onChanged: (value) {
-        setState(() {
-          isSelected = value!;
-        });
-      },
     );
   }
 }
