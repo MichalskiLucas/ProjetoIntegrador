@@ -1,4 +1,5 @@
 import 'package:cookmaster_front/app/data/models/cookingRecipe_model.dart';
+import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/app/data/models/recipeSend_model.dart';
 import 'package:cookmaster_front/app/data/models/recipe_model.dart';
 import 'package:cookmaster_front/app/data/repositories/recipe_repository.dart';
@@ -107,5 +108,19 @@ class RecipeStore {
     } else {
       state.value = _originalList;
     }
+  }
+
+  getRecipeIngredient(List<IngredientModel> list) async {
+    isLoading.value = true;
+
+    try {
+      final result = await repository.getRecipeIngredient(list);
+      state.value = result;
+    } on NotFoundException catch (e) {
+      error.value = e.message;
+    } catch (e) {
+      error.value = e.toString();
+    }
+    isLoading.value = false;
   }
 }
