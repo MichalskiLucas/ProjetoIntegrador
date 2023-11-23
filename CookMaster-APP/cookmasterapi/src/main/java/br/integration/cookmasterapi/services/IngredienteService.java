@@ -3,6 +3,7 @@ package br.integration.cookmasterapi.services;
 import java.util.*;
 
 import br.integration.cookmasterapi.enums.EnumUnitMeasure;
+import br.integration.cookmasterapi.model.Receita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +15,20 @@ public class IngredienteService {
 
 	@Autowired
 	private IngredienteRepository ingredienteRepository;
+	@Autowired
+	private EmailService emailService;
 	
 	
 	public Ingrediente insert(Ingrediente ingrediente) throws Exception {
-		
-		validaInsert(ingrediente);
+
 		ingredienteRepository.saveAndFlush(ingrediente);
+		Ingrediente i = ingredienteRepository.saveAndFlush(validaInsert(ingrediente));
+		emailService.sendEmailIngredient(i.getId());
 		return ingrediente;
 		
 	}
 	
 	public Ingrediente edit(Ingrediente ingrediente) throws Exception {
-		//validarEdicao(ingrediente);
 		ingredienteRepository.saveAndFlush(ingrediente);
 		return ingrediente;
 		
@@ -51,13 +54,14 @@ public class IngredienteService {
 		return ingredienteRepository.findIngredienteByDescricao(descricao);
 	}
 	
-	public void validaInsert(Ingrediente ingrediente) throws Exception{
+	public Ingrediente validaInsert(Ingrediente ingrediente) throws Exception{
         if (ingrediente.getId() != null){
             throw new Exception("Não deve informar o ID para inserir o ingrediente");
         }
         if(findByDescricao(ingrediente.getDescricao()) != null){
         	throw new Exception("Ingrediente com a mesma descrição já inserido");
         }
+		return ingrediente;
     }
 
 	public List<Map<String, String>> getUnitMeasure(){

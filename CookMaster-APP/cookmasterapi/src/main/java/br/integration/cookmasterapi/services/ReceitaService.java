@@ -32,14 +32,11 @@ public class ReceitaService {
     private CategoriaService categoriaService;
 
     @Autowired
-    private IngredienteService ingredienteService;
-
-    @Autowired
     private ReceitaIngredienteService receitaIngredienteService;
 
     public Receita insert(ReceitaDto dto) throws Exception {
         Receita r = receitaRepository.saveAndFlush(validaInsert(dto));
-        // sendEmailForAdmin(r);
+        emailService.sendEmailRecipe(r.getId());
         return r;
 
     }
@@ -80,15 +77,6 @@ public class ReceitaService {
         return dto;
     }
 
-    public void sendEmailForAdmin(Receita r) throws Exception {
-        String corpo = "Receita com id: " + r.getId() + " encontra-se pendente de aprovação.";
-        String assunto = "Receita pendente de aprovação";
-        List<Usuario> usuarios = usuarioService.findAdmin();
-
-        for (int i = 0; i < usuarios.size(); i++) {
-            emailService.sendMail(usuarios.get(i).getEmail(), corpo, assunto);
-        }
-    }
 
     public Receita edit(ReceitaDto dto) throws Exception {
         return receitaRepository.saveAndFlush(validaUpdate(dto));
