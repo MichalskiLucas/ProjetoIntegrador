@@ -152,6 +152,7 @@ class RecipeRepository implements IRecipeRepository {
     final json = jsonEncode(
       {
         'dsReceita': recipeSendModel.descricao,
+        'idReceita': "",
         'imgReceita': recipeSendModel.image,
         'idCategoria': recipeSendModel.categoriaId,
         'idUsuario': recipeSendModel.usuarioId,

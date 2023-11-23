@@ -14,6 +14,7 @@ class PreparationModel {
   Map<String, dynamic> toJson() {
     return {
       "descricao": descricao,
+      "idReceita": "",
     };
   }
 }

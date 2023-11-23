@@ -29,7 +29,7 @@ class IngredientModel {
     return {
       "qtdIngrediente": qtdIngrediente,
       "unMedida": unMedidaStr,
-      "idIngrediente": id,
+      "id": id,
     };
   }
 }
