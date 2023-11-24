@@ -8,6 +8,7 @@ import 'package:cookmaster_front/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
 
 class SuggestIngredientPage extends StatefulWidget {
   const SuggestIngredientPage({super.key, required this.users});
@@ -69,16 +70,42 @@ class _SuggestIngredientPageState extends State<SuggestIngredientPage> {
             Get.to(() => HomePage(_users));
           } else if (storeIngredient.error.value.isNotEmpty &&
               storeIngredient.error.value != "") {
-            if (!Get.isSnackbarOpen) {
-              Get.snackbar(
-                'Erro ao fazer sugestão',
-                'Não foi possivel realizar a sua sugestão',
-                snackPosition: SnackPosition.BOTTOM,
-                icon: const Icon(Icons.error),
-                backgroundColor: Colors.red,
-              );
+            String errorMessage = storeIngredient.error.value;
+
+            errorMessage = errorMessage.replaceFirst("Exception: ", "");
+
+            try {
+              errorMessage = utf8.decode(latin1.encode(errorMessage));
+
+              Map<String, dynamic> errorData = json.decode(errorMessage);
+
+              List<dynamic> errorsArray = errorData["errors"];
+
+              String translatedError =
+                  errorsArray.isNotEmpty ? errorsArray[0].toString() : "";
+
+              if (!Get.isSnackbarOpen) {
+                Get.snackbar(
+                  'Erro ao fazer sugestão',
+                  translatedError,
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.warning),
+                  backgroundColor: Colors.amber,
+                );
+              }
+              Get.to(() => HomePage(_users));
+            } catch (e) {
+              if (!Get.isSnackbarOpen) {
+                Get.snackbar(
+                  'Erro ao fazer sugestão',
+                  storeIngredient.error.value,
+                  snackPosition: SnackPosition.BOTTOM,
+                  icon: const Icon(Icons.error),
+                  backgroundColor: Colors.red,
+                );
+              }
+              Get.to(() => HomePage(_users));
             }
-            Get.to(() => HomePage(_users));
           }
         },
         child: const Icon(Icons.add),
