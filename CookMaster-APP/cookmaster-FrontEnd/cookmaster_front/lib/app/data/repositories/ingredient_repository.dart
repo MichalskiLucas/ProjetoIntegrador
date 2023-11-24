@@ -7,6 +7,7 @@ import 'package:cookmaster_front/app/data/http/http_client.dart';
 import 'package:cookmaster_front/app/data/models/ingredient_model.dart';
 import 'package:cookmaster_front/common/constants.dart';
 import 'package:filter_list/filter_list.dart';
+import 'package:get/get.dart';
 
 abstract class IIngredientRepository {
   Future<List<IngredientModel>> getAllIngredients();
@@ -64,6 +65,8 @@ class IngredientRepository implements IIngredientRepository {
         return 200;
       case 404:
         throw NotFoundException('Url informada não está válida');
+      case 400:
+        throw Exception(response.body);
       default:
         throw Exception('Erro ao realizar cadastro de ingrediente');
     }
