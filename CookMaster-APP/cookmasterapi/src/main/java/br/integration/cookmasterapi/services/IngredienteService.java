@@ -21,7 +21,6 @@ public class IngredienteService {
 	
 	public Ingrediente insert(Ingrediente ingrediente) throws Exception {
 
-		ingredienteRepository.saveAndFlush(ingrediente);
 		Ingrediente i = ingredienteRepository.saveAndFlush(validaInsert(ingrediente));
 		emailService.sendEmailIngredient(i.getId());
 		return ingrediente;

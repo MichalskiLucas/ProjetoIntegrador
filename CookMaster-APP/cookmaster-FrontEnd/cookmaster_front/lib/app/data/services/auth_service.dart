@@ -5,6 +5,7 @@ import 'package:cookmaster_front/app/data/services/auth_exception.dart';
 import 'package:cookmaster_front/app/data/store/user_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService extends ChangeNotifier {
@@ -28,35 +29,43 @@ class AuthService extends ChangeNotifier {
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
-      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      if (gUser != null) {
+        final GoogleSignInAuthentication gAuth = await gUser!.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+        final credential = GoogleAuthProvider.credential(
+            accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final User? firebaseUser = userCredential.user;
+        final User? firebaseUser = userCredential.user;
 
-      final UserStore store = UserStore(
-        repository: UserRepository(
-          client: HttpClient(),
-        ),
-      );
+        final UserStore store = UserStore(
+          repository: UserRepository(
+            client: HttpClient(),
+          ),
+        );
 
-      if (firebaseUser!.email != null) {
-        await store.getUser(firebaseUser.email);
-        final UserModel userModel = store.state.value;
-        if (userModel.id == 0) {
-          store.postUser(firebaseUser);
+        if (firebaseUser!.email != null) {
+          await store.getUser(firebaseUser.email);
+          final UserModel userModel = store.state.value;
+          if (userModel.id == 0) {
+            store.postUser(firebaseUser);
+          }
         }
-      }
 
-      return users = firebaseUser;
+        return users = firebaseUser;
+      } else {
+        return null;
+      }
     } on FirebaseAuthException catch (e) {
       throw AuthException('Error: ${e.message}');
+    } on PlatformException catch (e) {
+      if (e.code == 'sign_in_canceled') {
+        return null;
+      }
     }
   }
 

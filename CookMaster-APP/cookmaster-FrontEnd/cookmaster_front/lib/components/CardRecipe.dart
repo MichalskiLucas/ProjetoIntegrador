@@ -92,7 +92,7 @@ class _CardRecipeState extends State<CardRecipe> {
                   color: Colors.deepOrange,
                 ),
                 Text(
-                  'Ainda não temos receitas para essa categoria!',
+                  'Ainda não temos essas receitas!',
                   style: TextStyle(
                     fontFamily: "JacquesFrancois",
                     fontSize: 20,

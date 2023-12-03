@@ -135,7 +135,9 @@ class _HomePageState extends State<HomePage> {
           chatsState.clear();
           AuthService authService = AuthService();
           await authService.signInWithGoogle();
-          Get.to(() => const AuthCheck());
+          if (authService.users != null) {
+            Get.to(() => const AuthCheck());
+          }
         },
       );
     }
